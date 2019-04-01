@@ -90,6 +90,194 @@ public class AbsouluteParameter implements CommandParameter{
     }
 }
 
+public class Declaration implements Statement{
+    public TypeNode type;
+    public ID identifier;
+    public Expression expression;
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitDeclaration(this);
+    }
+}
+
+public class Assign implements Statement{
+    public ID identifier;
+    public Expression expression;
 
 
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitAssign(this);
+    }
+}
 
+public class FunctionCall implements Statement{
+    public ID identifier;
+    public List<Expression> parameters;
+
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitFunctionCall(this);
+    }
+}
+
+public class IfNode implements Statement{
+    public Expression predicate;
+    public List<Statement> statements;
+
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitIfNode(this);
+    }
+}
+
+public class LeftCircle implements Statement{
+    public List<CommandParameter> parameters;
+
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitLeftCircle(this);
+    }
+}
+
+public class RightCircle implements Statement {
+    public List<CommandParameter> parameters;
+
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitRightCircle(this);
+    }
+}
+
+public class Move implements Statement {
+    public List<CommandParameter> parameters;
+
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitMove(this);
+    }
+}
+
+public class Equality implements Expression {
+
+    public Expression left;
+    public Expression right;
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitEquality(this);
+    }
+}
+
+public class InEquality implements Expression {
+
+    public Expression left;
+    public Expression right;
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitInEquality(this);
+    }
+}
+
+public class And implements Expression {
+
+    public Expression left;
+    public Expression right;
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitAnd(this);
+    }
+}
+
+public class Or implements Expression {
+
+    public Expression left;
+    public Expression right;
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitOr(this);
+    }
+}
+
+public class Divide implements Expression {
+
+    public Expression left;
+    public Expression right;
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitDivide(this);
+    }
+}
+
+public class Times implements Expression {
+
+    public Expression left;
+    public Expression right;
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitTimes(this);
+    }
+}
+
+public class Plus implements Expression {
+
+    public Expression left;
+    public Expression right;
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitPlus(this);
+    }
+}
+
+public class Minus implements Expression {
+
+    public Expression left;
+    public Expression right;
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitMinus(this);
+    }
+}
+
+public class Variable implements Expression{
+
+    public ID identifier;
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitVariable(this);
+    }
+}
+
+public class LiteralBool implements Expression{
+
+    public boolean boolValue;
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitLeteralBool(this);
+    }
+}
+
+public class LiteralInt implements Expression{
+
+    public int value;
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitLiteralInt(this);
+    }
+}

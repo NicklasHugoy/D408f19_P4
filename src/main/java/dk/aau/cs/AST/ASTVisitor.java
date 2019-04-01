@@ -10,6 +10,11 @@ public interface ASTVisitor<T> {
     T visitID(ID n);
     T visitMachineOption(MachineOption n);
     T visitRelativeParameter(RelativeParameter n);
+    T visitDeclaration(Declaration n);
+    T visitAssign(Assign n);
+    T visitFunctionCall(FunctionCall n);
+    T visitIfNode(IfNode n);
+    T visitLeftCircle(LeftCircle n);
     T visitAbsoluteParameter(AbsouluteParameter n);
     T visitEquality(Equality n);
 	T visitInEquality(InEquality n);
@@ -22,4 +27,8 @@ public interface ASTVisitor<T> {
 	T visitVariable(Variable variable);
 	T visitLeteralBool(LiteralBool literalBool);
 	T visitLiteralInt(LiteralInt literalInt);
+
+    T visitRightCircle(RightCircle rightCircle);
+
+    T visitMove(Move move);
 }
