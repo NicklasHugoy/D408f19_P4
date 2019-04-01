@@ -1,10 +1,14 @@
-package dk.aau.cs;// Generated from C:/Users/thoru/OneDrive/Dokumenter/Git/GCode\GMM.g4 by ANTLR 4.7.2
+package dk.aau.cs;
+// Generated from C:/Users/thoru/OneDrive/Dokumenter/Git/D408f19_P4\GMM.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
+
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class GMMParser extends Parser {
@@ -779,14 +783,14 @@ public class GMMParser extends Parser {
 				match(LParan);
 				setState(123);
 				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
-				case 1:
+				_la = _input.LA(1);
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << True) | (1L << False) | (1L << INT) | (1L << LParan) | (1L << ID))) != 0)) {
 					{
 					setState(122);
 					parameters();
 					}
-					break;
 				}
+
 				setState(125);
 				match(RParan);
 				}
@@ -1078,21 +1082,54 @@ public class GMMParser extends Parser {
 	}
 
 	public static class LogicContext extends ParserRuleContext {
-		public BooleanExprContext booleanExpr() {
-			return getRuleContext(BooleanExprContext.class,0);
-		}
-		public LogicContext logic() {
-			return getRuleContext(LogicContext.class,0);
-		}
-		public TerminalNode And() { return getToken(GMMParser.And, 0); }
-		public TerminalNode Or() { return getToken(GMMParser.Or, 0); }
 		public LogicContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_logic; }
+	 
+		public LogicContext() { }
+		public void copyFrom(LogicContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class AndLogicContext extends LogicContext {
+		public LogicContext logic() {
+			return getRuleContext(LogicContext.class,0);
+		}
+		public TerminalNode And() { return getToken(GMMParser.And, 0); }
+		public BooleanExprContext booleanExpr() {
+			return getRuleContext(BooleanExprContext.class,0);
+		}
+		public AndLogicContext(LogicContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitLogic(this);
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitAndLogic(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LogicDerivationContext extends LogicContext {
+		public BooleanExprContext booleanExpr() {
+			return getRuleContext(BooleanExprContext.class,0);
+		}
+		public LogicDerivationContext(LogicContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitLogicDerivation(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class OrLogicContext extends LogicContext {
+		public LogicContext logic() {
+			return getRuleContext(LogicContext.class,0);
+		}
+		public TerminalNode Or() { return getToken(GMMParser.Or, 0); }
+		public BooleanExprContext booleanExpr() {
+			return getRuleContext(BooleanExprContext.class,0);
+		}
+		public OrLogicContext(LogicContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitOrLogic(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1113,6 +1150,10 @@ public class GMMParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
+			_localctx = new LogicDerivationContext(_localctx);
+			_ctx = _localctx;
+			_prevctx = _localctx;
+
 			setState(173);
 			booleanExpr();
 			}
@@ -1130,7 +1171,7 @@ public class GMMParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
 					case 1:
 						{
-						_localctx = new LogicContext(_parentctx, _parentState);
+						_localctx = new AndLogicContext(new LogicContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_logic);
 						setState(175);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
@@ -1142,7 +1183,7 @@ public class GMMParser extends Parser {
 						break;
 					case 2:
 						{
-						_localctx = new LogicContext(_parentctx, _parentState);
+						_localctx = new OrLogicContext(new LogicContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_logic);
 						setState(178);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
@@ -1173,6 +1214,17 @@ public class GMMParser extends Parser {
 	}
 
 	public static class BooleanExprContext extends ParserRuleContext {
+		public BooleanExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_booleanExpr; }
+	 
+		public BooleanExprContext() { }
+		public void copyFrom(BooleanExprContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class EqualityExprContext extends BooleanExprContext {
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
 		}
@@ -1180,14 +1232,36 @@ public class GMMParser extends Parser {
 			return getRuleContext(ExprContext.class,i);
 		}
 		public TerminalNode Equality() { return getToken(GMMParser.Equality, 0); }
-		public TerminalNode InEquality() { return getToken(GMMParser.InEquality, 0); }
-		public BooleanExprContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_booleanExpr; }
+		public EqualityExprContext(BooleanExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitBooleanExpr(this);
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitEqualityExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class InEqualityExprContext extends BooleanExprContext {
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public TerminalNode InEquality() { return getToken(GMMParser.InEquality, 0); }
+		public InEqualityExprContext(BooleanExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitInEqualityExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BooleanExprDerivationContext extends BooleanExprContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public BooleanExprDerivationContext(BooleanExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitBooleanExprDerivation(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1200,6 +1274,7 @@ public class GMMParser extends Parser {
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,19,_ctx) ) {
 			case 1:
+				_localctx = new EqualityExprContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(186);
@@ -1211,6 +1286,7 @@ public class GMMParser extends Parser {
 				}
 				break;
 			case 2:
+				_localctx = new InEqualityExprContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(190);
@@ -1222,6 +1298,7 @@ public class GMMParser extends Parser {
 				}
 				break;
 			case 3:
+				_localctx = new BooleanExprDerivationContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(194);
@@ -1242,21 +1319,54 @@ public class GMMParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
-		public TermContext term() {
-			return getRuleContext(TermContext.class,0);
-		}
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public TerminalNode Plus() { return getToken(GMMParser.Plus, 0); }
-		public TerminalNode Minus() { return getToken(GMMParser.Minus, 0); }
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expr; }
+	 
+		public ExprContext() { }
+		public void copyFrom(ExprContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class PlusExprContext extends ExprContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode Plus() { return getToken(GMMParser.Plus, 0); }
+		public TermContext term() {
+			return getRuleContext(TermContext.class,0);
+		}
+		public PlusExprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitExpr(this);
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitPlusExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprDerivationContext extends ExprContext {
+		public TermContext term() {
+			return getRuleContext(TermContext.class,0);
+		}
+		public ExprDerivationContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitExprDerivation(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class MinusExprContext extends ExprContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode Minus() { return getToken(GMMParser.Minus, 0); }
+		public TermContext term() {
+			return getRuleContext(TermContext.class,0);
+		}
+		public MinusExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitMinusExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1277,6 +1387,10 @@ public class GMMParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
+			_localctx = new ExprDerivationContext(_localctx);
+			_ctx = _localctx;
+			_prevctx = _localctx;
+
 			setState(198);
 			term(0);
 			}
@@ -1294,7 +1408,7 @@ public class GMMParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,20,_ctx) ) {
 					case 1:
 						{
-						_localctx = new ExprContext(_parentctx, _parentState);
+						_localctx = new PlusExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(200);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
@@ -1306,7 +1420,7 @@ public class GMMParser extends Parser {
 						break;
 					case 2:
 						{
-						_localctx = new ExprContext(_parentctx, _parentState);
+						_localctx = new MinusExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(203);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
@@ -1337,21 +1451,54 @@ public class GMMParser extends Parser {
 	}
 
 	public static class TermContext extends ParserRuleContext {
-		public FactorContext factor() {
-			return getRuleContext(FactorContext.class,0);
-		}
-		public TermContext term() {
-			return getRuleContext(TermContext.class,0);
-		}
-		public TerminalNode Times() { return getToken(GMMParser.Times, 0); }
-		public TerminalNode Divide() { return getToken(GMMParser.Divide, 0); }
 		public TermContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_term; }
+	 
+		public TermContext() { }
+		public void copyFrom(TermContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class TermDerivationContext extends TermContext {
+		public FactorContext factor() {
+			return getRuleContext(FactorContext.class,0);
+		}
+		public TermDerivationContext(TermContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitTerm(this);
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitTermDerivation(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DivideTermContext extends TermContext {
+		public TermContext term() {
+			return getRuleContext(TermContext.class,0);
+		}
+		public TerminalNode Divide() { return getToken(GMMParser.Divide, 0); }
+		public FactorContext factor() {
+			return getRuleContext(FactorContext.class,0);
+		}
+		public DivideTermContext(TermContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitDivideTerm(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class TimesTermContext extends TermContext {
+		public TermContext term() {
+			return getRuleContext(TermContext.class,0);
+		}
+		public TerminalNode Times() { return getToken(GMMParser.Times, 0); }
+		public FactorContext factor() {
+			return getRuleContext(FactorContext.class,0);
+		}
+		public TimesTermContext(TermContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitTimesTerm(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1371,62 +1518,56 @@ public class GMMParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(213);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,22,_ctx) ) {
-			case 1:
-				{
-				}
-				break;
-			case 2:
-				{
-				setState(212);
-				factor();
-				}
-				break;
+			{
+			_localctx = new TermDerivationContext(_localctx);
+			_ctx = _localctx;
+			_prevctx = _localctx;
+
+			setState(212);
+			factor();
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(223);
+			setState(222);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,24,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,23,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(221);
+					setState(220);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,23,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,22,_ctx) ) {
 					case 1:
 						{
-						_localctx = new TermContext(_parentctx, _parentState);
+						_localctx = new TimesTermContext(new TermContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_term);
-						setState(215);
+						setState(214);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(216);
+						setState(215);
 						match(Times);
-						setState(217);
+						setState(216);
 						factor();
 						}
 						break;
 					case 2:
 						{
-						_localctx = new TermContext(_parentctx, _parentState);
+						_localctx = new DivideTermContext(new TermContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_term);
-						setState(218);
+						setState(217);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(219);
+						setState(218);
 						match(Divide);
-						setState(220);
+						setState(219);
 						factor();
 						}
 						break;
 					}
 					} 
 				}
-				setState(225);
+				setState(224);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,24,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,23,_ctx);
 			}
 			}
 		}
@@ -1442,22 +1583,62 @@ public class GMMParser extends Parser {
 	}
 
 	public static class FactorContext extends ParserRuleContext {
+		public FactorContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_factor; }
+	 
+		public FactorContext() { }
+		public void copyFrom(FactorContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ParanExprContext extends FactorContext {
 		public TerminalNode LParan() { return getToken(GMMParser.LParan, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public TerminalNode RParan() { return getToken(GMMParser.RParan, 0); }
-		public TerminalNode INT() { return getToken(GMMParser.INT, 0); }
-		public TerminalNode True() { return getToken(GMMParser.True, 0); }
-		public TerminalNode False() { return getToken(GMMParser.False, 0); }
-		public TerminalNode ID() { return getToken(GMMParser.ID, 0); }
-		public FactorContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_factor; }
+		public ParanExprContext(FactorContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitFactor(this);
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitParanExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LiteralFalseContext extends FactorContext {
+		public TerminalNode False() { return getToken(GMMParser.False, 0); }
+		public LiteralFalseContext(FactorContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitLiteralFalse(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class VariableContext extends FactorContext {
+		public TerminalNode ID() { return getToken(GMMParser.ID, 0); }
+		public VariableContext(FactorContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitVariable(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LiteralIntContext extends FactorContext {
+		public TerminalNode INT() { return getToken(GMMParser.INT, 0); }
+		public LiteralIntContext(FactorContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitLiteralInt(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LiteralTrueContext extends FactorContext {
+		public TerminalNode True() { return getToken(GMMParser.True, 0); }
+		public LiteralTrueContext(FactorContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GMMVisitor ) return ((GMMVisitor<? extends T>)visitor).visitLiteralTrue(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1466,45 +1647,50 @@ public class GMMParser extends Parser {
 		FactorContext _localctx = new FactorContext(_ctx, getState());
 		enterRule(_localctx, 30, RULE_factor);
 		try {
-			setState(234);
+			setState(233);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case LParan:
+				_localctx = new ParanExprContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(226);
+				setState(225);
 				match(LParan);
-				setState(227);
+				setState(226);
 				expr(0);
-				setState(228);
+				setState(227);
 				match(RParan);
 				}
 				break;
 			case INT:
+				_localctx = new LiteralIntContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(230);
+				setState(229);
 				match(INT);
 				}
 				break;
 			case True:
+				_localctx = new LiteralTrueContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(231);
+				setState(230);
 				match(True);
 				}
 				break;
 			case False:
+				_localctx = new LiteralFalseContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(232);
+				setState(231);
 				match(False);
 				}
 				break;
 			case ID:
+				_localctx = new VariableContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(233);
+				setState(232);
 				match(ID);
 				}
 				break;
@@ -1563,7 +1749,7 @@ public class GMMParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\"\u00ef\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\"\u00ee\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\3\2\3\2\7"+
 		"\2%\n\2\f\2\16\2(\13\2\3\3\3\3\3\3\3\3\5\3.\n\3\3\3\3\3\3\3\7\3\63\n\3"+
@@ -1578,50 +1764,50 @@ public class GMMParser extends Parser {
 		"\f\13\16\13\u00ab\13\13\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\7"+
 		"\r\u00b8\n\r\f\r\16\r\u00bb\13\r\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3"+
 		"\16\3\16\5\16\u00c6\n\16\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17"+
-		"\7\17\u00d1\n\17\f\17\16\17\u00d4\13\17\3\20\3\20\5\20\u00d8\n\20\3\20"+
-		"\3\20\3\20\3\20\3\20\3\20\7\20\u00e0\n\20\f\20\16\20\u00e3\13\20\3\21"+
-		"\3\21\3\21\3\21\3\21\3\21\3\21\3\21\5\21\u00ed\n\21\3\21\2\5\30\34\36"+
-		"\22\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \2\2\2\u0103\2&\3\2\2\2\4)"+
-		"\3\2\2\2\69\3\2\2\2\bH\3\2\2\2\nP\3\2\2\2\fS\3\2\2\2\16[\3\2\2\2\20\u0099"+
-		"\3\2\2\2\22\u00a2\3\2\2\2\24\u00a4\3\2\2\2\26\u00ac\3\2\2\2\30\u00ae\3"+
-		"\2\2\2\32\u00c5\3\2\2\2\34\u00c7\3\2\2\2\36\u00d7\3\2\2\2 \u00ec\3\2\2"+
-		"\2\"%\5\4\3\2#%\5\6\4\2$\"\3\2\2\2$#\3\2\2\2%(\3\2\2\2&$\3\2\2\2&\'\3"+
-		"\2\2\2\'\3\3\2\2\2(&\3\2\2\2)*\7\3\2\2*+\7!\2\2+-\7\25\2\2,.\5\b\5\2-"+
-		",\3\2\2\2-.\3\2\2\2./\3\2\2\2/\60\7\26\2\2\60\64\7\31\2\2\61\63\5\20\t"+
-		"\2\62\61\3\2\2\2\63\66\3\2\2\2\64\62\3\2\2\2\64\65\3\2\2\2\65\67\3\2\2"+
-		"\2\66\64\3\2\2\2\678\7\32\2\28\5\3\2\2\29:\7!\2\2:<\7\27\2\2;=\5\f\7\2"+
-		"<;\3\2\2\2<=\3\2\2\2=>\3\2\2\2>?\7\30\2\2?C\7\31\2\2@B\5\20\t\2A@\3\2"+
-		"\2\2BE\3\2\2\2CA\3\2\2\2CD\3\2\2\2DF\3\2\2\2EC\3\2\2\2FG\7\32\2\2G\7\3"+
-		"\2\2\2HM\5\n\6\2IJ\7\21\2\2JL\5\n\6\2KI\3\2\2\2LO\3\2\2\2MK\3\2\2\2MN"+
-		"\3\2\2\2N\t\3\2\2\2OM\3\2\2\2PQ\7\36\2\2QR\7!\2\2R\13\3\2\2\2SX\5\16\b"+
-		"\2TU\7\21\2\2UW\5\16\b\2VT\3\2\2\2WZ\3\2\2\2XV\3\2\2\2XY\3\2\2\2Y\r\3"+
-		"\2\2\2ZX\3\2\2\2[\\\7!\2\2\\]\7\22\2\2]^\7\17\2\2^\17\3\2\2\2_\u009a\5"+
-		"\6\4\2`a\7\23\2\2ab\7\25\2\2bc\5\26\f\2cd\7\26\2\2dh\7\31\2\2eg\5\20\t"+
-		"\2fe\3\2\2\2gj\3\2\2\2hf\3\2\2\2hi\3\2\2\2ik\3\2\2\2jh\3\2\2\2kl\7\32"+
-		"\2\2l\u009a\3\2\2\2mn\7\24\2\2no\7\25\2\2op\5\26\f\2pq\7\26\2\2qu\7\31"+
-		"\2\2rt\5\20\t\2sr\3\2\2\2tw\3\2\2\2us\3\2\2\2uv\3\2\2\2vx\3\2\2\2wu\3"+
-		"\2\2\2xy\7\32\2\2y\u009a\3\2\2\2z{\7!\2\2{}\7\25\2\2|~\5\24\13\2}|\3\2"+
-		"\2\2}~\3\2\2\2~\177\3\2\2\2\177\u009a\7\26\2\2\u0080\u0081\7!\2\2\u0081"+
-		"\u0082\7\4\2\2\u0082\u009a\5\26\f\2\u0083\u0084\7\36\2\2\u0084\u0085\7"+
-		"!\2\2\u0085\u0086\7\4\2\2\u0086\u009a\5\26\f\2\u0087\u0089\7\33\2\2\u0088"+
-		"\u008a\5\22\n\2\u0089\u0088\3\2\2\2\u008a\u008b\3\2\2\2\u008b\u0089\3"+
-		"\2\2\2\u008b\u008c\3\2\2\2\u008c\u009a\3\2\2\2\u008d\u008f\7\35\2\2\u008e"+
-		"\u0090\5\22\n\2\u008f\u008e\3\2\2\2\u0090\u0091\3\2\2\2\u0091\u008f\3"+
-		"\2\2\2\u0091\u0092\3\2\2\2\u0092\u009a\3\2\2\2\u0093\u0095\7\34\2\2\u0094"+
-		"\u0096\5\22\n\2\u0095\u0094\3\2\2\2\u0096\u0097\3\2\2\2\u0097\u0095\3"+
-		"\2\2\2\u0097\u0098\3\2\2\2\u0098\u009a\3\2\2\2\u0099_\3\2\2\2\u0099`\3"+
-		"\2\2\2\u0099m\3\2\2\2\u0099z\3\2\2\2\u0099\u0080\3\2\2\2\u0099\u0083\3"+
-		"\2\2\2\u0099\u0087\3\2\2\2\u0099\u008d\3\2\2\2\u0099\u0093\3\2\2\2\u009a"+
-		"\21\3\2\2\2\u009b\u009c\7 \2\2\u009c\u009d\7\4\2\2\u009d\u00a3\5\26\f"+
-		"\2\u009e\u009f\7 \2\2\u009f\u00a0\7\4\2\2\u00a0\u00a1\7\37\2\2\u00a1\u00a3"+
-		"\5\26\f\2\u00a2\u009b\3\2\2\2\u00a2\u009e\3\2\2\2\u00a3\23\3\2\2\2\u00a4"+
-		"\u00a9\5\26\f\2\u00a5\u00a6\7\21\2\2\u00a6\u00a8\5\26\f\2\u00a7\u00a5"+
-		"\3\2\2\2\u00a8\u00ab\3\2\2\2\u00a9\u00a7\3\2\2\2\u00a9\u00aa\3\2\2\2\u00aa"+
-		"\25\3\2\2\2\u00ab\u00a9\3\2\2\2\u00ac\u00ad\5\30\r\2\u00ad\27\3\2\2\2"+
-		"\u00ae\u00af\b\r\1\2\u00af\u00b0\5\32\16\2\u00b0\u00b9\3\2\2\2\u00b1\u00b2"+
-		"\f\5\2\2\u00b2\u00b3\7\t\2\2\u00b3\u00b8\5\32\16\2\u00b4\u00b5\f\4\2\2"+
-		"\u00b5\u00b6\7\n\2\2\u00b6\u00b8\5\32\16\2\u00b7\u00b1\3\2\2\2\u00b7\u00b4"+
-		"\3\2\2\2\u00b8\u00bb\3\2\2\2\u00b9\u00b7\3\2\2\2\u00b9\u00ba\3\2\2\2\u00ba"+
+		"\7\17\u00d1\n\17\f\17\16\17\u00d4\13\17\3\20\3\20\3\20\3\20\3\20\3\20"+
+		"\3\20\3\20\3\20\7\20\u00df\n\20\f\20\16\20\u00e2\13\20\3\21\3\21\3\21"+
+		"\3\21\3\21\3\21\3\21\3\21\5\21\u00ec\n\21\3\21\2\5\30\34\36\22\2\4\6\b"+
+		"\n\f\16\20\22\24\26\30\32\34\36 \2\2\2\u0101\2&\3\2\2\2\4)\3\2\2\2\69"+
+		"\3\2\2\2\bH\3\2\2\2\nP\3\2\2\2\fS\3\2\2\2\16[\3\2\2\2\20\u0099\3\2\2\2"+
+		"\22\u00a2\3\2\2\2\24\u00a4\3\2\2\2\26\u00ac\3\2\2\2\30\u00ae\3\2\2\2\32"+
+		"\u00c5\3\2\2\2\34\u00c7\3\2\2\2\36\u00d5\3\2\2\2 \u00eb\3\2\2\2\"%\5\4"+
+		"\3\2#%\5\6\4\2$\"\3\2\2\2$#\3\2\2\2%(\3\2\2\2&$\3\2\2\2&\'\3\2\2\2\'\3"+
+		"\3\2\2\2(&\3\2\2\2)*\7\3\2\2*+\7!\2\2+-\7\25\2\2,.\5\b\5\2-,\3\2\2\2-"+
+		".\3\2\2\2./\3\2\2\2/\60\7\26\2\2\60\64\7\31\2\2\61\63\5\20\t\2\62\61\3"+
+		"\2\2\2\63\66\3\2\2\2\64\62\3\2\2\2\64\65\3\2\2\2\65\67\3\2\2\2\66\64\3"+
+		"\2\2\2\678\7\32\2\28\5\3\2\2\29:\7!\2\2:<\7\27\2\2;=\5\f\7\2<;\3\2\2\2"+
+		"<=\3\2\2\2=>\3\2\2\2>?\7\30\2\2?C\7\31\2\2@B\5\20\t\2A@\3\2\2\2BE\3\2"+
+		"\2\2CA\3\2\2\2CD\3\2\2\2DF\3\2\2\2EC\3\2\2\2FG\7\32\2\2G\7\3\2\2\2HM\5"+
+		"\n\6\2IJ\7\21\2\2JL\5\n\6\2KI\3\2\2\2LO\3\2\2\2MK\3\2\2\2MN\3\2\2\2N\t"+
+		"\3\2\2\2OM\3\2\2\2PQ\7\36\2\2QR\7!\2\2R\13\3\2\2\2SX\5\16\b\2TU\7\21\2"+
+		"\2UW\5\16\b\2VT\3\2\2\2WZ\3\2\2\2XV\3\2\2\2XY\3\2\2\2Y\r\3\2\2\2ZX\3\2"+
+		"\2\2[\\\7!\2\2\\]\7\22\2\2]^\7\17\2\2^\17\3\2\2\2_\u009a\5\6\4\2`a\7\23"+
+		"\2\2ab\7\25\2\2bc\5\26\f\2cd\7\26\2\2dh\7\31\2\2eg\5\20\t\2fe\3\2\2\2"+
+		"gj\3\2\2\2hf\3\2\2\2hi\3\2\2\2ik\3\2\2\2jh\3\2\2\2kl\7\32\2\2l\u009a\3"+
+		"\2\2\2mn\7\24\2\2no\7\25\2\2op\5\26\f\2pq\7\26\2\2qu\7\31\2\2rt\5\20\t"+
+		"\2sr\3\2\2\2tw\3\2\2\2us\3\2\2\2uv\3\2\2\2vx\3\2\2\2wu\3\2\2\2xy\7\32"+
+		"\2\2y\u009a\3\2\2\2z{\7!\2\2{}\7\25\2\2|~\5\24\13\2}|\3\2\2\2}~\3\2\2"+
+		"\2~\177\3\2\2\2\177\u009a\7\26\2\2\u0080\u0081\7!\2\2\u0081\u0082\7\4"+
+		"\2\2\u0082\u009a\5\26\f\2\u0083\u0084\7\36\2\2\u0084\u0085\7!\2\2\u0085"+
+		"\u0086\7\4\2\2\u0086\u009a\5\26\f\2\u0087\u0089\7\33\2\2\u0088\u008a\5"+
+		"\22\n\2\u0089\u0088\3\2\2\2\u008a\u008b\3\2\2\2\u008b\u0089\3\2\2\2\u008b"+
+		"\u008c\3\2\2\2\u008c\u009a\3\2\2\2\u008d\u008f\7\35\2\2\u008e\u0090\5"+
+		"\22\n\2\u008f\u008e\3\2\2\2\u0090\u0091\3\2\2\2\u0091\u008f\3\2\2\2\u0091"+
+		"\u0092\3\2\2\2\u0092\u009a\3\2\2\2\u0093\u0095\7\34\2\2\u0094\u0096\5"+
+		"\22\n\2\u0095\u0094\3\2\2\2\u0096\u0097\3\2\2\2\u0097\u0095\3\2\2\2\u0097"+
+		"\u0098\3\2\2\2\u0098\u009a\3\2\2\2\u0099_\3\2\2\2\u0099`\3\2\2\2\u0099"+
+		"m\3\2\2\2\u0099z\3\2\2\2\u0099\u0080\3\2\2\2\u0099\u0083\3\2\2\2\u0099"+
+		"\u0087\3\2\2\2\u0099\u008d\3\2\2\2\u0099\u0093\3\2\2\2\u009a\21\3\2\2"+
+		"\2\u009b\u009c\7 \2\2\u009c\u009d\7\4\2\2\u009d\u00a3\5\26\f\2\u009e\u009f"+
+		"\7 \2\2\u009f\u00a0\7\4\2\2\u00a0\u00a1\7\37\2\2\u00a1\u00a3\5\26\f\2"+
+		"\u00a2\u009b\3\2\2\2\u00a2\u009e\3\2\2\2\u00a3\23\3\2\2\2\u00a4\u00a9"+
+		"\5\26\f\2\u00a5\u00a6\7\21\2\2\u00a6\u00a8\5\26\f\2\u00a7\u00a5\3\2\2"+
+		"\2\u00a8\u00ab\3\2\2\2\u00a9\u00a7\3\2\2\2\u00a9\u00aa\3\2\2\2\u00aa\25"+
+		"\3\2\2\2\u00ab\u00a9\3\2\2\2\u00ac\u00ad\5\30\r\2\u00ad\27\3\2\2\2\u00ae"+
+		"\u00af\b\r\1\2\u00af\u00b0\5\32\16\2\u00b0\u00b9\3\2\2\2\u00b1\u00b2\f"+
+		"\5\2\2\u00b2\u00b3\7\t\2\2\u00b3\u00b8\5\32\16\2\u00b4\u00b5\f\4\2\2\u00b5"+
+		"\u00b6\7\n\2\2\u00b6\u00b8\5\32\16\2\u00b7\u00b1\3\2\2\2\u00b7\u00b4\3"+
+		"\2\2\2\u00b8\u00bb\3\2\2\2\u00b9\u00b7\3\2\2\2\u00b9\u00ba\3\2\2\2\u00ba"+
 		"\31\3\2\2\2\u00bb\u00b9\3\2\2\2\u00bc\u00bd\5\34\17\2\u00bd\u00be\7\13"+
 		"\2\2\u00be\u00bf\5\34\17\2\u00bf\u00c6\3\2\2\2\u00c0\u00c1\5\34\17\2\u00c1"+
 		"\u00c2\7\f\2\2\u00c2\u00c3\5\34\17\2\u00c3\u00c6\3\2\2\2\u00c4\u00c6\5"+
@@ -1630,18 +1816,17 @@ public class GMMParser extends Parser {
 		"\2\2\u00ca\u00cb\f\5\2\2\u00cb\u00cc\7\5\2\2\u00cc\u00d1\5\36\20\2\u00cd"+
 		"\u00ce\f\4\2\2\u00ce\u00cf\7\6\2\2\u00cf\u00d1\5\36\20\2\u00d0\u00ca\3"+
 		"\2\2\2\u00d0\u00cd\3\2\2\2\u00d1\u00d4\3\2\2\2\u00d2\u00d0\3\2\2\2\u00d2"+
-		"\u00d3\3\2\2\2\u00d3\35\3\2\2\2\u00d4\u00d2\3\2\2\2\u00d5\u00d8\b\20\1"+
-		"\2\u00d6\u00d8\5 \21\2\u00d7\u00d5\3\2\2\2\u00d7\u00d6\3\2\2\2\u00d8\u00e1"+
-		"\3\2\2\2\u00d9\u00da\f\5\2\2\u00da\u00db\7\7\2\2\u00db\u00e0\5 \21\2\u00dc"+
-		"\u00dd\f\4\2\2\u00dd\u00de\7\b\2\2\u00de\u00e0\5 \21\2\u00df\u00d9\3\2"+
-		"\2\2\u00df\u00dc\3\2\2\2\u00e0\u00e3\3\2\2\2\u00e1\u00df\3\2\2\2\u00e1"+
-		"\u00e2\3\2\2\2\u00e2\37\3\2\2\2\u00e3\u00e1\3\2\2\2\u00e4\u00e5\7\25\2"+
-		"\2\u00e5\u00e6\5\34\17\2\u00e6\u00e7\7\26\2\2\u00e7\u00ed\3\2\2\2\u00e8"+
-		"\u00ed\7\17\2\2\u00e9\u00ed\7\r\2\2\u00ea\u00ed\7\16\2\2\u00eb\u00ed\7"+
-		"!\2\2\u00ec\u00e4\3\2\2\2\u00ec\u00e8\3\2\2\2\u00ec\u00e9\3\2\2\2\u00ec"+
-		"\u00ea\3\2\2\2\u00ec\u00eb\3\2\2\2\u00ed!\3\2\2\2\34$&-\64<CMXhu}\u008b"+
-		"\u0091\u0097\u0099\u00a2\u00a9\u00b7\u00b9\u00c5\u00d0\u00d2\u00d7\u00df"+
-		"\u00e1\u00ec";
+		"\u00d3\3\2\2\2\u00d3\35\3\2\2\2\u00d4\u00d2\3\2\2\2\u00d5\u00d6\b\20\1"+
+		"\2\u00d6\u00d7\5 \21\2\u00d7\u00e0\3\2\2\2\u00d8\u00d9\f\5\2\2\u00d9\u00da"+
+		"\7\7\2\2\u00da\u00df\5 \21\2\u00db\u00dc\f\4\2\2\u00dc\u00dd\7\b\2\2\u00dd"+
+		"\u00df\5 \21\2\u00de\u00d8\3\2\2\2\u00de\u00db\3\2\2\2\u00df\u00e2\3\2"+
+		"\2\2\u00e0\u00de\3\2\2\2\u00e0\u00e1\3\2\2\2\u00e1\37\3\2\2\2\u00e2\u00e0"+
+		"\3\2\2\2\u00e3\u00e4\7\25\2\2\u00e4\u00e5\5\34\17\2\u00e5\u00e6\7\26\2"+
+		"\2\u00e6\u00ec\3\2\2\2\u00e7\u00ec\7\17\2\2\u00e8\u00ec\7\r\2\2\u00e9"+
+		"\u00ec\7\16\2\2\u00ea\u00ec\7!\2\2\u00eb\u00e3\3\2\2\2\u00eb\u00e7\3\2"+
+		"\2\2\u00eb\u00e8\3\2\2\2\u00eb\u00e9\3\2\2\2\u00eb\u00ea\3\2\2\2\u00ec"+
+		"!\3\2\2\2\33$&-\64<CMXhu}\u008b\u0091\u0097\u0099\u00a2\u00a9\u00b7\u00b9"+
+		"\u00c5\u00d0\u00d2\u00de\u00e0\u00eb";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -42,36 +42,35 @@ parameters
 expression
     : logic;
 
-
   //expressions
-logic
-    : logic And booleanExpr
-    | logic Or booleanExpr
-    | booleanExpr
+logic // Det er ikke muligt at bruge parenteser til bolske operationer
+    : logic And booleanExpr # AndLogic
+    | logic Or booleanExpr # OrLogic
+    | booleanExpr # LogicDerivation
     ;
 
 booleanExpr
-    : expr Equality expr
-    | expr InEquality expr
-    | expr
+    : expr Equality expr # EqualityExpr
+    | expr InEquality expr # InEqualityExpr
+    | expr # BooleanExprDerivation
     ;
 
 expr
-    : expr Plus term
-    | expr Minus term
-    | term;
+    : expr Plus term # PlusExpr
+    | expr Minus term # MinusExpr
+    | term # ExprDerivation;
 
-term:
-    | term Times factor
-    | term Divide factor
-    | factor;
+term
+    : term Times factor # TimesTerm
+    | term Divide factor # DivideTerm
+    | factor # TermDerivation;
 
 factor
-    : LParan expr RParan
-    | INT
-    | True
-    | False
-    | ID;
+    : LParan expr RParan # ParanExpr
+    | INT # LiteralInt
+    | True # LiteralTrue
+    | False # LiteralFalse
+    | ID # Variable;
 
 FunctionPrefix
     : 'function ';

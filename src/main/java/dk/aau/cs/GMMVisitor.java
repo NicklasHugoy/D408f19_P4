@@ -1,4 +1,5 @@
-package dk.aau.cs;// Generated from C:/Users/thoru/OneDrive/Dokumenter/Git/GCode\GMM.g4 by ANTLR 4.7.2
+package dk.aau.cs;
+// Generated from C:/Users/thoru/OneDrive/Dokumenter/Git/D408f19_P4\GMM.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -141,33 +142,122 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(GMMParser.ExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GMMParser#logic}.
+	 * Visit a parse tree produced by the {@code AndLogic}
+	 * labeled alternative in {@link GMMParser#logic}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLogic(GMMParser.LogicContext ctx);
+	T visitAndLogic(GMMParser.AndLogicContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GMMParser#booleanExpr}.
+	 * Visit a parse tree produced by the {@code LogicDerivation}
+	 * labeled alternative in {@link GMMParser#logic}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBooleanExpr(GMMParser.BooleanExprContext ctx);
+	T visitLogicDerivation(GMMParser.LogicDerivationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GMMParser#expr}.
+	 * Visit a parse tree produced by the {@code OrLogic}
+	 * labeled alternative in {@link GMMParser#logic}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpr(GMMParser.ExprContext ctx);
+	T visitOrLogic(GMMParser.OrLogicContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GMMParser#term}.
+	 * Visit a parse tree produced by the {@code EqualityExpr}
+	 * labeled alternative in {@link GMMParser#booleanExpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTerm(GMMParser.TermContext ctx);
+	T visitEqualityExpr(GMMParser.EqualityExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GMMParser#factor}.
+	 * Visit a parse tree produced by the {@code InEqualityExpr}
+	 * labeled alternative in {@link GMMParser#booleanExpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFactor(GMMParser.FactorContext ctx);
+	T visitInEqualityExpr(GMMParser.InEqualityExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BooleanExprDerivation}
+	 * labeled alternative in {@link GMMParser#booleanExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBooleanExprDerivation(GMMParser.BooleanExprDerivationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code PlusExpr}
+	 * labeled alternative in {@link GMMParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPlusExpr(GMMParser.PlusExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExprDerivation}
+	 * labeled alternative in {@link GMMParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprDerivation(GMMParser.ExprDerivationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MinusExpr}
+	 * labeled alternative in {@link GMMParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMinusExpr(GMMParser.MinusExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TermDerivation}
+	 * labeled alternative in {@link GMMParser#term}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTermDerivation(GMMParser.TermDerivationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code DivideTerm}
+	 * labeled alternative in {@link GMMParser#term}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDivideTerm(GMMParser.DivideTermContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TimesTerm}
+	 * labeled alternative in {@link GMMParser#term}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTimesTerm(GMMParser.TimesTermContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ParanExpr}
+	 * labeled alternative in {@link GMMParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParanExpr(GMMParser.ParanExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LiteralInt}
+	 * labeled alternative in {@link GMMParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLiteralInt(GMMParser.LiteralIntContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LiteralTrue}
+	 * labeled alternative in {@link GMMParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLiteralTrue(GMMParser.LiteralTrueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LiteralFalse}
+	 * labeled alternative in {@link GMMParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLiteralFalse(GMMParser.LiteralFalseContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Variable}
+	 * labeled alternative in {@link GMMParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariable(GMMParser.VariableContext ctx);
 }

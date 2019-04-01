@@ -1,4 +1,5 @@
-package dk.aau.cs;// Generated from C:/Users/thoru/OneDrive/Dokumenter/Git/GCode\GMM.g4 by ANTLR 4.7.2
+// Generated from C:/Users/thoru/OneDrive/Dokumenter/Git/D408f19_P4\GMM.g4 by ANTLR 4.7.2
+package dk.aau.cs;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

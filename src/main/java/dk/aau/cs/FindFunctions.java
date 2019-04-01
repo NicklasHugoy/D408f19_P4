@@ -10,18 +10,6 @@ import java.util.List;
 
 public class FindFunctions implements GMMVisitor {
 
-    public class Func{
-        public String identifier;
-        public List<GMMParser.ScopedStmtContext> body;
-
-        public Func(String identifier, List<GMMParser.ScopedStmtContext> body) {
-            this.identifier = identifier;
-            this.body = body;
-        }
-    }
-
-    ArrayList<Func> funcs = new ArrayList<>();
-
     @Override
     public Object visitProg(GMMParser.ProgContext ctx) {
         return null;
@@ -125,47 +113,121 @@ public class FindFunctions implements GMMVisitor {
     }
 
     @Override
-    public Object visitLogic(GMMParser.LogicContext ctx) {
+    public Object visitAndLogic(GMMParser.AndLogicContext ctx) {
         return null;
     }
 
     @Override
-    public Object visitBooleanExpr(GMMParser.BooleanExprContext ctx) {
+    public Object visitLogicDerivation(GMMParser.LogicDerivationContext ctx) {
         return null;
     }
 
     @Override
-    public Object visitExpr(GMMParser.ExprContext ctx) {
+    public Object visitOrLogic(GMMParser.OrLogicContext ctx) {
         return null;
     }
 
     @Override
-    public Object visitTerm(GMMParser.TermContext ctx) {
+    public Object visitEqualityExpr(GMMParser.EqualityExprContext ctx) {
         return null;
     }
 
     @Override
-    public Object visitFactor(GMMParser.FactorContext ctx) {
+    public Object visitInEqualityExpr(GMMParser.InEqualityExprContext ctx) {
         return null;
     }
 
     @Override
-    public Object visit(ParseTree parseTree) {
+    public Object visitBooleanExprDerivation(GMMParser.BooleanExprDerivationContext ctx) {
         return null;
     }
 
     @Override
-    public Object visitChildren(RuleNode ruleNode) {
+    public Object visitPlusExpr(GMMParser.PlusExprContext ctx) {
         return null;
     }
 
     @Override
-    public Object visitTerminal(TerminalNode terminalNode) {
+    public Object visitExprDerivation(GMMParser.ExprDerivationContext ctx) {
         return null;
     }
 
     @Override
-    public Object visitErrorNode(ErrorNode errorNode) {
+    public Object visitMinusExpr(GMMParser.MinusExprContext ctx) {
         return null;
     }
+
+    @Override
+    public Object visitTermDerivation(GMMParser.TermDerivationContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visitDivideTerm(GMMParser.DivideTermContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visitTimesTerm(GMMParser.TimesTermContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visitParanExpr(GMMParser.ParanExprContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visitLiteralInt(GMMParser.LiteralIntContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visitLiteralTrue(GMMParser.LiteralTrueContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visitLiteralFalse(GMMParser.LiteralFalseContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visitVariable(GMMParser.VariableContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visit(ParseTree tree) {
+        return null;
+    }
+
+    @Override
+    public Object visitChildren(RuleNode node) {
+        return null;
+    }
+
+    @Override
+    public Object visitTerminal(TerminalNode node) {
+        return null;
+    }
+
+    @Override
+    public Object visitErrorNode(ErrorNode node) {
+        return null;
+    }
+
+    public class Func{
+        public String identifier;
+        public List<GMMParser.ScopedStmtContext> body;
+
+        public Func(String identifier, List<GMMParser.ScopedStmtContext> body) {
+            this.identifier = identifier;
+            this.body = body;
+        }
+    }
+
+    ArrayList<Func> funcs = new ArrayList<>();
+
+
 }
