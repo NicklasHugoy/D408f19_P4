@@ -164,6 +164,17 @@ public class Move implements Statement {
     }
 }
 
+public class BlockDef implements Statement, BaseNode {
+    public List<MachineOption> options;
+    public List<Statement> statements;
+
+
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitBlockDef(this);
+    }
+}
+
 public class Equality implements Expression {
 
     public Expression left;

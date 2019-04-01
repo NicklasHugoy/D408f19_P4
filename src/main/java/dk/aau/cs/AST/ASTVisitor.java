@@ -31,4 +31,6 @@ public interface ASTVisitor<T> {
     T visitRightCircle(RightCircle rightCircle);
 
     T visitMove(Move move);
+
+    T visitBlockDef(BlockDef blockDef);
 }
