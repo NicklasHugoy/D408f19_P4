@@ -279,7 +279,7 @@ public class LiteralBool implements Expression{
 
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
-        return visitor.visitLeteralBool(this);
+        return visitor.visitLiteralBool(this);
     }
 }
 

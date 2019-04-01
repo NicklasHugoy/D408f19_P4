@@ -25,12 +25,9 @@ public interface ASTVisitor<T> {
 	T visitPlus(Plus n);
 	T visitMinus(Minus minus);
 	T visitVariable(Variable variable);
-	T visitLeteralBool(LiteralBool literalBool);
+	T visitLiteralBool(LiteralBool literalBool);
 	T visitLiteralInt(LiteralInt literalInt);
-
     T visitRightCircle(RightCircle rightCircle);
-
     T visitMove(Move move);
-
     T visitBlockDef(BlockDef blockDef);
 }
