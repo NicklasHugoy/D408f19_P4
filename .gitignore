@@ -85,11 +85,3 @@ fabric.properties
 .idea/sonarlint
 
 # End of https://www.gitignore.io/api/intellij
-
-\.gradle/4\.8/fileHashes/fileHashes\.bin
-
-\.gradle/4\.8/fileHashes/fileHashes\.lock
-
-\.idea/misc\.xml
-
-\.idea/vcs\.xml
