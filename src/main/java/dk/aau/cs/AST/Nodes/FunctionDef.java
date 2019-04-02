@@ -5,11 +5,13 @@ import dk.aau.cs.AST.BaseNode;
 import dk.aau.cs.AST.Node;
 import dk.aau.cs.AST.Statement;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FunctionDef implements BaseNode {
 
+    public TypeNode returnType;
     public List<FormalParameter> parameters;
     public List<Statement> statements;
 
