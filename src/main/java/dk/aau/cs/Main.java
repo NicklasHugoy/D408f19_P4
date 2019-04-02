@@ -1,5 +1,11 @@
 package dk.aau.cs;
 
+import dk.aau.cs.AST.ASTGenerator;
+import dk.aau.cs.AST.Node;
+import dk.aau.cs.AST.TreePrinter;
+import dk.aau.cs.Syntax.GMMLexer;
+import dk.aau.cs.Syntax.GMMParser;
+import dk.aau.cs.Syntax.GMMVisitor;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -9,31 +15,23 @@ public class Main {
     public static void main(String[] args){
         System.out.println("Hello, World!");
 
-        CharStream cs = CharStreams.fromString("function helloworld () {move X=50}" +
-                "function thisIsAwesome(){move X=0 move X=10}");
+        CharStream cs = CharStreams.fromString("function helloworld (num x) {move X=50}" +
+                "block[tool : 50 - 1] {" +
+                "num x = 50" +
+                "while (x != 0){" +
+                "helloworld(x)" +
+                "x = x - 1" +
+                "}" +
+                "}");
         GMMLexer lexer = new GMMLexer(cs);
         TokenStream ts = new BufferedTokenStream(lexer);
         GMMParser parser = new GMMParser(ts);
 
-        GMMParser.ProgContext prog = parser.prog();
-        FindFunctions functionsFinder = new FindFunctions();
+        ASTGenerator astGenerator = new ASTGenerator();
+        Node ast = parser.prog().accept(astGenerator);
 
-        VisitTree(functionsFinder, prog);
-
-        for(FindFunctions.Func func : functionsFinder.funcs)
-            System.out.println(func.identifier + "  with " + func.body.size() + " lines");
-
+        TreePrinter printer = new TreePrinter(ast);
+        printer.Print();
 
     }
-
-    public static void VisitTree(GMMVisitor visitor, ParseTree tree){
-        tree.accept(visitor);
-
-        for(int i = 0; i < tree.getChildCount(); i++)
-            VisitTree(visitor, tree.getChild(i));
-    }
-
-
-    public static void PrettyPrintTree()
-
 }

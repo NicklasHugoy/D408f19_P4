@@ -22,7 +22,7 @@ public class TreePrinter {
     private void PrintNode(Node node){
         System.out.println(prefix +node.toString());
         String old = prefix;
-        prefix += "|-";
+        prefix += "|  ";
         for(Node child : node.getChildren())
             PrintNode(child);
         prefix = old;

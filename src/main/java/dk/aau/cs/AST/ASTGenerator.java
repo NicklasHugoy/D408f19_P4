@@ -1,14 +1,14 @@
 package dk.aau.cs.AST;
 
 import dk.aau.cs.AST.Nodes.*;
-import dk.aau.cs.GMMParser;
-import dk.aau.cs.GMMVisitor;
+import dk.aau.cs.Syntax.GMMParser;
+import dk.aau.cs.Syntax.GMMVisitor;
+import org.abego.treelayout.internal.util.java.lang.string.StringUtil;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,13 +35,6 @@ public class ASTGenerator implements GMMVisitor<Node> {
                 parameters.add((FormalParameter) parameterContext.accept(this));
         }
 
-
-
-
-
-
-
-
         for(GMMParser.ScopedStmtContext stmtContext : ctx.scopedStmt())
             statements.add((Statement) stmtContext.accept(this));
 
@@ -53,8 +46,10 @@ public class ASTGenerator implements GMMVisitor<Node> {
         ArrayList<MachineOption> options = new ArrayList<>();
         ArrayList<Statement> statements = new ArrayList<>();
 
-        for(GMMParser.MachineOptionContext optionContext : ctx.machineOptions().machineOption())
-            options.add((MachineOption) optionContext.accept(this));
+        if(ctx.machineOptions() != null){
+            for(GMMParser.MachineOptionContext optionContext : ctx.machineOptions().machineOption())
+                options.add((MachineOption) optionContext.accept(this));
+        }
 
         for(GMMParser.ScopedStmtContext stmtContext : ctx.scopedStmt())
             statements.add((Statement) stmtContext.accept(this));
@@ -80,7 +75,15 @@ public class ASTGenerator implements GMMVisitor<Node> {
     }
 
     private TypeNode GetTypeNode(TerminalNode type) {
-        return new TypeNode(GMMType.valueOf(type.getText().toLowerCase().trim()));
+        switch (type.getText().trim()){
+            case "num":
+                return new TypeNode(GMMType.Num);
+            case "bool":
+                return new TypeNode(GMMType.Bool);
+            case "vector":
+                return new TypeNode(GMMType.Vector);
+        }
+        throw new IllegalArgumentException( type.getText() + " Doesnt match any of the types");
     }
 
     @Override
@@ -92,7 +95,7 @@ public class ASTGenerator implements GMMVisitor<Node> {
     public Node visitMachineOption(GMMParser.MachineOptionContext ctx)
     {
         ID idNode = GetIDNode(ctx.ID());
-        Expression expression = (Expression) ctx.expression().logic();
+        Expression expression = (Expression) ctx.expression().accept(this);
 
         return new MachineOption(idNode, expression);
     }
@@ -131,8 +134,10 @@ public class ASTGenerator implements GMMVisitor<Node> {
         ID idNode = GetIDNode(ctx.ID());
         List<Expression> expressions = new ArrayList<>();
 
-        for(GMMParser.ExpressionContext expressionContext : ctx.parameters().expression())
-            expressions.add((Expression) expressionContext.accept(this));
+        if(ctx.parameters() != null){
+            for(GMMParser.ExpressionContext expressionContext : ctx.parameters().expression())
+                expressions.add((Expression) expressionContext.accept(this));
+        }
 
         return new FunctionCall(idNode, expressions);
     }

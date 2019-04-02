@@ -1,5 +1,7 @@
 package dk.aau.cs;
 
+import dk.aau.cs.Syntax.GMMParser;
+import dk.aau.cs.Syntax.GMMVisitor;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;

@@ -27,7 +27,10 @@ public class Minus implements Expression {
         return nodes.toArray(new Node[0]);
     }
 
-
+    @Override
+    public String toString() {
+        return "Minus";
+    }
 
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {

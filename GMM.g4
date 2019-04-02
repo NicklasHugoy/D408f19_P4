@@ -127,8 +127,7 @@ RightCircleCommand
     : 'rightCircle ';
 
 Type
-    : 'int  '
-    | 'float '
+    : 'num '
     | 'vector '
     | 'bool ';
 
