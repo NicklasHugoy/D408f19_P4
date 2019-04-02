@@ -30,4 +30,5 @@ public interface ASTVisitor<T> {
     default T visitRightCircle(RightCircle rightCircle){ return null; }
     default T visitMove(Move move){ return null; }
     default T visitBlockDef(BlockDef blockDef){ return null; }
+    default T visitWhileLoop(WhileLoop whileLoop) {return null; }
 }
