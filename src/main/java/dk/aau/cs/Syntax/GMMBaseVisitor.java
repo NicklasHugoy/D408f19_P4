@@ -65,6 +65,20 @@ public class GMMBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements GM
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitFunctionScopedStmt(GMMParser.FunctionScopedStmtContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitFunctionReturn(GMMParser.FunctionReturnContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitBlock(GMMParser.BlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -86,7 +100,7 @@ public class GMMBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements GM
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCallFunction(GMMParser.CallFunctionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitScopedStmtFunctionCall(GMMParser.ScopedStmtFunctionCallContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -122,6 +136,13 @@ public class GMMBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements GM
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitLeftCircle(GMMParser.LeftCircleContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitFunctionCall(GMMParser.FunctionCallContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -269,4 +290,11 @@ public class GMMBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements GM
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitVariable(GMMParser.VariableContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitExpressionFunctionCall(GMMParser.ExpressionFunctionCallContext ctx) { return visitChildren(ctx); }
 }

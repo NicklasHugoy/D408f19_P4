@@ -4,7 +4,7 @@ prog
     : (functionDef | blockDef)*;
 
 functionDef
-    : FunctionPrefix ID LParan formalParameters? RParan LCurl scopedStmt* RCurl;
+    : Type ID LParan formalParameters? RParan LCurl functionStmt* RCurl;
 
 blockDef
     : ID LSquare machineOptions? RSquare LCurl scopedStmt* RCurl;
@@ -21,16 +21,23 @@ machineOptions
 machineOption
     : ID Colon expression;
 
+functionStmt
+    : scopedStmt # FunctionScopedStmt
+    | Return expression # FunctionReturn;
+
 scopedStmt
     : blockDef # Block
     | While LParan expression RParan LCurl scopedStmt* RCurl # WhileLoop
     | If LParan expression RParan LCurl scopedStmt* RCurl # IfStatement
-    | ID LParan parameters? RParan # CallFunction
+    | functionCall # ScopedStmtFunctionCall
     | ID Equals expression # Assignment
     | Type ID Equals expression # Declaration
     | MoveCommand commandParameter+ #Move
     | RightCircleCommand commandParameter+ #RightCircle
     | LeftCircleCommand commandParameter+ #LeftCircle;
+
+functionCall
+    :ID LParan parameters? RParan;
 
 commandParameter
     : CommandParameter Equals expression # RelativeParameter
@@ -70,10 +77,11 @@ factor
     | INT # LiteralInt
     | True # LiteralTrue
     | False # LiteralFalse
-    | ID # Variable;
+    | ID # Variable
+    | functionCall # ExpressionFunctionCall;
 
-FunctionPrefix
-    : 'function ';
+Return
+    : 'return ';
 
 Equals
     : '=';

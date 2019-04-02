@@ -1,4 +1,4 @@
-FunctionPrefix=1
+Return=1
 Equals=2
 Plus=3
 Minus=4
@@ -30,7 +30,7 @@ AbsoluteParameter=29
 CommandParameter=30
 ID=31
 WS=32
-'function '=1
+'return '=1
 '='=2
 '+'=3
 '-'=4

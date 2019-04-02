@@ -1,14 +1,11 @@
 package dk.aau.cs.AST.Nodes;
 
-import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.Expression;
-import dk.aau.cs.AST.Node;
-import dk.aau.cs.AST.Statement;
+import dk.aau.cs.AST.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionCall implements Statement {
+public class FunctionCall implements FunctionStatement, Expression {
     public ID identifier;
     public List<Expression> parameters;
 

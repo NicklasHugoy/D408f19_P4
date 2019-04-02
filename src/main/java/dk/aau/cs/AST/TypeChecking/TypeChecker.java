@@ -36,7 +36,7 @@ public class TypeChecker implements ASTVisitor{
             IDs newID = (IDs)params.accept(this);
             for (IDs id: workingTable) {
                 if(id.id.equals(newID.id))
-                    throw new Exception("Id " + newID.id + " is already used within this scope");
+                    throw new RuntimeException("Id " + newID.id + " is already used within this scope");
             }
             workingTable.add(newID);
         }
@@ -95,10 +95,10 @@ public class TypeChecker implements ASTVisitor{
                 if (pair.type.equals(right)){
                     return pair.type;
                 }
-                throw new Exception("Type error. Variable " + pair.id + " is type " + pair.type + " but right side expression is type " + right);
+                throw new RuntimeException("Type error. Variable " + pair.id + " is type " + pair.type + " but right side expression is type " + right);
             }
         }
-        throw new Exception("Variable " + assign.identifier + " must be declared before used");
+        throw new RuntimeException("Variable " + assign.identifier + " must be declared before used");
     }
 
     @Override
@@ -128,7 +128,7 @@ public class TypeChecker implements ASTVisitor{
         if (left.equals(right)){
             return GMMType.Bool;
         }
-        throw new Exception("Incorrect type comparing " + left + " and " + right);
+        throw new RuntimeException("Incorrect type comparing " + left + " and " + right);
     }
 
     @Override
@@ -138,7 +138,7 @@ public class TypeChecker implements ASTVisitor{
         if (left.equals(right)){
             return GMMType.Bool;
         }
-        throw new Exception("Incorrect type comparing " + left + " and " + right);
+        throw new RuntimeException("Incorrect type comparing " + left + " and " + right);
     }
 
     @Override
@@ -148,7 +148,7 @@ public class TypeChecker implements ASTVisitor{
         if (left.equals(GMMType.Bool) && right.equals(GMMType.Bool)){
             return GMMType.Bool;
         }
-        throw new Exception("Incorrect type comparing " + left + " and " + right);
+        throw new RuntimeException("Incorrect type comparing " + left + " and " + right);
     }
 
     @Override
@@ -158,7 +158,7 @@ public class TypeChecker implements ASTVisitor{
         if (left.equals(GMMType.Bool) && right.equals(GMMType.Bool)){
             return GMMType.Bool;
         }
-        throw new Exception("Incorrect type comparing " + left + " and " + right);
+        throw new RuntimeException("Incorrect type comparing " + left + " and " + right);
     }
 
     @Override
@@ -168,7 +168,7 @@ public class TypeChecker implements ASTVisitor{
         if (left.equals(right)){
             return left;
         }
-        throw new Exception("Incorrect type comparing " + left + " and " + right);
+        throw new RuntimeException("Incorrect type comparing " + left + " and " + right);
     }
 
     @Override
@@ -178,7 +178,7 @@ public class TypeChecker implements ASTVisitor{
         if (left.equals(right)){
             return left;
         }
-        throw new Exception("Incorrect type comparing " + left + " and " + right);
+        throw new RuntimeException("Incorrect type comparing " + left + " and " + right);
     }
 
     @Override
@@ -188,7 +188,7 @@ public class TypeChecker implements ASTVisitor{
         if (left.equals(right)){
             return left;
         }
-        throw new Exception("Incorrect type comparing " + left + " and " + right);
+        throw new RuntimeException("Incorrect type comparing " + left + " and " + right);
     }
 
     @Override
@@ -198,7 +198,7 @@ public class TypeChecker implements ASTVisitor{
         if (left.equals(right)){
             return GMMType.Bool;
         }
-        throw new Exception("Incorrect type comparing " + left + " and " + right);
+        throw new RuntimeException("Incorrect type comparing " + left + " and " + right);
     }
 
     @Override
@@ -209,7 +209,7 @@ public class TypeChecker implements ASTVisitor{
                 return pair.type;
             }
         }
-        throw new Exception("Variable " + variable.identifier + " must be declared before used");
+        throw new RuntimeException("Variable " + variable.identifier + " must be declared before used");
     }
 
     @Override

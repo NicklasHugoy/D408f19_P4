@@ -52,6 +52,20 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMachineOption(GMMParser.MachineOptionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code FunctionScopedStmt}
+	 * labeled alternative in {@link GMMParser#functionStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionScopedStmt(GMMParser.FunctionScopedStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code FunctionReturn}
+	 * labeled alternative in {@link GMMParser#functionStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionReturn(GMMParser.FunctionReturnContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Block}
 	 * labeled alternative in {@link GMMParser#scopedStmt}.
 	 * @param ctx the parse tree
@@ -73,12 +87,12 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStatement(GMMParser.IfStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code CallFunction}
+	 * Visit a parse tree produced by the {@code ScopedStmtFunctionCall}
 	 * labeled alternative in {@link GMMParser#scopedStmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCallFunction(GMMParser.CallFunctionContext ctx);
+	T visitScopedStmtFunctionCall(GMMParser.ScopedStmtFunctionCallContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Assignment}
 	 * labeled alternative in {@link GMMParser#scopedStmt}.
@@ -114,6 +128,12 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLeftCircle(GMMParser.LeftCircleContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GMMParser#functionCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionCall(GMMParser.FunctionCallContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code RelativeParameter}
 	 * labeled alternative in {@link GMMParser#commandParameter}.
@@ -259,4 +279,11 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVariable(GMMParser.VariableContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExpressionFunctionCall}
+	 * labeled alternative in {@link GMMParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressionFunctionCall(GMMParser.ExpressionFunctionCallContext ctx);
 }

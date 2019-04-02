@@ -25,8 +25,10 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
     @Override
     public Node visitFunctionDef(GMMParser.FunctionDefContext ctx) {
+        TypeNode typeNode = GetTypeNode(ctx.Type());
+        ID idNode = GetIDNode(ctx.ID());
         ArrayList<FormalParameter> parameters = new ArrayList<>();
-        ArrayList<Statement> statements = new ArrayList<>();
+        ArrayList<FunctionStatement> statements = new ArrayList<>();
 
         if(ctx.formalParameters() != null){
             List<GMMParser.FormalParameterContext> parameterContexts = ctx.formalParameters().formalParameter();
@@ -35,10 +37,10 @@ public class ASTGenerator implements GMMVisitor<Node> {
                 parameters.add((FormalParameter) parameterContext.accept(this));
         }
 
-        for(GMMParser.ScopedStmtContext stmtContext : ctx.scopedStmt())
-            statements.add((Statement) stmtContext.accept(this));
+        for(GMMParser.FunctionStmtContext functionStmtContext : ctx.functionStmt())
+            statements.add((FunctionStatement) functionStmtContext.accept(this));
 
-        return new FunctionDef(parameters, statements);
+        return new FunctionDef(typeNode, idNode, parameters, statements);
     }
 
     @Override
@@ -101,6 +103,18 @@ public class ASTGenerator implements GMMVisitor<Node> {
     }
 
     @Override
+    public Node visitFunctionScopedStmt(GMMParser.FunctionScopedStmtContext ctx) {
+        return ctx.scopedStmt().accept(this);
+    }
+
+    @Override
+    public Node visitFunctionReturn(GMMParser.FunctionReturnContext ctx) {
+        Expression expression = (Expression) ctx.expression().accept(this);
+
+        return new ReturnNode(expression);
+    }
+
+    @Override
     public Node visitBlock(GMMParser.BlockContext ctx) {
         return ctx.blockDef().accept(this);
     }
@@ -129,6 +143,12 @@ public class ASTGenerator implements GMMVisitor<Node> {
     }
 
     @Override
+    public Node visitScopedStmtFunctionCall(GMMParser.ScopedStmtFunctionCallContext ctx) {
+        return ctx.functionCall().accept(this);
+    }
+
+/*
+    @Override
     public Node visitCallFunction(GMMParser.CallFunctionContext ctx)
     {
         ID idNode = GetIDNode(ctx.ID());
@@ -141,6 +161,7 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
         return new FunctionCall(idNode, expressions);
     }
+ */
 
     @Override
     public Node visitAssignment(GMMParser.AssignmentContext ctx)
@@ -188,6 +209,19 @@ public class ASTGenerator implements GMMVisitor<Node> {
         for(GMMParser.CommandParameterContext commandParameterContext : ctx.commandParameter())
             commandParameters.add((CommandParameter) commandParameterContext.accept(this));
         return new LeftCircle(commandParameters);
+    }
+
+    @Override
+    public Node visitFunctionCall(GMMParser.FunctionCallContext ctx) {
+        ID idNode = GetIDNode(ctx.ID());
+        List<Expression> expressions = new ArrayList<>();
+
+        if(ctx.parameters() != null){
+            for(GMMParser.ExpressionContext expressionContext : ctx.parameters().expression())
+                expressions.add((Expression) expressionContext.accept(this));
+        }
+
+        return new FunctionCall(idNode, expressions);
     }
 
     @Override
@@ -327,6 +361,11 @@ public class ASTGenerator implements GMMVisitor<Node> {
         ID idNode = GetIDNode(ctx.ID());
 
         return new Variable(idNode);
+    }
+
+    @Override
+    public Node visitExpressionFunctionCall(GMMParser.ExpressionFunctionCallContext ctx) {
+        return ctx.functionCall().accept(this);
     }
 
     @Override

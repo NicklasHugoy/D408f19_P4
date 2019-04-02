@@ -15,13 +15,11 @@ public class Main {
     public static void main(String[] args){
         System.out.println("Hello, World!");
 
-        CharStream cs = CharStreams.fromString("function helloworld (num x) {move X=50}" +
-                "block[tool : 50 - 1] {" +
-                "num x = 50" +
-                "while (x != 0){" +
-                "helloworld(x)" +
-                "x = x - 1" +
-                "}" +
+        CharStream cs = CharStreams.fromString("" +
+                "num fac(num n) { return fac(n - 1) * n}" +
+                "block[]{" +
+                "fac(5)" +
+                "num f = fac(5)" +
                 "}");
         GMMLexer lexer = new GMMLexer(cs);
         TokenStream ts = new BufferedTokenStream(lexer);

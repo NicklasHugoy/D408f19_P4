@@ -1,9 +1,6 @@
 package dk.aau.cs.AST.Nodes;
 
-import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.BaseNode;
-import dk.aau.cs.AST.Node;
-import dk.aau.cs.AST.Statement;
+import dk.aau.cs.AST.*;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -14,9 +11,11 @@ public class FunctionDef implements BaseNode {
     public TypeNode returnType;
     public ID idNode;
     public List<FormalParameter> parameters;
-    public List<Statement> statements;
+    public List<FunctionStatement> statements;
 
-    public FunctionDef(List<FormalParameter> parameters, List<Statement> statements) {
+    public FunctionDef(TypeNode returnType, ID idNode, List<FormalParameter> parameters, List<FunctionStatement> statements) {
+        this.returnType = returnType;
+        this.idNode = idNode;
         this.parameters = parameters;
         this.statements = statements;
     }
@@ -25,6 +24,8 @@ public class FunctionDef implements BaseNode {
     public Node[] getChildren() {
         ArrayList<Node> nodes = new ArrayList<>();
 
+        nodes.add(returnType);
+        nodes.add(idNode);
         nodes.addAll(parameters);
         nodes.addAll(statements);
 
