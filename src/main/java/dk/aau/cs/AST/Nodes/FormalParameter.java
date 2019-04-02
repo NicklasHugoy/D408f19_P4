@@ -5,8 +5,8 @@ import dk.aau.cs.AST.Node;
 
 public class FormalParameter implements Node {
 
-    TypeNode type;
-    ID identifier;
+    public TypeNode type;
+    public ID identifier;
 
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
