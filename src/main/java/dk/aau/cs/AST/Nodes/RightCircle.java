@@ -9,6 +9,9 @@ import java.util.List;
 public class RightCircle implements Statement {
     public List<CommandParameter> parameters;
 
+    public RightCircle(List<CommandParameter> parameters) {
+        this.parameters = parameters;
+    }
 
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {

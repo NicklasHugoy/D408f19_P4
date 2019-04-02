@@ -9,6 +9,12 @@ public class Declaration implements Statement {
     public ID identifier;
     public Expression expression;
 
+    public Declaration(TypeNode type, ID identifier, Expression expression) {
+        this.type = type;
+        this.identifier = identifier;
+        this.expression = expression;
+    }
+
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitDeclaration(this);

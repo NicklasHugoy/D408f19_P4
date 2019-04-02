@@ -9,6 +9,9 @@ import java.util.List;
 public class Move implements Statement {
     public List<CommandParameter> parameters;
 
+    public Move(List<CommandParameter> parameters) {
+        this.parameters = parameters;
+    }
 
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {

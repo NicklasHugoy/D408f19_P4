@@ -8,6 +8,10 @@ public class TypeNode implements Node {
 
     public GMMType type;
 
+    public TypeNode(GMMType type) {
+        this.type = type;
+    }
+
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitTypeNode(this);

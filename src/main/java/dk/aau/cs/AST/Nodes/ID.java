@@ -6,6 +6,9 @@ import dk.aau.cs.AST.Node;
 public class ID implements Node {
     public String identifier;
 
+    public ID(String identifier) {
+        this.identifier = identifier;
+    }
 
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {

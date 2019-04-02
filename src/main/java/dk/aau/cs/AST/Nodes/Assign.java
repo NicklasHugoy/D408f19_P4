@@ -8,6 +8,10 @@ public class Assign implements Statement {
     public ID identifier;
     public Expression expression;
 
+    public Assign(ID identifier, Expression expression) {
+        this.identifier = identifier;
+        this.expression = expression;
+    }
 
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {

@@ -9,6 +9,11 @@ public class MachineOption implements Node {
     public Expression expression;
 
 
+    public MachineOption(ID identifier, Expression expression) {
+        this.identifier = identifier;
+        this.expression = expression;
+    }
+
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitMachineOption(this);

@@ -10,6 +10,10 @@ public class IfNode implements Statement {
     public Expression predicate;
     public List<Statement> statements;
 
+    public IfNode(Expression predicate, List<Statement> statements) {
+        this.predicate = predicate;
+        this.statements = statements;
+    }
 
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {

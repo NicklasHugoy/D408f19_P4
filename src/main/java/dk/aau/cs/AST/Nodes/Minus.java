@@ -8,6 +8,11 @@ public class Minus implements Expression {
     public Expression left;
     public Expression right;
 
+    public Minus(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
+    }
+
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitMinus(this);

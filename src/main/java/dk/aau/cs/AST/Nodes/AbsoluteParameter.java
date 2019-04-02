@@ -10,6 +10,11 @@ public class AbsoluteParameter implements CommandParameter {
 
     public Expression expression;
 
+    public AbsoluteParameter(ID identifier, Expression expression) {
+        this.identifier = identifier;
+        this.expression = expression;
+    }
+
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitAbsoluteParameter(this);

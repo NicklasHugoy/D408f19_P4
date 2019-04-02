@@ -10,6 +10,10 @@ public class FunctionCall implements Statement {
     public ID identifier;
     public List<Expression> parameters;
 
+    public FunctionCall(ID identifier, List<Expression> parameters) {
+        this.identifier = identifier;
+        this.parameters = parameters;
+    }
 
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {

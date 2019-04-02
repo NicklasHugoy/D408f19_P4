@@ -10,6 +10,11 @@ public class RelativeParameter implements CommandParameter {
 
     public Expression expression;
 
+    public RelativeParameter(ID identifier, Expression expression) {
+        this.identifier = identifier;
+        this.expression = expression;
+    }
+
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitRelativeParameter(this);

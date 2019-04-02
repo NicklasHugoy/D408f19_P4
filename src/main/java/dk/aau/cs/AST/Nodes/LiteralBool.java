@@ -7,6 +7,10 @@ public class LiteralBool implements Expression {
 
     public boolean boolValue;
 
+    public LiteralBool(boolean boolValue) {
+        this.boolValue = boolValue;
+    }
+
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitLiteralBool(this);
