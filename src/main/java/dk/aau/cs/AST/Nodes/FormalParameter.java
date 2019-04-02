@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class FormalParameter implements Node {
 
-    TypeNode type;
-    ID identifier;
+    public TypeNode type;
+    public ID identifier;
 
     public FormalParameter(TypeNode type, ID identifier) {
         this.type = type;
