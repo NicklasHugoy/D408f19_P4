@@ -1,40 +1,40 @@
 package dk.aau.cs.AST.Nodes;
 
 import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.CommandParameter;
 import dk.aau.cs.AST.Expression;
 import dk.aau.cs.AST.Node;
+import dk.aau.cs.AST.Statement;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class AbsoluteParameter implements CommandParameter {
-
-    public ID identifier;
+public class WhileLoop implements Statement {
 
     public Expression expression;
+    public List<Statement> statements;
 
-    public AbsoluteParameter(ID identifier, Expression expression) {
-        this.identifier = identifier;
+    public WhileLoop(Expression expression, List<Statement> statements) {
         this.expression = expression;
+        this.statements = statements;
     }
 
     @Override
     public Node[] getChildren() {
         ArrayList<Node> nodes = new ArrayList<>();
 
-        nodes.add(identifier);
         nodes.add(expression);
+        nodes.addAll(statements);
 
         return nodes.toArray(new Node[0]);
     }
 
     @Override
     public String toString() {
-        return "Absolute Parameter";
+        return "While";
     }
 
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
-        return visitor.visitAbsoluteParameter(this);
+        return visitor.visitWhileLoop(this);
     }
 }
