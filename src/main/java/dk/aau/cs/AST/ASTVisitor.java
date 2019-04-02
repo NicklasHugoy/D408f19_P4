@@ -1,33 +1,33 @@
 package dk.aau.cs.AST;
 
-import dk.aau.cs.GMMParser;
+import dk.aau.cs.AST.Nodes.*;
 
 public interface ASTVisitor<T> {
-    T visitProgram(Program n);
-    T visitFunctionDef(FunctionDef n);
-    T visitFormalParameter(FormalParameter n);
-    T visitTypeNode(TypeNode n);
-    T visitID(ID n);
-    T visitMachineOption(MachineOption n);
-    T visitRelativeParameter(RelativeParameter n);
-    T visitDeclaration(Declaration n);
-    T visitAssign(Assign n);
-    T visitFunctionCall(FunctionCall n);
-    T visitIfNode(IfNode n);
-    T visitLeftCircle(LeftCircle n);
-    T visitAbsoluteParameter(AbsouluteParameter n);
-    T visitEquality(Equality n);
-	T visitInEquality(InEquality n);
-	T visitAnd(And n);
-	T visitOr(Or n);
-	T visitDivide(Divide n);
-	T visitTimes(Times n);
-	T visitPlus(Plus n);
-	T visitMinus(Minus minus);
-	T visitVariable(Variable variable);
-	T visitLiteralBool(LiteralBool literalBool);
-	T visitLiteralInt(LiteralInt literalInt);
-    T visitRightCircle(RightCircle rightCircle);
-    T visitMove(Move move);
-    T visitBlockDef(BlockDef blockDef);
+    default T visitProgram(Program n){ return null; }
+    default T visitFunctionDef(FunctionDef n){ return null; }
+    default T visitFormalParameter(FormalParameter n){ return null; }
+    default T visitTypeNode(TypeNode n){ return null; }
+    default T visitID(ID n){ return null; }
+    default T visitMachineOption(MachineOption n){ return null; }
+    default T visitRelativeParameter(RelativeParameter n){ return null; }
+    default T visitDeclaration(Declaration n){ return null; }
+    default T visitAssign(Assign n){ return null; }
+    default T visitFunctionCall(FunctionCall n){ return null; }
+    default T visitIfNode(IfNode n){ return null; }
+    default T visitLeftCircle(LeftCircle n){ return null; }
+    default T visitAbsoluteParameter(AbsoluteParameter n){ return null; }
+    default T visitEquality(Equality n){ return null; }
+    default T visitInEquality(InEquality n){ return null; }
+    default T visitAnd(And n){ return null; }
+    default T visitOr(Or n){ return null; }
+    default T visitDivide(Divide n){ return null; }
+    default T visitTimes(Times n){ return null; }
+    default T visitPlus(Plus n){ return null; }
+    default T visitMinus(Minus minus){ return null; }
+    default T visitVariable(Variable variable){ return null; }
+    default T visitLiteralBool(LiteralBool literalBool){ return null; }
+    default T visitLiteralInt(LiteralInt literalInt){ return null; }
+    default T visitRightCircle(RightCircle rightCircle){ return null; }
+    default T visitMove(Move move){ return null; }
+    default T visitBlockDef(BlockDef blockDef){ return null; }
 }
