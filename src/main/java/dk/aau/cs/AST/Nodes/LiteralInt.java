@@ -2,6 +2,7 @@ package dk.aau.cs.AST.Nodes;
 
 import dk.aau.cs.AST.ASTVisitor;
 import dk.aau.cs.AST.Expression;
+import dk.aau.cs.AST.Node;
 
 public class LiteralInt implements Expression {
 
@@ -9,6 +10,11 @@ public class LiteralInt implements Expression {
 
     public LiteralInt(int value) {
         this.value = value;
+    }
+
+    @Override
+    public Node[] getChildren() {
+        return new Node[0];
     }
 
     @Override

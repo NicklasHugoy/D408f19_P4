@@ -2,6 +2,7 @@ package dk.aau.cs.AST.Nodes;
 
 import dk.aau.cs.AST.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Variable implements Expression{
@@ -10,6 +11,15 @@ public class Variable implements Expression{
 
     public Variable(ID identifier) {
         this.identifier = identifier;
+    }
+
+    @Override
+    public Node[] getChildren() {
+        ArrayList<Node> nodes = new ArrayList<>();
+
+        nodes.add(identifier);
+
+        return nodes.toArray(new Node[0]);
     }
 
     @Override

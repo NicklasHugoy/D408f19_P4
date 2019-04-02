@@ -14,6 +14,12 @@ public class Program implements Node {
         this.children = children;
     }
 
+
+    @Override
+    public Node[] getChildren() {
+        return children.toArray(new Node[0]);
+    }
+
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitProgram(this);
