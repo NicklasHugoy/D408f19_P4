@@ -12,6 +12,7 @@ import java.util.List;
 public class FunctionDef implements BaseNode {
 
     public TypeNode returnType;
+    public ID idNode;
     public List<FormalParameter> parameters;
     public List<Statement> statements;
 
