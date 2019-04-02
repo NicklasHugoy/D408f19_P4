@@ -19,7 +19,7 @@ machineOptions
     : machineOption (CommaSeperator machineOption )*;
 
 machineOption
-    : ID Colon INT;
+    : ID Colon expression;
 
 scopedStmt
     : blockDef # Block
@@ -127,7 +127,7 @@ RightCircleCommand
     : 'rightCircle ';
 
 Type
-    : 'int '
+    : 'int  '
     | 'float '
     | 'vector '
     | 'bool ';

@@ -1,14 +1,9 @@
-package dk.aau.cs;
-// Generated from C:/Users/thoru/OneDrive/Dokumenter/Git/D408f19_P4\GMM.g4 by ANTLR 4.7.2
+package dk.aau.cs;// Generated from C:/Users/thoru/OneDrive/Dokumenter/Git/D408f19_P4\GMM.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
-
-import java.util.Iterator;
-import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class GMMParser extends Parser {
@@ -503,7 +498,9 @@ public class GMMParser extends Parser {
 	public static class MachineOptionContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(GMMParser.ID, 0); }
 		public TerminalNode Colon() { return getToken(GMMParser.Colon, 0); }
-		public TerminalNode INT() { return getToken(GMMParser.INT, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
 		public MachineOptionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -526,7 +523,7 @@ public class GMMParser extends Parser {
 			setState(90);
 			match(Colon);
 			setState(91);
-			match(INT);
+			expression();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1781,7 +1778,7 @@ public class GMMParser extends Parser {
 		"\n\6\2IJ\7\21\2\2JL\5\n\6\2KI\3\2\2\2LO\3\2\2\2MK\3\2\2\2MN\3\2\2\2N\t"+
 		"\3\2\2\2OM\3\2\2\2PQ\7\36\2\2QR\7!\2\2R\13\3\2\2\2SX\5\16\b\2TU\7\21\2"+
 		"\2UW\5\16\b\2VT\3\2\2\2WZ\3\2\2\2XV\3\2\2\2XY\3\2\2\2Y\r\3\2\2\2ZX\3\2"+
-		"\2\2[\\\7!\2\2\\]\7\22\2\2]^\7\17\2\2^\17\3\2\2\2_\u009a\5\6\4\2`a\7\23"+
+		"\2\2[\\\7!\2\2\\]\7\22\2\2]^\5\26\f\2^\17\3\2\2\2_\u009a\5\6\4\2`a\7\23"+
 		"\2\2ab\7\25\2\2bc\5\26\f\2cd\7\26\2\2dh\7\31\2\2eg\5\20\t\2fe\3\2\2\2"+
 		"gj\3\2\2\2hf\3\2\2\2hi\3\2\2\2ik\3\2\2\2jh\3\2\2\2kl\7\32\2\2l\u009a\3"+
 		"\2\2\2mn\7\24\2\2no\7\25\2\2op\5\26\f\2pq\7\26\2\2qu\7\31\2\2rt\5\20\t"+
