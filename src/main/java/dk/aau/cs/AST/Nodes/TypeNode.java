@@ -20,6 +20,11 @@ public class TypeNode implements Node {
     }
 
     @Override
+    public String toString() {
+        return "Type = "+type;
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitTypeNode(this);
     }

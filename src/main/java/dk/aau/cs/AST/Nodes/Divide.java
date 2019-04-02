@@ -27,6 +27,11 @@ public class Divide implements Expression {
     }
 
     @Override
+    public String toString() {
+        return "Divide";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitDivide(this);
     }

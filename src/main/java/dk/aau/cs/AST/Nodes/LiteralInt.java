@@ -18,6 +18,11 @@ public class LiteralInt implements Expression {
     }
 
     @Override
+    public String toString() {
+        return "Int = " + value;
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitLiteralInt(this);
     }

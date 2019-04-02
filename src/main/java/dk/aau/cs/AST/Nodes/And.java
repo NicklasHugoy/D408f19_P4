@@ -27,6 +27,11 @@ public class And implements Expression {
     }
 
     @Override
+    public String toString() {
+        return "And";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitAnd(this);
     }

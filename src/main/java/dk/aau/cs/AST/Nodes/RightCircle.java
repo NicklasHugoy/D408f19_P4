@@ -21,6 +21,11 @@ public class RightCircle implements Statement {
     }
 
     @Override
+    public String toString() {
+        return "Right Circle";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitRightCircle(this);
     }

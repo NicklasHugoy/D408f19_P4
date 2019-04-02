@@ -27,6 +27,11 @@ public class Plus implements Expression {
     }
 
     @Override
+    public String toString() {
+        return "Plus";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitPlus(this);
     }

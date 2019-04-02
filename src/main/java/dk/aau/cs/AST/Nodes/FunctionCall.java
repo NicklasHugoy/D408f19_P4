@@ -28,6 +28,11 @@ public class FunctionCall implements Statement {
     }
 
     @Override
+    public String toString() {
+        return "Function Call";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitFunctionCall(this);
     }

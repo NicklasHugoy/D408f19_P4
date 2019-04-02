@@ -30,6 +30,11 @@ public class Declaration implements Statement {
     }
 
     @Override
+    public String toString() {
+        return "Declaration";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitDeclaration(this);
     }

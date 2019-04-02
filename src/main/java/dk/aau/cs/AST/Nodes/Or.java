@@ -27,6 +27,11 @@ public class Or implements Expression {
     }
 
     @Override
+    public String toString() {
+        return "Or";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitOr(this);
     }

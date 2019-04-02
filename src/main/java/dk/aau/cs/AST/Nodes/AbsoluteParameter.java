@@ -29,6 +29,11 @@ public class AbsoluteParameter implements CommandParameter {
     }
 
     @Override
+    public String toString() {
+        return "Absolute Parameter";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitAbsoluteParameter(this);
     }

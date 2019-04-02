@@ -21,6 +21,11 @@ public class Program implements Node {
     }
 
     @Override
+    public String toString() {
+        return "Program";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitProgram(this);
     }

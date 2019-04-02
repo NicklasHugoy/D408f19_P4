@@ -27,6 +27,11 @@ public class Equality implements Expression {
     }
 
     @Override
+    public String toString() {
+        return "Equality";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitEquality(this);
     }

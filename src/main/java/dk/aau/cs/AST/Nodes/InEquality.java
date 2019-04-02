@@ -27,6 +27,11 @@ public class InEquality implements Expression {
     }
 
     @Override
+    public String toString() {
+        return "InEquality";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitInEquality(this);
     }

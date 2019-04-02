@@ -26,6 +26,11 @@ public class FormalParameter implements Node {
     }
 
     @Override
+    public String toString() {
+        return "Formal Parameter";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitFormalParameter(this);
     }

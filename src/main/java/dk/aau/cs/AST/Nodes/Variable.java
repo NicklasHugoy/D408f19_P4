@@ -23,6 +23,11 @@ public class Variable implements Expression{
     }
 
     @Override
+    public String toString() {
+        return "Variable";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitVariable(this);
     }

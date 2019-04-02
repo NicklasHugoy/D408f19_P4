@@ -27,6 +27,11 @@ public class Assign implements Statement {
     }
 
     @Override
+    public String toString() {
+        return "Assign";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitAssign(this);
     }

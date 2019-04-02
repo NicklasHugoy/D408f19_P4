@@ -29,6 +29,11 @@ public class WhileLoop implements Statement {
     }
 
     @Override
+    public String toString() {
+        return "While";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitWhileLoop(this);
     }

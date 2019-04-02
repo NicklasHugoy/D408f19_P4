@@ -21,6 +21,11 @@ public class Move implements Statement {
     }
 
     @Override
+    public String toString() {
+        return "Move";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitMove(this);
     }

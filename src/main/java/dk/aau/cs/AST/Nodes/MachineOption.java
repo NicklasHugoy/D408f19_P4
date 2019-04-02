@@ -27,6 +27,11 @@ public class MachineOption implements Node {
     }
 
     @Override
+    public String toString() {
+        return "MachineOption";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitMachineOption(this);
     }

@@ -29,6 +29,11 @@ public class FunctionDef implements BaseNode {
     }
 
     @Override
+    public String toString() {
+        return "Function Definition";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitFunctionDef(this);
     }

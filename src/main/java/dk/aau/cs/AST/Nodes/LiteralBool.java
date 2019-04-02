@@ -20,6 +20,11 @@ public class LiteralBool implements Expression {
     }
 
     @Override
+    public String toString() {
+        return "Bool = " + boolValue;
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitLiteralBool(this);
     }

@@ -28,6 +28,11 @@ public class IfNode implements Statement {
     }
 
     @Override
+    public String toString() {
+        return "If";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitIfNode(this);
     }

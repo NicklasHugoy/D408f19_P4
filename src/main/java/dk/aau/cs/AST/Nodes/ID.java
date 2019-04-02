@@ -16,6 +16,11 @@ public class ID implements Node {
     }
 
     @Override
+    public String toString() {
+        return "ID = " + identifier;
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitID(this);
     }

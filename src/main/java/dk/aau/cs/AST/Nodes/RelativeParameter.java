@@ -29,6 +29,11 @@ public class RelativeParameter implements CommandParameter {
     }
 
     @Override
+    public String toString() {
+        return "Relative Parameter";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitRelativeParameter(this);
     }

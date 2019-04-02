@@ -27,6 +27,11 @@ public class Times implements Expression {
     }
 
     @Override
+    public String toString() {
+        return "Times";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitTimes(this);
     }

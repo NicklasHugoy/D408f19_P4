@@ -28,6 +28,11 @@ public class BlockDef implements Statement, BaseNode {
     }
 
     @Override
+    public String toString() {
+        return "Block definition";
+    }
+
+    @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitBlockDef(this);
     }
