@@ -25,7 +25,7 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
     @Override
     public Node visitFunctionDef(GMMParser.FunctionDefContext ctx) {
-        TypeNode typeNode = GetTypeNode(ctx.Type());
+        TypeNode typeNode = GetFunctionTypeNode(ctx.Type());
         ID idNode = GetIDNode(ctx.ID());
         ArrayList<FormalParameter> parameters = new ArrayList<>();
         ArrayList<FunctionStatement> statements = new ArrayList<>();
@@ -84,6 +84,20 @@ public class ASTGenerator implements GMMVisitor<Node> {
                 return new TypeNode(GMMType.Bool);
             case "vector":
                 return new TypeNode(GMMType.Vector);
+        }
+        throw new IllegalArgumentException( type.getText() + " Doesnt match any of the types");
+    }
+
+    private TypeNode GetFunctionTypeNode(TerminalNode type) {
+        switch (type.getText().trim()){
+            case "num":
+                return new TypeNode(GMMType.Num);
+            case "bool":
+                return new TypeNode(GMMType.Bool);
+            case "vector":
+                return new TypeNode(GMMType.Vector);
+            case "void":
+                return new TypeNode(GMMType.Void);
         }
         throw new IllegalArgumentException( type.getText() + " Doesnt match any of the types");
     }

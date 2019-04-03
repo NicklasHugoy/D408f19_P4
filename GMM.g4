@@ -4,7 +4,7 @@ prog
     : (functionDef | blockDef)*;
 
 functionDef
-    : FunctionType ID LParan formalParameters? RParan LCurl functionStmt* RCurl;
+    : Type ID LParan formalParameters? RParan LCurl functionStmt* RCurl;
 
 blockDef
     : ID LSquare machineOptions? RSquare LCurl scopedStmt* RCurl;
@@ -139,14 +139,12 @@ LeftCircleCommand
 RightCircleCommand
     : 'rightCircle ';
 
-FunctionType
-    : 'void '
-    | Type;
-
 Type
     : 'num '
     | 'vector '
-    | 'bool ';
+    | 'bool '
+    | 'void ';
+
 
 AbsoluteParameter
     : '$';
