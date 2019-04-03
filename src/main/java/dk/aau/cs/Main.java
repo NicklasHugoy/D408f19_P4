@@ -5,6 +5,8 @@ import dk.aau.cs.AST.FunctionVisitor.FunctionEntry;
 import dk.aau.cs.AST.FunctionVisitor.FunctionVisitor;
 import dk.aau.cs.AST.Node;
 import dk.aau.cs.AST.TreePrinter;
+import dk.aau.cs.ErrorReporting.Logger;
+import dk.aau.cs.ErrorReporting.WarningLevel;
 import dk.aau.cs.Syntax.GMMLexer;
 import dk.aau.cs.Syntax.GMMParser;
 import dk.aau.cs.Syntax.GMMVisitor;
@@ -29,5 +31,8 @@ public class Main {
 
         TreePrinter printer = new TreePrinter(ast);
         printer.Print();
+
+        System.out.println("Output from logger:");
+        Logger.PrintLogs(System.out);
     }
 }
