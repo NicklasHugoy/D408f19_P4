@@ -27,6 +27,11 @@ public class GreaterThan implements Expression {
 	}
 
 	@Override
+	public String toString() {
+		return "GreaterThan";
+	}
+
+	@Override
 	public <T> T accept(ASTVisitor<T> visitor) {
 		return visitor.visitGreaterThan(this);
 	}
