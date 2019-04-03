@@ -27,6 +27,11 @@ public class LessThan implements Expression {
 	}
 
 	@Override
+	public String toString() {
+		return "LessThan";
+	}
+
+	@Override
 	public <T> T accept(ASTVisitor<T> visitor) {
 		return visitor.visitLessThan(this);
 	}
