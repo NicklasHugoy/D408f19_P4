@@ -31,6 +31,7 @@ scopedStmt
     | If LParan expression RParan LCurl scopedStmt* RCurl # IfStatement
     | functionCall # ScopedStmtFunctionCall
     | ID Equals expression # Assignment
+    | ID DotOperator ID Equals expression # VectorComponentAssign
     | Type ID Equals expression # Declaration
     | MoveCommand commandParameter+ #Move
     | RightCircleCommand commandParameter+ #RightCircle
@@ -80,7 +81,10 @@ factor
     | True # LiteralTrue
     | False # LiteralFalse
     | ID # Variable
-    | functionCall # ExpressionFunctionCall;
+    | ID DotOperator ID # AccessVector
+    | functionCall # ExpressionFunctionCall
+    | LParan expression CommaSeperator expression CommaSeperator expression RParan # LiteralVector
+    ;
 
 Return
     : 'return ';
@@ -113,6 +117,9 @@ SemiColon
 
 CommaSeperator
     : ',';
+
+DotOperator
+    : '.';
 
 Colon
     : ':';

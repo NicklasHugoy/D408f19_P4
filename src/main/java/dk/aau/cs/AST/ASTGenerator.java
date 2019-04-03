@@ -187,6 +187,16 @@ public class ASTGenerator implements GMMVisitor<Node> {
     }
 
     @Override
+    public Node visitVectorComponentAssign(GMMParser.VectorComponentAssignContext ctx) {
+        ID identifier = GetIDNode(ctx.ID(0));
+        ID component = GetIDNode(ctx.ID(1));
+
+        Expression expression = (Expression) ctx.expression().accept(this);
+
+        return new VectorComponentAssign(identifier, component, expression);
+    }
+
+    @Override
     public Node visitDeclaration(GMMParser.DeclarationContext ctx) {
         TypeNode typeNode = GetTypeNode(ctx.Type());
         ID idNode = GetIDNode(ctx.ID());
@@ -394,8 +404,30 @@ public class ASTGenerator implements GMMVisitor<Node> {
     }
 
     @Override
+    public Node visitAccessVector(GMMParser.AccessVectorContext ctx) {
+        ID identifier = GetIDNode(ctx.ID(0));
+        ID component = GetComponentIDNode(ctx.ID(1));
+        return new VectorComponent(identifier, component);
+    }
+
+    private ID GetComponentIDNode(TerminalNode id) {
+        String text = id.getText();
+        if(!(text.equals("x") || text.equals("y") || text.equals("z")))
+            throw new RuntimeException("Component ids have to be x y or z");
+        return new ID(text);
+    }
+
+    @Override
     public Node visitExpressionFunctionCall(GMMParser.ExpressionFunctionCallContext ctx) {
         return ctx.functionCall().accept(this);
+    }
+
+    @Override
+    public Node visitLiteralVector(GMMParser.LiteralVectorContext ctx) {
+        Expression x = (Expression) ctx.expression(0).accept(this);
+        Expression y = (Expression) ctx.expression(1).accept(this);
+        Expression z = (Expression) ctx.expression(2).accept(this);
+        return new LiteralVector(x,y,z);
     }
 
     @Override

@@ -34,4 +34,7 @@ public interface ASTVisitor<T> {
     default T visitReturnNode(ReturnNode returnNode) {return  null; }
     default T visitGreaterThan(GreaterThan greaterThan) {return null; }
     default T visitLessThan(LessThan lessThan) {return null; }
+    default T visitVectorComponentAssign(VectorComponentAssign vectorComponentAssign) {return null;}
+    default T visitVectorComponent(VectorComponent vectorComponent){return null;}
+    default T visitLiteralVector(LiteralVector literalVector){return null;}
 }

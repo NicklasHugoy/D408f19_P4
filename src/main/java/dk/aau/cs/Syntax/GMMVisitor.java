@@ -101,6 +101,13 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssignment(GMMParser.AssignmentContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code VectorComponentAssign}
+	 * labeled alternative in {@link GMMParser#scopedStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVectorComponentAssign(GMMParser.VectorComponentAssignContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Declaration}
 	 * labeled alternative in {@link GMMParser#scopedStmt}.
 	 * @param ctx the parse tree
@@ -294,10 +301,24 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariable(GMMParser.VariableContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code AccessVector}
+	 * labeled alternative in {@link GMMParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAccessVector(GMMParser.AccessVectorContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ExpressionFunctionCall}
 	 * labeled alternative in {@link GMMParser#factor}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExpressionFunctionCall(GMMParser.ExpressionFunctionCallContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LiteralVector}
+	 * labeled alternative in {@link GMMParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLiteralVector(GMMParser.LiteralVectorContext ctx);
 }
