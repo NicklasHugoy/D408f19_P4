@@ -31,6 +31,7 @@ public interface ASTVisitor<T> {
     default T visitMove(Move move){ return null; }
     default T visitBlockDef(BlockDef blockDef){ return null; }
     default T visitWhileLoop(WhileLoop whileLoop) {return null; }
-
     default T visitReturnNode(ReturnNode returnNode) {return  null; }
+    default T visitGreaterThan(GreaterThan greaterThan) {return null; }
+    default T visitLessThan(LessThan lessThan) {return null; }
 }

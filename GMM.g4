@@ -59,6 +59,8 @@ logic // Det er ikke muligt at bruge parenteser til bolske operationer
 booleanExpr
     : expr Equality expr # EqualityExpr
     | expr InEquality expr # InEqualityExpr
+    | expr GreaterThan expr # GreaterThanExpr
+    | expr LessThan expr # LessThanExpr
     | expr # BooleanExprDerivation
     ;
 
@@ -96,6 +98,9 @@ Or: '||';
 
 Equality: '==';
 InEquality: '!=';
+
+GreaterThan: '>';
+LessThan: '<';
 
 True: 'true';
 False: 'false';

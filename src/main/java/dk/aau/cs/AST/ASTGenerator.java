@@ -288,6 +288,22 @@ public class ASTGenerator implements GMMVisitor<Node> {
     }
 
     @Override
+    public Node visitGreaterThanExpr(GMMParser.GreaterThanExprContext ctx) {
+        Expression left = (Expression) ctx.expr(0).accept(this);
+        Expression right = (Expression) ctx.expr(1).accept(this);
+
+        return new GreaterThan(left, right);
+    }
+
+    @Override
+    public Node visitLessThanExpr(GMMParser.LessThanExprContext ctx) {
+		Expression left = (Expression) ctx.expr(0).accept(this);
+		Expression right = (Expression) ctx.expr(1).accept(this);
+
+		return new LessThan(left, right);
+    }
+
+    @Override
     public Node visitBooleanExprDerivation(GMMParser.BooleanExprDerivationContext ctx) {
         return ctx.expr().accept(this);
     }
