@@ -11,9 +11,9 @@ public class FunctionDef implements BaseNode {
     public TypeNode returnType;
     public ID idNode;
     public List<FormalParameter> parameters;
-    public List<FunctionStatement> statements;
+    public List<Statement> statements;
 
-    public FunctionDef(TypeNode returnType, ID idNode, List<FormalParameter> parameters, List<FunctionStatement> statements) {
+    public FunctionDef(TypeNode returnType, ID idNode, List<FormalParameter> parameters, List<Statement> statements) {
         this.returnType = returnType;
         this.idNode = idNode;
         this.parameters = parameters;

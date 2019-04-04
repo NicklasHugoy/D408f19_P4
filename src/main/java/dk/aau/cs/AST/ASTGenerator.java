@@ -28,7 +28,7 @@ public class ASTGenerator implements GMMVisitor<Node> {
         TypeNode typeNode = GetFunctionTypeNode(ctx.Type());
         ID idNode = GetIDNode(ctx.ID());
         ArrayList<FormalParameter> parameters = new ArrayList<>();
-        ArrayList<FunctionStatement> statements = new ArrayList<>();
+        ArrayList<Statement> statements = new ArrayList<>();
 
         if(ctx.formalParameters() != null){
             List<GMMParser.FormalParameterContext> parameterContexts = ctx.formalParameters().formalParameter();
@@ -38,7 +38,7 @@ public class ASTGenerator implements GMMVisitor<Node> {
         }
 
         for(GMMParser.FunctionStmtContext functionStmtContext : ctx.functionStmt())
-            statements.add((FunctionStatement) functionStmtContext.accept(this));
+            statements.add((Statement) functionStmtContext.accept(this));
 
         return new FunctionDef(typeNode, idNode, parameters, statements);
     }

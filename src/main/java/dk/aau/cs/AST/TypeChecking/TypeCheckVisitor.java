@@ -34,7 +34,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         }
 
         GMMType actualReturnType = null;
-        for(FunctionStatement statement : functionDef.statements){
+        for(Statement statement : functionDef.statements){
             if(statement instanceof ReturnNode){
                 actualReturnType = statement.accept(this);
             }else{
