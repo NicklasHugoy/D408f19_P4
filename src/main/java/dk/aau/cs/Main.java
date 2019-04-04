@@ -19,7 +19,7 @@ public class Main {
         CharStream cs = CharStreams.fromString("" +
                 "num test(num i) { return i } " +
                 "block[]{" +
-                "vector i = (2, 3, 5) " +
+                "vector i = (-2, 3, -5) " +
                 "num x = test(x) " +
                 "}");
 

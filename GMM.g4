@@ -110,7 +110,7 @@ True: 'true';
 False: 'false';
 
 INT
-    : Digit+;
+    : Minus? Digit+;
 
 SemiColon
     : ';';
