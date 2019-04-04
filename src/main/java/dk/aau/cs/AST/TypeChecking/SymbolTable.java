@@ -1,18 +1,15 @@
 package dk.aau.cs.AST.TypeChecking;
 
-import com.ibm.icu.impl.Pair;
 import dk.aau.cs.AST.GMMType;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
-public class LinkedSymbolTable implements TestSymbolTable{
+public class SymbolTable implements ISymbolTable {
     private LinkedList<ScopeTable> scopes;
 
-    public LinkedSymbolTable() {
+    public SymbolTable() {
         scopes = new LinkedList<>();
     }
 
@@ -24,7 +21,7 @@ public class LinkedSymbolTable implements TestSymbolTable{
                 return type;
         }
 
-        Logger.Log("Symbol'" + symbol + "' couldnt be found", WarningLevel.Error);
+        Logger.Log("Variable '" + symbol + "' has not been declared", WarningLevel.Error);
         return GMMType.Void;
     }
 
@@ -41,25 +38,5 @@ public class LinkedSymbolTable implements TestSymbolTable{
     @Override
     public void leaveScope() {
         scopes.removeLast();
-    }
-}
-
-class ScopeTable{
-    List<Pair<String, GMMType>> symbols;
-
-    public ScopeTable() {
-        symbols = new ArrayList<>();
-    }
-
-    public GMMType Find(String id){
-        for(Pair<String, GMMType> symbol : symbols){
-            if(symbol.first.equals(id))
-                return symbol.second;
-        }
-        return null;
-    }
-
-    public void Add(String id, GMMType type){
-        symbols.add(Pair.of(id, type));
     }
 }

@@ -5,7 +5,7 @@ import dk.aau.cs.AST.BaseNode;
 import dk.aau.cs.AST.GMMType;
 import dk.aau.cs.AST.Nodes.FunctionDef;
 import dk.aau.cs.AST.Nodes.Program;
-import dk.aau.cs.AST.TypeChecking.TestFunctionTable;
+import dk.aau.cs.AST.TypeChecking.IFunctionTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,9 @@ public class FunctionVisitor implements ASTVisitor<List<FunctionEntry>> {
 
 	private ArrayList<FunctionEntry> functionEntries = new ArrayList<>();
 
-	private TestFunctionTable functionTable;
+	private IFunctionTable functionTable;
 
-	public FunctionVisitor(TestFunctionTable functionTable) {
+	public FunctionVisitor(IFunctionTable functionTable) {
 		this.functionTable = functionTable;
 	}
 

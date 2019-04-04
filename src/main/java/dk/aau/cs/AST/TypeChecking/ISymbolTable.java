@@ -1,8 +1,11 @@
 package dk.aau.cs.AST.TypeChecking;
 
+import dk.aau.cs.AST.GMMType;
+
 public interface ISymbolTable {
-    <T> T retrieveSymbol(String symbol);
-    <T> void enterSymbol(String symbol, T value);
+    GMMType retrieveSymbol(String symbol);
+    void enterSymbol(String symbol, GMMType type);
+
     void openScope();
     void leaveScope();
 }
