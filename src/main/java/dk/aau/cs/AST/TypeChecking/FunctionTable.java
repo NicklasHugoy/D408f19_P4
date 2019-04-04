@@ -7,7 +7,7 @@ import dk.aau.cs.ErrorReporting.WarningLevel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionTable implements TestFunctionTable {
+public class FunctionTable implements IFunctionTable {
 
     private List<FunctionEntry> functions;
 

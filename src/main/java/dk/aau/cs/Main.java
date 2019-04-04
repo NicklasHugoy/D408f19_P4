@@ -1,20 +1,14 @@
 package dk.aau.cs;
 
 import dk.aau.cs.AST.ASTGenerator;
-import dk.aau.cs.AST.FunctionVisitor.FunctionEntry;
 import dk.aau.cs.AST.FunctionVisitor.FunctionVisitor;
 import dk.aau.cs.AST.Node;
 import dk.aau.cs.AST.TreePrinter;
 import dk.aau.cs.AST.TypeChecking.*;
 import dk.aau.cs.ErrorReporting.Logger;
-import dk.aau.cs.ErrorReporting.WarningLevel;
 import dk.aau.cs.Syntax.GMMLexer;
 import dk.aau.cs.Syntax.GMMParser;
-import dk.aau.cs.Syntax.GMMVisitor;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTree;
-
-import java.util.List;
 
 
 public class Main {
@@ -39,8 +33,8 @@ public class Main {
         Node ast = parser.prog().accept(astGenerator);
 
         //Initialize function and symbol table
-        TestFunctionTable functionTable = new FunctionTable();
-        TestSymbolTable symbolTable = new LinkedSymbolTable();
+        IFunctionTable functionTable = new FunctionTable();
+        ISymbolTable symbolTable = new SymbolTable();
 
         //Cultivate the function table
         FunctionVisitor functionVisitor = new FunctionVisitor(functionTable);

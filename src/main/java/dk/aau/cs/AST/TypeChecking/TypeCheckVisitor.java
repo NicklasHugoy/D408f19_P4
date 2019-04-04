@@ -8,10 +8,10 @@ import dk.aau.cs.ErrorReporting.WarningLevel;
 
 public class TypeCheckVisitor implements ASTVisitor<GMMType> {
 
-    private TestSymbolTable symbolTable;
-    private TestFunctionTable functionTable;
+    private ISymbolTable symbolTable;
+    private IFunctionTable functionTable;
 
-    public TypeCheckVisitor(TestSymbolTable symbolTable, TestFunctionTable functionTable) {
+    public TypeCheckVisitor(ISymbolTable symbolTable, IFunctionTable functionTable) {
         this.symbolTable = symbolTable;
         this.functionTable = functionTable;
     }
