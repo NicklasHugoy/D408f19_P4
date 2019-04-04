@@ -171,7 +171,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
             return null;
         }
 
-        return left;
+        return GMMType.Bool;
     }
 
     @Override
@@ -184,7 +184,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
             return null;
         }
 
-        return left;
+        return GMMType.Bool;
     }
 
     @Override
@@ -218,6 +218,9 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType left = divide.left.accept(this);
         GMMType right = divide.right.accept(this);
 
+        if(left == GMMType.Bool || right == GMMType.Bool){
+            Logger.Log("The / operator cannot operate on type Bool", WarningLevel.Error);
+        }
 
         if(left == GMMType.Vector || right == GMMType.Vector){
             Logger.Log("Divide expression does not accept Vector type", WarningLevel.Error);
@@ -236,7 +239,13 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType left = times.left.accept(this);
         GMMType right = times.right.accept(this);
 
-        if(left == GMMType.Num && right == GMMType.Vector || left == GMMType.Vector && right == GMMType.Num){
+        if(left == GMMType.Bool || right == GMMType.Bool){
+            Logger.Log("The * operator cannot operate on type Bool", WarningLevel.Error);
+            return null;
+        }else if(left == GMMType.Vector && right == GMMType.Vector){
+            Logger.Log("The * operator cannot operate on two Vectors", WarningLevel.Error);
+            return null;
+        } else if(left == GMMType.Num && right == GMMType.Vector || left == GMMType.Vector && right == GMMType.Num){
             return GMMType.Vector;
         }
         else if(left != right){
@@ -252,6 +261,10 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType left = plus.left.accept(this);
         GMMType right = plus.right.accept(this);
 
+        if(left == GMMType.Bool || right == GMMType.Bool){
+            Logger.Log("The + operator cannot operate on type Bool", WarningLevel.Error);
+        }
+
         if(left != right){
             Logger.Log("Got mismatched types from plus expression", WarningLevel.Error);
             return null;
@@ -264,6 +277,10 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
     public GMMType visitMinus(Minus minus) {
         GMMType left = minus.left.accept(this);
         GMMType right = minus.right.accept(this);
+
+        if(left == GMMType.Bool || right == GMMType.Bool){
+            Logger.Log("The - operator cannot operate on type Bool", WarningLevel.Error);
+        }
 
         if(left != right){
             Logger.Log("Got mismatched types from minus expression", WarningLevel.Error);
@@ -322,6 +339,10 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType predicateType = whileLoop.expression.accept(this);
 
         symbolTable.openScope();
+
+        if(predicateType != GMMType.Bool){
+            Logger.Log("Mismatched type While loop expected type Bool but got " + predicateType, WarningLevel.Error);
+        }
 
         for (Statement statement : whileLoop.statements)
             statement.accept(this);

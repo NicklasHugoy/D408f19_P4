@@ -246,6 +246,7 @@ class TypeCheckVisitorTest {
                 "return 5 == 7 " +
                 "}");
 
+        Logger.PrintLogs(System.out);
         assertEquals(WarningLevel.Comment, Logger.GetWarningLevel());
     }
 
@@ -329,7 +330,36 @@ class TypeCheckVisitorTest {
         assertEquals(WarningLevel.Error, Logger.GetWarningLevel());
     }
 
+    @Test
+    public void testIfStatement(){
+        Logger.Flush();
+        testCode("void block(){" +
+                "if(3) {} " +
+                "}");
 
+        assertEquals(WarningLevel.Error, Logger.GetWarningLevel());
+    }
+
+    @Test
+    public void testWhileStatement(){
+        Logger.Flush();
+        testCode("void block(){" +
+                "while(3) {} " +
+                "}");
+
+        assertEquals(WarningLevel.Error, Logger.GetWarningLevel());
+    }
+
+    @Test
+    public void testVectorComponents(){
+        Logger.Flush();
+        testCode("bool block(){" +
+                "vector v = (4 ,3 ,2) " +
+                "return v.x " +
+                "}");
+
+        assertEquals(WarningLevel.Error, Logger.GetWarningLevel());
+    }
 
 
 
