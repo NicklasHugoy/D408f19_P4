@@ -37,4 +37,5 @@ public interface ASTVisitor<T> {
     default T visitVectorComponentAssign(VectorComponentAssign vectorComponentAssign) {return null;}
     default T visitVectorComponent(VectorComponent vectorComponent){return null;}
     default T visitLiteralVector(LiteralVector literalVector){return null;}
+    default T visitNegate(Negate negate) {return null;}
 }

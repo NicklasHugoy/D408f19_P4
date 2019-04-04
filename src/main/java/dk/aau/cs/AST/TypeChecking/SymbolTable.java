@@ -14,6 +14,11 @@ public class SymbolTable implements ISymbolTable {
     }
 
     @Override
+    public GMMType retrieveSymbolInScope(String symbol) {
+        return scopes.getLast().Find(symbol);
+    }
+
+    @Override
     public GMMType retrieveSymbol(String symbol) {
         for(int i = scopes.size() - 1; i >= 0; i--){
             GMMType type = scopes.get(i).Find(symbol);

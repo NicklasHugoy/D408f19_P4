@@ -1,6 +1,8 @@
 package dk.aau.cs.AST;
 
 import dk.aau.cs.AST.Nodes.*;
+import dk.aau.cs.ErrorReporting.Logger;
+import dk.aau.cs.ErrorReporting.WarningLevel;
 import dk.aau.cs.Syntax.GMMParser;
 import dk.aau.cs.Syntax.GMMVisitor;
 import org.abego.treelayout.internal.util.java.lang.string.StringUtil;
@@ -37,8 +39,8 @@ public class ASTGenerator implements GMMVisitor<Node> {
                 parameters.add((FormalParameter) parameterContext.accept(this));
         }
 
-        for(GMMParser.FunctionStmtContext functionStmtContext : ctx.functionStmt())
-            statements.add((Statement) functionStmtContext.accept(this));
+        for(GMMParser.ScopedStmtContext stmtContext : ctx.scopedStmt())
+            statements.add((Statement) stmtContext.accept(this));
 
         return new FunctionDef(typeNode, idNode, parameters, statements);
     }
@@ -53,8 +55,13 @@ public class ASTGenerator implements GMMVisitor<Node> {
                 options.add((MachineOption) optionContext.accept(this));
         }
 
-        for(GMMParser.ScopedStmtContext stmtContext : ctx.scopedStmt())
+        for(GMMParser.ScopedStmtContext stmtContext : ctx.scopedStmt()){
             statements.add((Statement) stmtContext.accept(this));
+            if(stmtContext instanceof GMMParser.FunctionReturnContext){
+                Logger.Log("return statement used in block definition", WarningLevel.Error);
+            }
+        }
+
 
         return new BlockDef(options, statements);
     }
@@ -114,11 +121,6 @@ public class ASTGenerator implements GMMVisitor<Node> {
         Expression expression = (Expression) ctx.expression().accept(this);
 
         return new MachineOption(idNode, expression);
-    }
-
-    @Override
-    public Node visitFunctionScopedStmt(GMMParser.FunctionScopedStmtContext ctx) {
-        return ctx.scopedStmt().accept(this);
     }
 
     @Override
@@ -428,6 +430,11 @@ public class ASTGenerator implements GMMVisitor<Node> {
         Expression y = (Expression) ctx.expression(1).accept(this);
         Expression z = (Expression) ctx.expression(2).accept(this);
         return new LiteralVector(x,y,z);
+    }
+
+    @Override
+    public Node visitNegatedFactor(GMMParser.NegatedFactorContext ctx) {
+        return new Negate((Expression) ctx.factor().accept(this));
     }
 
     @Override

@@ -93,6 +93,10 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType declaredType = declaration.type.accept(this);
         GMMType expressedType = declaration.expression.accept(this);
 
+        if(symbolTable.retrieveSymbolInScope(declaration.identifier.identifier) != null){
+            Logger.Log("Variable " + declaration.identifier.identifier + " has already been declared in this scope", WarningLevel.Error);
+        }
+
         symbolTable.enterSymbol(declaration.identifier.identifier, declaredType);
 
         if(declaredType != expressedType){
@@ -414,5 +418,16 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
             Logger.Log("Third component of Literal Vector expected type Num but got " + z, WarningLevel.Error);
 
         return GMMType.Vector;
+    }
+
+    @Override
+    public GMMType visitNegate(Negate negate) {
+        GMMType type = negate.expression.accept(this);
+
+        if(type == GMMType.Void){
+            Logger.Log("Cannot negate Type Void", WarningLevel.Error);
+        }
+
+        return type;
     }
 }

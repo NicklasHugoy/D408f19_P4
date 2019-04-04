@@ -4,7 +4,7 @@ prog
     : (functionDef | blockDef)*;
 
 functionDef
-    : Type ID LParan formalParameters? RParan LCurl functionStmt* RCurl;
+    : Type ID LParan formalParameters? RParan LCurl scopedStmt* RCurl;
 
 blockDef
     : ID LSquare machineOptions? RSquare LCurl scopedStmt* RCurl;
@@ -21,10 +21,6 @@ machineOptions
 machineOption
     : ID Colon expression;
 
-functionStmt
-    : scopedStmt # FunctionScopedStmt
-    | Return expression # FunctionReturn;
-
 scopedStmt
     : blockDef # Block
     | While LParan expression RParan LCurl scopedStmt* RCurl # WhileLoop
@@ -35,7 +31,8 @@ scopedStmt
     | Type ID Equals expression # Declaration
     | MoveCommand commandParameter+ #Move
     | RightCircleCommand commandParameter+ #RightCircle
-    | LeftCircleCommand commandParameter+ #LeftCircle;
+    | LeftCircleCommand commandParameter+ #LeftCircle
+    | Return expression # FunctionReturn;
 
 functionCall
     :ID LParan parameters? RParan;
@@ -75,6 +72,8 @@ term
     | term Divide factor # DivideTerm
     | factor # TermDerivation;
 
+
+
 factor
     : LParan expr RParan # ParanExpr
     | INT # LiteralInt
@@ -84,6 +83,7 @@ factor
     | ID DotOperator ID # AccessVector
     | functionCall # ExpressionFunctionCall
     | LParan expression CommaSeperator expression CommaSeperator expression RParan # LiteralVector
+    | Minus factor # NegatedFactor
     ;
 
 Return
@@ -110,7 +110,7 @@ True: 'true';
 False: 'false';
 
 INT
-    : Minus? Digit+;
+    : Digit+;
 
 SemiColon
     : ';';

@@ -52,20 +52,6 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMachineOption(GMMParser.MachineOptionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code FunctionScopedStmt}
-	 * labeled alternative in {@link GMMParser#functionStmt}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunctionScopedStmt(GMMParser.FunctionScopedStmtContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code FunctionReturn}
-	 * labeled alternative in {@link GMMParser#functionStmt}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunctionReturn(GMMParser.FunctionReturnContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code Block}
 	 * labeled alternative in {@link GMMParser#scopedStmt}.
 	 * @param ctx the parse tree
@@ -135,6 +121,13 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLeftCircle(GMMParser.LeftCircleContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code FunctionReturn}
+	 * labeled alternative in {@link GMMParser#scopedStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionReturn(GMMParser.FunctionReturnContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GMMParser#functionCall}.
 	 * @param ctx the parse tree
@@ -321,4 +314,11 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLiteralVector(GMMParser.LiteralVectorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code NegatedFactor}
+	 * labeled alternative in {@link GMMParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNegatedFactor(GMMParser.NegatedFactorContext ctx);
 }

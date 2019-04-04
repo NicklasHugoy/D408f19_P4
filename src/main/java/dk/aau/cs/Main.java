@@ -17,10 +17,9 @@ public class Main {
         System.out.println("Hello, World!");
 
         CharStream cs = CharStreams.fromString("" +
-                "num test(num i) { return i } " +
                 "block[]{" +
-                "vector i = (-2, 3, -5) " +
-                "num x = test(x) " +
+                "num x = 1 " +
+                "num x = 1 " +
                 "}");
 
         //Scan and parse code
