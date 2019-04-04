@@ -46,7 +46,6 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         }
 
         for(GMMType actualReturnType : actualReturnTypes){
-            System.out.println(returnType != actualReturnType);
             if(returnType != actualReturnType){
                 Logger.Log(functionDef.idNode.identifier + " has a mismatched return type", WarningLevel.Error);
             }
