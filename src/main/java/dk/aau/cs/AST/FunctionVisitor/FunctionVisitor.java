@@ -5,6 +5,7 @@ import dk.aau.cs.AST.BaseNode;
 import dk.aau.cs.AST.GMMType;
 import dk.aau.cs.AST.Nodes.FunctionDef;
 import dk.aau.cs.AST.Nodes.Program;
+import dk.aau.cs.AST.TypeChecking.TestFunctionTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,12 @@ import java.util.List;
 public class FunctionVisitor implements ASTVisitor<List<FunctionEntry>> {
 
 	private ArrayList<FunctionEntry> functionEntries = new ArrayList<>();
+
+	private TestFunctionTable functionTable;
+
+	public FunctionVisitor(TestFunctionTable functionTable) {
+		this.functionTable = functionTable;
+	}
 
 	@Override
 	public ArrayList<FunctionEntry> visitProgram(Program program) {
@@ -29,7 +36,10 @@ public class FunctionVisitor implements ASTVisitor<List<FunctionEntry>> {
 		ArrayList<GMMType> parameters = new ArrayList<>();
 		functionDef.parameters.forEach(parameter -> parameters.add(parameter.type.type));
 
-		functionEntries.add(new FunctionEntry(functionDef.idNode.identifier, functionDef.returnType.type, parameters));
+		FunctionEntry function = new FunctionEntry(functionDef.idNode.identifier, functionDef.returnType.type, parameters);
+
+		functionTable.enterFunction(function);
+		functionEntries.add(function);
 		return null;
 	}
 }

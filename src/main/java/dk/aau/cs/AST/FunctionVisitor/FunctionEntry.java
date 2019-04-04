@@ -14,4 +14,16 @@ public class FunctionEntry {
 		this.returnType = returnType;
 		this.parameterTypes = parameterTypes;
 	}
+
+	public String getId() {
+		return id;
+	}
+
+	public GMMType getReturnType() {
+		return returnType;
+	}
+
+	public ArrayList<GMMType> getParameterTypes() {
+		return parameterTypes;
+	}
 }
