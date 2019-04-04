@@ -6,6 +6,9 @@ import dk.aau.cs.AST.Nodes.*;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TypeCheckVisitor implements ASTVisitor<GMMType> {
 
     private ISymbolTable symbolTable;
@@ -33,18 +36,22 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
             parameter.accept(this);
         }
 
-        GMMType actualReturnType = null;
+        List<GMMType> actualReturnTypes = new ArrayList<>();
         for(Statement statement : functionDef.statements){
             if(statement instanceof ReturnNode){
-                actualReturnType = statement.accept(this);
+                actualReturnTypes.add(statement.accept(this));
             }else{
                 statement.accept(this);
             }
         }
 
-        if(actualReturnType != null && returnType != actualReturnType){
-            Logger.Log(functionDef.idNode.identifier + " has a mismatched return type", WarningLevel.Error);
+        for(GMMType actualReturnType : actualReturnTypes){
+            System.out.println(returnType != actualReturnType);
+            if(returnType != actualReturnType){
+                Logger.Log(functionDef.idNode.identifier + " has a mismatched return type", WarningLevel.Error);
+            }
         }
+
         symbolTable.leaveScope();
 
         return null;
