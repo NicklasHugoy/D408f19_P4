@@ -3,10 +3,11 @@ package dk.aau.cs.AST.Nodes;
 import dk.aau.cs.AST.ASTVisitor;
 import dk.aau.cs.AST.Expression;
 import dk.aau.cs.AST.Node;
+import dk.aau.cs.AST.Value;
 
 import java.util.ArrayList;
 
-public class LiteralBool implements Expression {
+public class LiteralBool implements Expression, Value {
 
     public boolean boolValue;
 

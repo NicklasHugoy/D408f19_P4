@@ -1,27 +1,32 @@
 package dk.aau.cs.AST.TypeChecking;
 
-import com.ibm.icu.impl.Pair;
 import dk.aau.cs.AST.GMMType;
+import dk.aau.cs.AST.Value;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ScopeTable{
-    List<Pair<String, GMMType>> symbols;
+    List<SymbolTableEntry> symbols;
 
     public ScopeTable() {
         symbols = new ArrayList<>();
     }
 
-    public GMMType Find(String id){
-        for(Pair<String, GMMType> symbol : symbols){
-            if(symbol.first.equals(id))
-                return symbol.second;
+    public TypeValuePair Find(String id){
+        for(SymbolTableEntry symbol : symbols){
+            if(symbol.getId().equals(id))
+                return new TypeValuePair(symbol.getType(), symbol.getValue());
         }
         return null;
     }
 
     public void Add(String id, GMMType type){
-        symbols.add(Pair.of(id, type));
+        symbols.add(new SymbolTableEntry(id, type, null));
     }
+
+	public void Add(String id, GMMType type, Value value){
+		symbols.add(new SymbolTableEntry(id, type, value));
+	}
 }
+
