@@ -1,6 +1,6 @@
-package dk.aau.cs.AST;
+package dk.aau.cs.AST.Nodes;
 
-import java.util.Collection;
+import dk.aau.cs.AST.ASTVisitor;
 
 public interface Node {
     Node[] getChildren();

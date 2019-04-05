@@ -1,17 +1,22 @@
 package dk.aau.cs.AST.Nodes;
 
 import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.Expression;
-import dk.aau.cs.AST.Node;
 import dk.aau.cs.AST.Value;
-
 import java.util.Objects;
 
-public class LiteralVector implements Expression, Value {
+public class LiteralVector extends PositionedNode implements Expression, Value {
 
     public Expression x,y,z;
 
     public LiteralVector(Expression x, Expression y, Expression z) {
+        super(0,0);
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    public LiteralVector(int lineNumber, int charNumber, Expression x, Expression y, Expression z) {
+        super(lineNumber, charNumber);
         this.x = x;
         this.y = y;
         this.z = z;

@@ -1,18 +1,23 @@
 package dk.aau.cs.AST.Nodes;
 
-import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.Expression;
-import dk.aau.cs.AST.Node;
-import dk.aau.cs.AST.Statement;
+import dk.aau.cs.AST.*;
 
 import java.util.ArrayList;
 
-public class Declaration implements Statement {
+public class Declaration extends PositionedNode implements Statement {
     public TypeNode type;
     public ID identifier;
     public Expression expression;
 
     public Declaration(TypeNode type, ID identifier, Expression expression) {
+        super(0,0);
+        this.type = type;
+        this.identifier = identifier;
+        this.expression = expression;
+    }
+
+    public Declaration(int lineNumber, int charNumber, TypeNode type, ID identifier, Expression expression) {
+        super(lineNumber, charNumber);
         this.type = type;
         this.identifier = identifier;
         this.expression = expression;

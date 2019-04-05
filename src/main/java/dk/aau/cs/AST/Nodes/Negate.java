@@ -1,13 +1,17 @@
 package dk.aau.cs.AST.Nodes;
 
 import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.Expression;
-import dk.aau.cs.AST.Node;
 
-public class Negate implements Expression {
+public class Negate extends PositionedNode implements Expression {
     public Expression expression;
 
     public Negate(Expression expression) {
+        super(0,0);
+        this.expression = expression;
+    }
+
+    public Negate(int lineNumber, int charNumber, Expression expression) {
+        super(lineNumber, charNumber);
         this.expression = expression;
     }
 
