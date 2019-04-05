@@ -14,7 +14,7 @@ import java.net.Proxy;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ExplicitGCode extends PositionedNode {
+public class ExplicitGCode extends PositionedNode implements Statement {
 
     public String gcode;
 
