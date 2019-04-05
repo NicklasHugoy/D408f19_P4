@@ -31,6 +31,16 @@ public class BoolValue implements TempValue<Boolean>{
 	}
 
 	@Override
+	public TempValue and(TempValue<Boolean> rightValue) {
+		return new BoolValue(value && rightValue.getValue());
+	}
+
+	@Override
+	public TempValue or(TempValue<Boolean> rightValue) {
+		return new BoolValue(value || rightValue.getValue());
+	}
+
+	@Override
 	public Boolean getValue() {
 		return value;
 	}

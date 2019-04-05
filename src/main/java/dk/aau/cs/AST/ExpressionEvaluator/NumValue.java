@@ -1,5 +1,7 @@
 package dk.aau.cs.AST.ExpressionEvaluator;
 
+import dk.aau.cs.Exceptions.OperationNotSupportedException;
+
 public class NumValue implements TempValue<Float>{
 	private float value;
 
@@ -25,6 +27,16 @@ public class NumValue implements TempValue<Float>{
 	@Override
 	public NumValue times(TempValue<Float> other) {
 		return new NumValue(value * other.getValue());
+	}
+
+	@Override
+	public TempValue and(TempValue<Float> rightValue) {
+		throw new OperationNotSupportedException("'And' operation is not supported on num");
+	}
+
+	@Override
+	public TempValue or(TempValue<Float> rightValue) {
+		throw new OperationNotSupportedException("'Or' operation is not supported on num");
 	}
 
 	@Override

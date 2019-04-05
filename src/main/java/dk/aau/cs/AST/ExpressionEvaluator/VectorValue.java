@@ -38,6 +38,16 @@ public class VectorValue implements TempValue<Vector>{
 	}
 
 	@Override
+	public TempValue and(TempValue<Vector> rightValue) {
+		throw new OperationNotSupportedException("'And' operation not supported on vector");
+	}
+
+	@Override
+	public TempValue or(TempValue<Vector> rightValue) {
+		throw new OperationNotSupportedException("'Or' operation not supported on vector");
+	}
+
+	@Override
 	public Vector getValue() {
 		return vector;
 	}
