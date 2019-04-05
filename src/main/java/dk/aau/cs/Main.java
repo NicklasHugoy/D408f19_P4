@@ -14,8 +14,6 @@ import org.antlr.v4.runtime.*;
 public class Main {
 
     public static void main(String[] args){
-        System.out.println("Hello, World!");
-
         CharStream cs = CharStreams.fromString("" +
                 "block[]{ \n" +
                 "num x = -1.3245 + true \n" +
@@ -42,12 +40,12 @@ public class Main {
         TypeCheckVisitor typeCheckVisitor = new TypeCheckVisitor(symbolTable, functionTable);
         ast.accept(typeCheckVisitor);
 
+        //Print compiler errors / warnings
+        PrintLog();
+
         //Print AST
         TreePrinter printer = new TreePrinter(ast);
         printer.Print();
-
-        //Print compiler errors / warnings
-        PrintLog();
     }
 
     public static void PrintLog(){
