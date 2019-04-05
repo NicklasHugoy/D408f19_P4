@@ -33,7 +33,7 @@ public class VectorValue implements TempValue<Vector>{
 	}
 
 	@Override
-	public TempValue multiply(TempValue<Vector> other) {
+	public TempValue times(TempValue<Vector> other) {
 		throw new OperationNotSupportedException("Can't multiply vectors");
 	}
 

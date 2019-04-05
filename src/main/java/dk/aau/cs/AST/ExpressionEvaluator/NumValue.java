@@ -23,7 +23,7 @@ public class NumValue implements TempValue<Float>{
 	}
 
 	@Override
-	public TempValue multiply(TempValue<Float> other) {
+	public NumValue times(TempValue<Float> other) {
 		return new NumValue(value * other.getValue());
 	}
 
