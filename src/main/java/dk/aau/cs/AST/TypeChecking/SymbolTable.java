@@ -43,7 +43,7 @@ public class SymbolTable implements ISymbolTable {
 			if (typeValuePair != null) return typeValuePair;
 		}
 
-		Logger.Log("Variable '" + symbol + "' has not been declared", WarningLevel.Error);
+		Logger.Log(new UndeclaredReferenceError("Variable '" + symbol + "' has not been declared"));
 		return new TypeValuePair(GMMType.Void, null);
 	}
 

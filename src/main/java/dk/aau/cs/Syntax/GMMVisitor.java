@@ -129,6 +129,13 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionReturn(GMMParser.FunctionReturnContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code ExplicitGCode}
+	 * labeled alternative in {@link GMMParser#scopedStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExplicitGCode(GMMParser.ExplicitGCodeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link GMMParser#functionCall}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -266,7 +273,7 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParanExpr(GMMParser.ParanExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code LiteralNumber}
+	 * Visit a parse tree produced by the {@code LiteralInt}
 	 * labeled alternative in {@link GMMParser#factor}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

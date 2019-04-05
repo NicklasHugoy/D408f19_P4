@@ -155,6 +155,11 @@ public class ASTGenerator implements GMMVisitor<Node> {
     }
 
     @Override
+    public Node visitExplicitGCode(GMMParser.ExplicitGCodeContext ctx) {
+        return null;
+    }
+
+    @Override
     public Node visitBlock(GMMParser.BlockContext ctx) {
         return ctx.blockDef().accept(this);
     }

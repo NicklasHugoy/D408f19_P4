@@ -7,9 +7,9 @@ import java.util.Objects;
 
 public class LiteralNumber extends PositionedNode implements Expression, Value {
 
-    public float value;
+    public double value;
 
-    public LiteralNumber(float value) {
+    public LiteralNumber(double value) {
         super(0,0);
         this.value = value;
     }
@@ -39,7 +39,7 @@ public class LiteralNumber extends PositionedNode implements Expression, Value {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LiteralNumber that = (LiteralNumber) o;
-        return Float.compare(that.value, value) == 0;
+        return Double.compare(that.value, value) == 0;
     }
 
     @Override
