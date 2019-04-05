@@ -3,8 +3,9 @@ package dk.aau.cs.AST.Nodes;
 import dk.aau.cs.AST.ASTVisitor;
 import dk.aau.cs.AST.Expression;
 import dk.aau.cs.AST.Node;
+import dk.aau.cs.AST.Value;
 
-public class LiteralNumber implements Expression {
+public class LiteralNumber implements Expression, Value {
 
     public float value;
 
