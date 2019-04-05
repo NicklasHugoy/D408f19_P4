@@ -72,4 +72,34 @@ class LoggerTest {
         assertEquals("This is a Warning", Logger.Flush().get(0).getMessage());
     }
 
+    @Test
+    void checkForError01(){
+        Logger.Flush();
+        Logger.Log(errorMessage02);
+        assertTrue(Logger.checkForError());
+    }
+
+    @Test
+    void checkForError02(){
+        Logger.Flush();
+        Logger.Log(errorMessage01);
+        assertFalse(Logger.checkForError());
+    }
+
+    @Test
+    void checkForError03(){
+        Logger.Flush();
+        Logger.Log(errorMessage03);
+        assertFalse(Logger.checkForError());
+    }
+
+    @Test
+    void checkForError04(){
+        Logger.Flush();
+        Logger.Log(errorMessage03);
+        Logger.Log(errorMessage02);
+        Logger.Log(errorMessage01);
+        assertTrue(Logger.checkForError());
+    }
+
 }
