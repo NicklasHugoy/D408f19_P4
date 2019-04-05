@@ -36,4 +36,13 @@ public class Logger {
         messages = new ArrayList<>();
         return oldMessages;
     }
+
+    public static boolean checkForError(){
+        for(ErrorMessage message : messages)
+        {
+            if(message.getWarningLevel() == WarningLevel.Error)
+                return true;
+        }
+        return false;
+    }
 }
