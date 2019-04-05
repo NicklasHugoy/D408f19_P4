@@ -26,7 +26,7 @@ public interface ASTVisitor<T> {
     default T visitMinus(Minus minus){ return null; }
     default T visitVariable(Variable variable){ return null; }
     default T visitLiteralBool(LiteralBool literalBool){ return null; }
-    default T visitLiteralInt(LiteralInt literalInt){ return null; }
+    default T visitLiteralNumber(LiteralNumber literalNumber){ return null; }
     default T visitRightCircle(RightCircle rightCircle){ return null; }
     default T visitMove(Move move){ return null; }
     default T visitBlockDef(BlockDef blockDef){ return null; }

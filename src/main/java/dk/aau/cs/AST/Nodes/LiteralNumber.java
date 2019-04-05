@@ -3,13 +3,12 @@ package dk.aau.cs.AST.Nodes;
 import dk.aau.cs.AST.ASTVisitor;
 import dk.aau.cs.AST.Expression;
 import dk.aau.cs.AST.Node;
-import dk.aau.cs.AST.Value;
 
-public class LiteralInt implements Expression, Value {
+public class LiteralNumber implements Expression {
 
-    public int value;
+    public float value;
 
-    public LiteralInt(int value) {
+    public LiteralNumber(float value) {
         this.value = value;
     }
 
@@ -20,11 +19,11 @@ public class LiteralInt implements Expression, Value {
 
     @Override
     public String toString() {
-        return "Int = " + value;
+        return "Num = " + value;
     }
 
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
-        return visitor.visitLiteralInt(this);
+        return visitor.visitLiteralNumber(this);
     }
 }

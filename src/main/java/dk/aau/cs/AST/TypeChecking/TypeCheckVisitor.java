@@ -305,7 +305,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
     }
 
     @Override
-    public GMMType visitLiteralInt(LiteralInt literalInt) {
+    public GMMType visitLiteralNumber(LiteralNumber literalNumber) {
         return GMMType.Num;
     }
 
