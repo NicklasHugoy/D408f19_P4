@@ -1,14 +1,14 @@
 package dk.aau.cs.AST.TypeChecking;
 
 import dk.aau.cs.AST.GMMType;
-import dk.aau.cs.AST.Value;
+import dk.aau.cs.AST.IValue;
 
 public class SymbolTableEntry{
     private String Id;
     private GMMType type;
-    private Value value;
+    private IValue value;
 
-	public SymbolTableEntry(String id, GMMType type, Value value) {
+	public SymbolTableEntry(String id, GMMType type, IValue value) {
 		Id = id;
 		this.type = type;
 		this.value = value;
@@ -22,7 +22,7 @@ public class SymbolTableEntry{
 		return type;
 	}
 
-	public Value getValue() {
+	public IValue getValue() {
 		return value;
 	}
 }

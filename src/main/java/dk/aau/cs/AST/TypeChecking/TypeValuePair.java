@@ -1,13 +1,13 @@
 package dk.aau.cs.AST.TypeChecking;
 
 import dk.aau.cs.AST.GMMType;
-import dk.aau.cs.AST.Value;
+import dk.aau.cs.AST.IValue;
 
 public class TypeValuePair{
 	private GMMType type;
-	private Value value;
+	private IValue value;
 
-	public TypeValuePair(GMMType type, Value value) {
+	public TypeValuePair(GMMType type, IValue value) {
 		this.type = type;
 		this.value = value;
 	}
@@ -20,11 +20,11 @@ public class TypeValuePair{
 		this.type = type;
 	}
 
-	public Value getValue() {
+	public IValue getValue() {
 		return value;
 	}
 
-	public void setValue(Value value) {
+	public void setValue(IValue value) {
 		this.value = value;
 	}
 }

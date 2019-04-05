@@ -3,11 +3,11 @@ package dk.aau.cs.AST.Nodes;
 import dk.aau.cs.AST.ASTVisitor;
 import dk.aau.cs.AST.Expression;
 import dk.aau.cs.AST.Node;
-import dk.aau.cs.AST.Value;
+import dk.aau.cs.AST.IValue;
 
 import java.util.Objects;
 
-public class LiteralNumber implements Expression, Value {
+public class LiteralNumber implements Expression, IValue {
 
     public float value;
 

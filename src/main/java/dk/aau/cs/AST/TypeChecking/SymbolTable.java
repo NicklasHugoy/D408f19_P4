@@ -1,8 +1,7 @@
 package dk.aau.cs.AST.TypeChecking;
 
-import com.ibm.icu.impl.Pair;
 import dk.aau.cs.AST.GMMType;
-import dk.aau.cs.AST.Value;
+import dk.aau.cs.AST.IValue;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 
@@ -52,7 +51,7 @@ public class SymbolTable implements ISymbolTable {
 	}
 
 	@Override
-	public void enterSymbol(String symbol, GMMType type, Value value) {
+	public void enterSymbol(String symbol, GMMType type, IValue value) {
 		scopes.getLast().Add(symbol, type, value);
 	}
 

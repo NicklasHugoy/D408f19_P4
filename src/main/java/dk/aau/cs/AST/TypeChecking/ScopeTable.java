@@ -1,7 +1,7 @@
 package dk.aau.cs.AST.TypeChecking;
 
 import dk.aau.cs.AST.GMMType;
-import dk.aau.cs.AST.Value;
+import dk.aau.cs.AST.IValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class ScopeTable{
         symbols.add(new SymbolTableEntry(id, type, null));
     }
 
-	public void Add(String id, GMMType type, Value value){
+	public void Add(String id, GMMType type, IValue value){
 		symbols.add(new SymbolTableEntry(id, type, value));
 	}
 }
