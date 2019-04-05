@@ -3,14 +3,21 @@ package dk.aau.cs.AST.Nodes;
 import dk.aau.cs.AST.ASTVisitor;
 import dk.aau.cs.AST.Expression;
 import dk.aau.cs.AST.Node;
+import dk.aau.cs.AST.PositionedNode;
 
 import java.util.ArrayList;
 
-public class LiteralBool implements Expression {
+public class LiteralBool extends PositionedNode implements Expression {
 
     public boolean boolValue;
 
     public LiteralBool(boolean boolValue) {
+        super(0,0);
+        this.boolValue = boolValue;
+    }
+
+    public LiteralBool(int lineNumber, int charNumber, boolean boolValue) {
+        super(lineNumber, charNumber);
         this.boolValue = boolValue;
     }
 

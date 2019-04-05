@@ -1,19 +1,21 @@
 package dk.aau.cs.AST.Nodes;
 
-import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.CommandParameter;
-import dk.aau.cs.AST.Node;
-import dk.aau.cs.AST.Statement;
+import dk.aau.cs.AST.*;
 
 import java.util.List;
 
-public class Move implements Statement {
+public class Move extends PositionedNode implements Statement {
     public List<CommandParameter> parameters;
 
     public Move(List<CommandParameter> parameters) {
+        super(0,0);
         this.parameters = parameters;
     }
 
+    public Move(int lineNumber, int charNumber, List<CommandParameter> parameters) {
+        super(lineNumber, charNumber);
+        this.parameters = parameters;
+    }
 
     @Override
     public Node[] getChildren() {

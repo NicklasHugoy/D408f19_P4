@@ -3,16 +3,24 @@ package dk.aau.cs.AST.Nodes;
 import dk.aau.cs.AST.ASTVisitor;
 import dk.aau.cs.AST.Expression;
 import dk.aau.cs.AST.Node;
+import dk.aau.cs.AST.PositionedNode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VectorComponent implements Expression {
+public class VectorComponent extends PositionedNode implements Expression {
 
     public ID identifier;
     public ID component;
 
     public VectorComponent(ID identifier, ID component) {
+        super(0,0);
+        this.identifier = identifier;
+        this.component = component;
+    }
+
+    public VectorComponent(int lineNumber, int charNumber, ID identifier, ID component) {
+        super(lineNumber, charNumber);
         this.identifier = identifier;
         this.component = component;
     }

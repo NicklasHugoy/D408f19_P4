@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionDef implements BaseNode {
+public class FunctionDef extends PositionedNode implements BaseNode {
 
     public TypeNode returnType;
     public ID idNode;
@@ -14,6 +14,15 @@ public class FunctionDef implements BaseNode {
     public List<Statement> statements;
 
     public FunctionDef(TypeNode returnType, ID idNode, List<FormalParameter> parameters, List<Statement> statements) {
+        super(0,0);
+        this.returnType = returnType;
+        this.idNode = idNode;
+        this.parameters = parameters;
+        this.statements = statements;
+    }
+
+    public FunctionDef(int lineNumber, int charNumber, TypeNode returnType, ID idNode, List<FormalParameter> parameters, List<Statement> statements) {
+        super(lineNumber, charNumber);
         this.returnType = returnType;
         this.idNode = idNode;
         this.parameters = parameters;

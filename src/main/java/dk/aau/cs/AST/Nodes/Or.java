@@ -3,15 +3,23 @@ package dk.aau.cs.AST.Nodes;
 import dk.aau.cs.AST.ASTVisitor;
 import dk.aau.cs.AST.Expression;
 import dk.aau.cs.AST.Node;
+import dk.aau.cs.AST.PositionedNode;
 
 import java.util.ArrayList;
 
-public class Or implements Expression {
+public class Or extends PositionedNode implements Expression {
 
     public Expression left;
     public Expression right;
 
     public Or(Expression left, Expression right) {
+        super(0,0);
+        this.left = left;
+        this.right = right;
+    }
+
+    public Or(int lineNumber, int charNumber, Expression left, Expression right) {
+        super(lineNumber, charNumber);
         this.left = left;
         this.right = right;
     }

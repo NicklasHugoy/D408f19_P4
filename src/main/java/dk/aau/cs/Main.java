@@ -17,8 +17,8 @@ public class Main {
         System.out.println("Hello, World!");
 
         CharStream cs = CharStreams.fromString("" +
-                "block[]{" +
-                "num x = -1.3245 " +
+                "block[]{ \n" +
+                "num x = -1.3245 + true \n" +
                 "}");
 
         //Scan and parse code

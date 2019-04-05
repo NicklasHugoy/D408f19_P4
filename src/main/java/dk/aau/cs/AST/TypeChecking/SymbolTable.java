@@ -2,6 +2,7 @@ package dk.aau.cs.AST.TypeChecking;
 
 import dk.aau.cs.AST.GMMType;
 import dk.aau.cs.ErrorReporting.Logger;
+import dk.aau.cs.ErrorReporting.UndeclaredReferenceError;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 
 import java.util.LinkedList;
@@ -26,7 +27,7 @@ public class SymbolTable implements ISymbolTable {
                 return type;
         }
 
-        Logger.Log("Variable '" + symbol + "' has not been declared", WarningLevel.Error);
+        Logger.Log(new UndeclaredReferenceError("Variable '" + symbol + "' has not been declared"));
         return GMMType.Void;
     }
 

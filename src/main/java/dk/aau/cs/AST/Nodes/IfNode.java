@@ -1,18 +1,22 @@
 package dk.aau.cs.AST.Nodes;
 
-import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.Expression;
-import dk.aau.cs.AST.Node;
-import dk.aau.cs.AST.Statement;
+import dk.aau.cs.AST.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IfNode implements Statement {
+public class IfNode extends PositionedNode implements Statement {
     public Expression predicate;
     public List<Statement> statements;
 
     public IfNode(Expression predicate, List<Statement> statements) {
+        super(0,0);
+        this.predicate = predicate;
+        this.statements = statements;
+    }
+
+    public IfNode(int lineNumber, int charNumber, Expression predicate, List<Statement> statements) {
+        super(lineNumber, charNumber);
         this.predicate = predicate;
         this.statements = statements;
     }

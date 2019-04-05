@@ -1,6 +1,6 @@
 package dk.aau.cs.ErrorReporting;
 
-class ErrorMessage {
+public class ErrorMessage {
 
     private WarningLevel level;
     private String message;

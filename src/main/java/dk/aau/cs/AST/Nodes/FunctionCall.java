@@ -5,11 +5,18 @@ import dk.aau.cs.AST.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionCall implements FunctionStatement, Expression {
+public class FunctionCall extends PositionedNode implements FunctionStatement, Expression {
     public ID identifier;
     public List<Expression> parameters;
 
     public FunctionCall(ID identifier, List<Expression> parameters) {
+        super(0, 0);
+        this.identifier = identifier;
+        this.parameters = parameters;
+    }
+
+    public FunctionCall(int lineNumber, int charNumber, ID identifier, List<Expression> parameters) {
+        super(lineNumber, charNumber);
         this.identifier = identifier;
         this.parameters = parameters;
     }

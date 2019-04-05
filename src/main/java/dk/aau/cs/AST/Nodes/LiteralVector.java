@@ -3,12 +3,21 @@ package dk.aau.cs.AST.Nodes;
 import dk.aau.cs.AST.ASTVisitor;
 import dk.aau.cs.AST.Expression;
 import dk.aau.cs.AST.Node;
+import dk.aau.cs.AST.PositionedNode;
 
-public class LiteralVector implements Expression {
+public class LiteralVector extends PositionedNode implements Expression {
 
     public Expression x,y,z;
 
     public LiteralVector(Expression x, Expression y, Expression z) {
+        super(0,0);
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    public LiteralVector(int lineNumber, int charNumber, Expression x, Expression y, Expression z) {
+        super(lineNumber, charNumber);
         this.x = x;
         this.y = y;
         this.z = z;

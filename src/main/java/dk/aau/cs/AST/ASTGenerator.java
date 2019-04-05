@@ -2,6 +2,7 @@ package dk.aau.cs.AST;
 
 import dk.aau.cs.AST.Nodes.*;
 import dk.aau.cs.ErrorReporting.Logger;
+import dk.aau.cs.ErrorReporting.SyntaxError;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 import dk.aau.cs.Syntax.GMMParser;
 import dk.aau.cs.Syntax.GMMVisitor;
@@ -31,6 +32,9 @@ public class ASTGenerator implements GMMVisitor<Node> {
         ArrayList<FormalParameter> parameters = new ArrayList<>();
         ArrayList<Statement> statements = new ArrayList<>();
 
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         if(ctx.formalParameters() != null){
             List<GMMParser.FormalParameterContext> parameterContexts = ctx.formalParameters().formalParameter();
 
@@ -41,13 +45,16 @@ public class ASTGenerator implements GMMVisitor<Node> {
         for(GMMParser.ScopedStmtContext stmtContext : ctx.scopedStmt())
             statements.add((Statement) stmtContext.accept(this));
 
-        return new FunctionDef(typeNode, idNode, parameters, statements);
+        return new FunctionDef(line, charNr ,typeNode, idNode, parameters, statements);
     }
 
     @Override
     public Node visitBlockDef(GMMParser.BlockDefContext ctx) {
         ArrayList<MachineOption> options = new ArrayList<>();
         ArrayList<Statement> statements = new ArrayList<>();
+
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
 
         if(ctx.machineOptions() != null){
             for(GMMParser.MachineOptionContext optionContext : ctx.machineOptions().machineOption())
@@ -57,12 +64,12 @@ public class ASTGenerator implements GMMVisitor<Node> {
         for(GMMParser.ScopedStmtContext stmtContext : ctx.scopedStmt()){
             statements.add((Statement) stmtContext.accept(this));
             if(stmtContext instanceof GMMParser.FunctionReturnContext){
-                Logger.Log("return statement used in block definition", WarningLevel.Error);
+                Logger.Log(new SyntaxError("return statement used in block definition", WarningLevel.Error));
             }
         }
 
 
-        return new BlockDef(options, statements);
+        return new BlockDef(line, charNr,options, statements);
     }
 
     @Override
@@ -75,35 +82,47 @@ public class ASTGenerator implements GMMVisitor<Node> {
         TypeNode typeNode = GetTypeNode(ctx.Type());
         ID idNode = GetIDNode(ctx.ID());
 
-        return new FormalParameter(typeNode, idNode);
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
+        return new FormalParameter(line, charNr, typeNode, idNode);
     }
 
     private ID GetIDNode(TerminalNode id) {
-        return new ID(id.getText());
+        int line = id.getSymbol().getLine();
+        int charNr = id.getSymbol().getCharPositionInLine();
+
+        return new ID(line, charNr,id.getText());
     }
 
     private TypeNode GetTypeNode(TerminalNode type) {
+        int line = type.getSymbol().getLine();
+        int charNr = type.getSymbol().getCharPositionInLine();
+
         switch (type.getText().trim()){
             case "num":
-                return new TypeNode(GMMType.Num);
+                return new TypeNode(line, charNr, GMMType.Num);
             case "bool":
-                return new TypeNode(GMMType.Bool);
+                return new TypeNode(line, charNr, GMMType.Bool);
             case "vector":
-                return new TypeNode(GMMType.Vector);
+                return new TypeNode(line, charNr, GMMType.Vector);
         }
         throw new IllegalArgumentException( type.getText() + " Doesnt match any of the types");
     }
 
     private TypeNode GetFunctionTypeNode(TerminalNode type) {
+        int line = type.getSymbol().getLine();
+        int charNr = type.getSymbol().getCharPositionInLine();
+
         switch (type.getText().trim()){
             case "num":
-                return new TypeNode(GMMType.Num);
+                return new TypeNode(line, charNr, GMMType.Num);
             case "bool":
-                return new TypeNode(GMMType.Bool);
+                return new TypeNode(line, charNr, GMMType.Bool);
             case "vector":
-                return new TypeNode(GMMType.Vector);
+                return new TypeNode(line, charNr, GMMType.Vector);
             case "void":
-                return new TypeNode(GMMType.Void);
+                return new TypeNode(line, charNr, GMMType.Void);
         }
         throw new IllegalArgumentException( type.getText() + " Doesnt match any of the types");
     }
@@ -116,17 +135,23 @@ public class ASTGenerator implements GMMVisitor<Node> {
     @Override
     public Node visitMachineOption(GMMParser.MachineOptionContext ctx)
     {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         ID idNode = GetIDNode(ctx.ID());
         Expression expression = (Expression) ctx.expression().accept(this);
 
-        return new MachineOption(idNode, expression);
+        return new MachineOption(line, charNr, idNode, expression);
     }
 
     @Override
     public Node visitFunctionReturn(GMMParser.FunctionReturnContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         Expression expression = (Expression) ctx.expression().accept(this);
 
-        return new ReturnNode(expression);
+        return new ReturnNode(line, charNr, expression);
     }
 
     @Override
@@ -136,6 +161,9 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
     @Override
     public Node visitWhileLoop(GMMParser.WhileLoopContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         Expression expression = (Expression) ctx.expression().accept(this);
         List<Statement> statements = new ArrayList<>();
 
@@ -143,18 +171,21 @@ public class ASTGenerator implements GMMVisitor<Node> {
             statements.add((Statement) stmtContext.accept(this));
 
 
-        return new WhileLoop(expression, statements);
+        return new WhileLoop(line, charNr, expression, statements);
     }
 
     @Override
     public Node visitIfStatement(GMMParser.IfStatementContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         Expression expression = (Expression) ctx.expression().accept(this);
         List<Statement> statements = new ArrayList<>();
 
         for(GMMParser.ScopedStmtContext stmtContext : ctx.scopedStmt())
             statements.add((Statement) stmtContext.accept(this));
 
-        return new IfNode(expression, statements);
+        return new IfNode(line, charNr, expression, statements);
     }
 
     @Override
@@ -181,63 +212,84 @@ public class ASTGenerator implements GMMVisitor<Node> {
     @Override
     public Node visitAssignment(GMMParser.AssignmentContext ctx)
     {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         ID idNode = GetIDNode(ctx.ID());
         Expression expression = (Expression) ctx.expression().accept(this);
 
-        return new Assign(idNode, expression);
+        return new Assign(line , charNr, idNode, expression);
     }
 
     @Override
     public Node visitVectorComponentAssign(GMMParser.VectorComponentAssignContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         ID identifier = GetIDNode(ctx.ID(0));
         ID component = GetIDNode(ctx.ID(1));
 
         Expression expression = (Expression) ctx.expression().accept(this);
 
-        return new VectorComponentAssign(identifier, component, expression);
+        return new VectorComponentAssign(line , charNr, identifier, component, expression);
     }
 
     @Override
     public Node visitDeclaration(GMMParser.DeclarationContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         TypeNode typeNode = GetTypeNode(ctx.Type());
         ID idNode = GetIDNode(ctx.ID());
         Expression expression = (Expression) ctx.expression().accept(this);
 
 
-        return new Declaration(typeNode, idNode, expression);
+        return new Declaration(line, charNr, typeNode, idNode, expression);
     }
 
     @Override
     public Node visitMove(GMMParser.MoveContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         List<CommandParameter> commandParameters = new ArrayList<>();
 
         for(GMMParser.CommandParameterContext commandParameterContext : ctx.commandParameter())
             commandParameters.add((CommandParameter) commandParameterContext.accept(this));
 
-        return new Move(commandParameters);
+        return new Move(line, charNr, commandParameters);
     }
 
     @Override
     public Node visitRightCircle(GMMParser.RightCircleContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         List<CommandParameter> commandParameters = new ArrayList<>();
 
         for(GMMParser.CommandParameterContext commandParameterContext : ctx.commandParameter())
             commandParameters.add((CommandParameter) commandParameterContext.accept(this));
 
-        return new RightCircle(commandParameters);
+        return new RightCircle(line, charNr, commandParameters);
     }
 
     @Override
     public Node visitLeftCircle(GMMParser.LeftCircleContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         List<CommandParameter> commandParameters = new ArrayList<>();
 
         for(GMMParser.CommandParameterContext commandParameterContext : ctx.commandParameter())
             commandParameters.add((CommandParameter) commandParameterContext.accept(this));
-        return new LeftCircle(commandParameters);
+        return new LeftCircle(line, charNr,commandParameters);
     }
 
     @Override
     public Node visitFunctionCall(GMMParser.FunctionCallContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         ID idNode = GetIDNode(ctx.ID());
         List<Expression> expressions = new ArrayList<>();
 
@@ -246,23 +298,29 @@ public class ASTGenerator implements GMMVisitor<Node> {
                 expressions.add((Expression) expressionContext.accept(this));
         }
 
-        return new FunctionCall(idNode, expressions);
+        return new FunctionCall(line, charNr, idNode, expressions);
     }
 
     @Override
     public Node visitRelativeParameter(GMMParser.RelativeParameterContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         ID idNode = GetIDNode(ctx.CommandParameter());
         Expression expression = (Expression) ctx.expression().accept(this);
 
-        return new RelativeParameter(idNode, expression);
+        return new RelativeParameter(line, charNr, idNode, expression);
     }
 
     @Override
     public Node visitAbsoluteParameter(GMMParser.AbsoluteParameterContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         ID idNode = GetIDNode(ctx.CommandParameter());
         Expression expression = (Expression) ctx.expression().accept(this);
 
-        return new AbsoluteParameter(idNode, expression);
+        return new AbsoluteParameter(line, charNr, idNode, expression);
     }
 
     @Override
@@ -277,10 +335,13 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
     @Override
     public Node visitAndLogic(GMMParser.AndLogicContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         Expression left = (Expression) ctx.logic().accept(this);
         Expression right = (Expression) ctx.booleanExpr().accept(this);
 
-        return new And(left, right);
+        return new And(line, charNr, left, right);
     }
 
     @Override
@@ -290,42 +351,57 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
     @Override
     public Node visitOrLogic(GMMParser.OrLogicContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         Expression left = (Expression) ctx.logic().accept(this);
         Expression right = (Expression) ctx.booleanExpr().accept(this);
 
-        return new Or(left, right);
+        return new Or(line, charNr, left, right);
     }
 
     @Override
     public Node visitEqualityExpr(GMMParser.EqualityExprContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         Expression left = (Expression) ctx.expr(0).accept(this);
         Expression right = (Expression) ctx.expr(1).accept(this);
 
-        return new Equality(left, right);
+        return new Equality(line, charNr, left, right);
     }
 
     @Override
     public Node visitInEqualityExpr(GMMParser.InEqualityExprContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         Expression left = (Expression) ctx.expr(0).accept(this);
         Expression right = (Expression) ctx.expr(1).accept(this);
 
-        return new InEquality(left, right);
+        return new InEquality(line, charNr, left, right);
     }
 
     @Override
     public Node visitGreaterThanExpr(GMMParser.GreaterThanExprContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         Expression left = (Expression) ctx.expr(0).accept(this);
         Expression right = (Expression) ctx.expr(1).accept(this);
 
-        return new GreaterThan(left, right);
+        return new GreaterThan(line, charNr,left, right);
     }
 
     @Override
     public Node visitLessThanExpr(GMMParser.LessThanExprContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
 		Expression left = (Expression) ctx.expr(0).accept(this);
 		Expression right = (Expression) ctx.expr(1).accept(this);
 
-		return new LessThan(left, right);
+		return new LessThan(line, charNr, left, right);
     }
 
     @Override
@@ -335,10 +411,13 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
     @Override
     public Node visitPlusExpr(GMMParser.PlusExprContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         Expression left = (Expression) ctx.expr().accept(this);
         Expression right = (Expression) ctx.term().accept(this);
 
-        return new Plus(left, right);
+        return new Plus(line, charNr, left, right);
     }
 
     @Override
@@ -348,10 +427,13 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
     @Override
     public Node visitMinusExpr(GMMParser.MinusExprContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         Expression left = (Expression) ctx.expr().accept(this);
         Expression right = (Expression) ctx.term().accept(this);
 
-        return new Minus(left, right);
+        return new Minus(line, charNr, left, right);
     }
 
     @Override
@@ -361,18 +443,24 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
     @Override
     public Node visitDivideTerm(GMMParser.DivideTermContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         Expression left = (Expression) ctx.term().accept(this);
         Expression right = (Expression) ctx.factor().accept(this);
 
-        return new Divide(left, right);
+        return new Divide(line, charNr, left, right);
     }
 
     @Override
     public Node visitTimesTerm(GMMParser.TimesTermContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         Expression left = (Expression) ctx.term().accept(this);
         Expression right = (Expression) ctx.factor().accept(this);
 
-        return new Times(left, right);
+        return new Times(line, charNr, left, right);
     }
 
     @Override
@@ -382,41 +470,55 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
     @Override
     public Node visitLiteralInt(GMMParser.LiteralIntContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
 
         float value = Float.parseFloat(ctx.INT().getText());
 
-        return new LiteralNumber(value);
+        return new LiteralNumber(line, charNr, value);
     }
 
     @Override
     public Node visitLiteralTrue(GMMParser.LiteralTrueContext ctx) {
-        return new LiteralBool(true);
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+        return new LiteralBool(line, charNr, true);
     }
 
     @Override
     public Node visitLiteralFalse(GMMParser.LiteralFalseContext ctx) {
-        return new LiteralBool(false);
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+        return new LiteralBool(line, charNr, false);
     }
 
     @Override
     public Node visitVariable(GMMParser.VariableContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         ID idNode = GetIDNode(ctx.ID());
 
-        return new Variable(idNode);
+        return new Variable(line, charNr, idNode);
     }
 
     @Override
     public Node visitAccessVector(GMMParser.AccessVectorContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         ID identifier = GetIDNode(ctx.ID(0));
         ID component = GetComponentIDNode(ctx.ID(1));
-        return new VectorComponent(identifier, component);
+        return new VectorComponent(line, charNr, identifier, component);
     }
 
     private ID GetComponentIDNode(TerminalNode id) {
+        int line = id.getSymbol().getLine();
+        int charNr = id.getSymbol().getCharPositionInLine();
         String text = id.getText();
         if(!(text.equals("x") || text.equals("y") || text.equals("z")))
             throw new RuntimeException("Component ids have to be x y or z");
-        return new ID(text);
+        return new ID(line, charNr, text);
     }
 
     @Override
@@ -426,15 +528,21 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
     @Override
     public Node visitLiteralVector(GMMParser.LiteralVectorContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
         Expression x = (Expression) ctx.expression(0).accept(this);
         Expression y = (Expression) ctx.expression(1).accept(this);
         Expression z = (Expression) ctx.expression(2).accept(this);
-        return new LiteralVector(x,y,z);
+        return new LiteralVector(line, charNr, x, y, z);
     }
 
     @Override
     public Node visitNegatedFactor(GMMParser.NegatedFactorContext ctx) {
-        return new Negate((Expression) ctx.factor().accept(this));
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
+        return new Negate(line, charNr, (Expression) ctx.factor().accept(this));
     }
 
     @Override

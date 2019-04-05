@@ -1,6 +1,7 @@
 package dk.aau.cs.AST.TypeChecking;
 
 import dk.aau.cs.AST.FunctionVisitor.FunctionEntry;
+import dk.aau.cs.ErrorReporting.ErrorMessage;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 
@@ -22,7 +23,7 @@ public class FunctionTable implements IFunctionTable {
                 return entry;
         }
 
-        Logger.Log("No function signature could be found matching "+identifier, WarningLevel.Error);
+        Logger.Log(new ErrorMessage("No function signature could be found matching "+identifier, WarningLevel.Error));
         return null;
     }
 

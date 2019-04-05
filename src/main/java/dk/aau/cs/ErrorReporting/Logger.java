@@ -8,11 +8,11 @@ public class Logger {
     private static List<ErrorMessage> messages = new ArrayList<>();
     private static WarningLevel currentLevel = WarningLevel.Comment;
 
-    public static void Log(String message, WarningLevel level){
-        if(level.ordinal() > currentLevel.ordinal())
-            currentLevel = level;
+    public static void Log(ErrorMessage errorMessage){
+        if(errorMessage.getWarningLevel().ordinal() > currentLevel.ordinal())
+            currentLevel = errorMessage.getWarningLevel();
 
-        messages.add(new ErrorMessage(message, level));
+        messages.add(errorMessage);
     }
 
     public static WarningLevel GetWarningLevel(){

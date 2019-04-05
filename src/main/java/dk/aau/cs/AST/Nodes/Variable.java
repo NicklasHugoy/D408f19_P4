@@ -5,11 +5,17 @@ import dk.aau.cs.AST.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Variable implements Expression{
+public class Variable extends PositionedNode implements Expression{
 
     public ID identifier;
 
     public Variable(ID identifier) {
+        super(0,0);
+        this.identifier = identifier;
+    }
+
+    public Variable(int lineNumber, int charNumber, ID identifier) {
+        super(lineNumber, charNumber);
         this.identifier = identifier;
     }
 
