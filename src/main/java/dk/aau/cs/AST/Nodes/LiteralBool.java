@@ -6,6 +6,7 @@ import dk.aau.cs.AST.Node;
 import dk.aau.cs.AST.Value;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class LiteralBool implements Expression, Value {
 
@@ -28,5 +29,18 @@ public class LiteralBool implements Expression, Value {
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitLiteralBool(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LiteralBool that = (LiteralBool) o;
+        return boolValue == that.boolValue;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(boolValue);
     }
 }

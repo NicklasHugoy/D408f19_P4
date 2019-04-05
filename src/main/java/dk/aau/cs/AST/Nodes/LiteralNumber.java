@@ -5,6 +5,8 @@ import dk.aau.cs.AST.Expression;
 import dk.aau.cs.AST.Node;
 import dk.aau.cs.AST.Value;
 
+import java.util.Objects;
+
 public class LiteralNumber implements Expression, Value {
 
     public float value;
@@ -26,5 +28,18 @@ public class LiteralNumber implements Expression, Value {
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitLiteralNumber(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LiteralNumber that = (LiteralNumber) o;
+        return Float.compare(that.value, value) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 }
