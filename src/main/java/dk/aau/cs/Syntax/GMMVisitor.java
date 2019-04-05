@@ -266,7 +266,7 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParanExpr(GMMParser.ParanExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code LiteralInt}
+	 * Visit a parse tree produced by the {@code LiteralNumber}
 	 * labeled alternative in {@link GMMParser#factor}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

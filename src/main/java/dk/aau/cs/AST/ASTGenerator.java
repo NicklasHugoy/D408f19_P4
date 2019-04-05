@@ -5,7 +5,6 @@ import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 import dk.aau.cs.Syntax.GMMParser;
 import dk.aau.cs.Syntax.GMMVisitor;
-import org.abego.treelayout.internal.util.java.lang.string.StringUtil;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
@@ -383,9 +382,10 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
     @Override
     public Node visitLiteralInt(GMMParser.LiteralIntContext ctx) {
-        int value = Integer.parseInt(ctx.INT().getText());
 
-        return new LiteralInt(value);
+        float value = Float.parseFloat(ctx.INT().getText());
+
+        return new LiteralNumber(value);
     }
 
     @Override
