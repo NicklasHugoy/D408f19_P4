@@ -1,7 +1,6 @@
 package dk.aau.cs.Syntax;
 
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -57,6 +56,62 @@ public class ParserTest {
 
         assertEquals("GMM.g4", parser.getGrammarFileName());
     }
+
+
+    @Test
+    void getVocabulary01(){
+        CharStream cs = CharStreams.fromString("");
+        GMMParser parser = getParser(cs);
+
+        assertEquals("Equals", parser.getVocabulary().getSymbolicName(2));
+    }
+
+
+    @Test
+    void getVocabulary02(){
+        CharStream cs = CharStreams.fromString("");
+        GMMParser parser = getParser(cs);
+
+        assertEquals("'='", parser.getVocabulary().getLiteralName(2));
+
+    }
+
+
+    @Test
+    void getVocabulary03(){
+        CharStream cs = CharStreams.fromString("");
+        GMMParser parser = getParser(cs);
+
+        assertEquals(35, parser.getVocabulary().getMaxTokenType());
+    }
+
+    @Test
+    void getVocabulary04(){
+        CharStream cs = CharStreams.fromString("");
+        GMMParser parser = getParser(cs);
+
+        assertEquals("'='", parser.getVocabulary().getDisplayName(2));
+    }
+
+    @Test
+    void getFactorIndex(){
+        CharStream cs = CharStreams.fromString("true");
+        GMMParser parser = getParser(cs);
+
+        assertEquals(16, parser.factor().getRuleIndex());
+    }
+
+
+    @Test
+    void getRuleStateAndParrent(){
+        RuleContext parrentRule = new RuleContext();
+        RuleContext rule = new RuleContext(parrentRule, 12);
+
+        assertEquals(12, rule.invokingState);
+        assertEquals(parrentRule, rule.parent);
+        assertEquals(1, parrentRule.depth());
+    }
+
 
     @Test
     void getSerializedATN(){
@@ -156,62 +211,6 @@ public class ParserTest {
                 "\2\2\u010c\u010a\3\2\2\2\u010d#\3\2\2\2\33&(/\66>EOZjw\u008d\u0093\u0099"+
                 "\u009d\u00a2\u00ad\u00b4\u00c2\u00c4\u00d8\u00e3\u00e5\u00f1\u00f3\u010c";
         assertEquals(ATN, parser.getSerializedATN());
-
-    }
-
-    @Test
-    void getVocabulary01(){
-        CharStream cs = CharStreams.fromString("");
-        GMMParser parser = getParser(cs);
-
-        assertEquals("Equals", parser.getVocabulary().getSymbolicName(2));
-    }
-
-
-    @Test
-    void getVocabulary02(){
-        CharStream cs = CharStreams.fromString("");
-        GMMParser parser = getParser(cs);
-
-        assertEquals("'='", parser.getVocabulary().getLiteralName(2));
-
-    }
-
-
-    @Test
-    void getVocabulary03(){
-        CharStream cs = CharStreams.fromString("");
-        GMMParser parser = getParser(cs);
-
-        assertEquals(35, parser.getVocabulary().getMaxTokenType());
-    }
-
-    @Test
-    void getVocabulary04(){
-        CharStream cs = CharStreams.fromString("");
-        GMMParser parser = getParser(cs);
-
-        assertEquals("'='", parser.getVocabulary().getDisplayName(2));
-    }
-
-    @Test
-    void getFactorIndex(){
-        CharStream cs = CharStreams.fromString("true");
-        GMMParser parser = getParser(cs);
-
-        assertEquals(16, parser.factor().getRuleIndex());
-    }
-
-
-    @Test
-    void getRuleStateAndParrent(){
-        RuleContext parrentRule = new RuleContext();
-        RuleContext rule = new RuleContext(parrentRule, 12);
-
-        assertEquals(12, rule.invokingState);
-        assertEquals(parrentRule, rule.parent);
-        assertEquals(1, parrentRule.depth());
-
 
     }
 
