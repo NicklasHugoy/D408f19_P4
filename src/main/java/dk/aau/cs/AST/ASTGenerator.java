@@ -1,9 +1,7 @@
 package dk.aau.cs.AST;
 
 import dk.aau.cs.AST.Nodes.*;
-import dk.aau.cs.ErrorReporting.Logger;
-import dk.aau.cs.ErrorReporting.SyntaxError;
-import dk.aau.cs.ErrorReporting.WarningLevel;
+import dk.aau.cs.ErrorReporting.*;
 import dk.aau.cs.Syntax.GMMParser;
 import dk.aau.cs.Syntax.GMMVisitor;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -517,7 +515,7 @@ public class ASTGenerator implements GMMVisitor<Node> {
         int charNr = id.getSymbol().getCharPositionInLine();
         String text = id.getText();
         if(!(text.equals("x") || text.equals("y") || text.equals("z")))
-            throw new RuntimeException("Component ids have to be x y or z");
+            Logger.Log(new ErrorMessage("Vector components can only be x y or z not "+text, WarningLevel.Error));
         return new ID(line, charNr, text);
     }
 
