@@ -1,9 +1,6 @@
 package dk.aau.cs.AST;
 
-import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.Node;
-import dk.aau.cs.AST.Nodes.AbsoluteParameter;
-import dk.aau.cs.AST.Nodes.Program;
+import dk.aau.cs.AST.Nodes.Node;
 
 public class TreePrinter {
     private Node startNode;

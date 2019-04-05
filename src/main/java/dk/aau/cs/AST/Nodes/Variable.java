@@ -3,7 +3,6 @@ package dk.aau.cs.AST.Nodes;
 import dk.aau.cs.AST.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Variable extends PositionedNode implements Expression{
 

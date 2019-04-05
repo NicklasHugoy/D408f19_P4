@@ -2,7 +2,7 @@ package dk.aau.cs;
 
 import dk.aau.cs.AST.ASTGenerator;
 import dk.aau.cs.AST.FunctionVisitor.FunctionVisitor;
-import dk.aau.cs.AST.Node;
+import dk.aau.cs.AST.Nodes.Node;
 import dk.aau.cs.AST.TreePrinter;
 import dk.aau.cs.AST.TypeChecking.*;
 import dk.aau.cs.ErrorReporting.Logger;

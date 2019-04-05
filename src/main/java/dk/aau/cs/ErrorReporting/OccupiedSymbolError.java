@@ -1,6 +1,6 @@
 package dk.aau.cs.ErrorReporting;
 
-import dk.aau.cs.AST.PositionedNode;
+import dk.aau.cs.AST.Nodes.PositionedNode;
 
 public class OccupiedSymbolError extends PositionedErrorMessage {
     public OccupiedSymbolError(String message, PositionedNode node) {

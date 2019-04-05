@@ -1,7 +1,7 @@
 package dk.aau.cs.AST.FunctionVisitor;
 
 import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.BaseNode;
+import dk.aau.cs.AST.Nodes.BaseNode;
 import dk.aau.cs.AST.GMMType;
 import dk.aau.cs.AST.Nodes.FunctionDef;
 import dk.aau.cs.AST.Nodes.Program;

@@ -2,10 +2,6 @@ package dk.aau.cs.AST.Nodes;
 
 import dk.aau.cs.AST.ASTVisitor;
 import dk.aau.cs.AST.GMMType;
-import dk.aau.cs.AST.Node;
-import dk.aau.cs.AST.PositionedNode;
-
-import java.util.ArrayList;
 
 public class TypeNode extends PositionedNode implements Node {
 

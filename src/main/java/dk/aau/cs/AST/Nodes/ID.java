@@ -1,8 +1,6 @@
 package dk.aau.cs.AST.Nodes;
 
 import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.Node;
-import dk.aau.cs.AST.PositionedNode;
 
 public class ID extends PositionedNode implements Node {
     public String identifier;

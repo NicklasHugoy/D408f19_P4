@@ -1,6 +1,6 @@
 package dk.aau.cs.ErrorReporting;
 
-import dk.aau.cs.AST.PositionedNode;
+import dk.aau.cs.AST.Nodes.PositionedNode;
 
 public class AssignmentTypeError extends PositionedErrorMessage {
     public AssignmentTypeError(String message, PositionedNode node) {

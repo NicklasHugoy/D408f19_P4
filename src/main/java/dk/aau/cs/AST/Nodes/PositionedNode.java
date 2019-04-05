@@ -1,6 +1,6 @@
-package dk.aau.cs.AST;
+package dk.aau.cs.AST.Nodes;
 
-import java.util.Vector;
+import dk.aau.cs.AST.Nodes.Node;
 
 public abstract class PositionedNode implements Node {
     public final int lineNumber;
