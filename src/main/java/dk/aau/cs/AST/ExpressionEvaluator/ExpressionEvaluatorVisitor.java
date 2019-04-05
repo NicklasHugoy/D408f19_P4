@@ -58,6 +58,22 @@ public class ExpressionEvaluatorVisitor implements ASTVisitor<TempValue> {
 	}
 
 	@Override
+	public TempValue visitEquality(Equality equality) {
+		TempValue leftValue = equality.left.accept(this);
+		TempValue rightValue = equality.right.accept(this);
+
+		return leftValue.equal(rightValue);
+	}
+
+	@Override
+	public TempValue visitInEquality(InEquality inEquality) {
+		TempValue leftValue = inEquality.left.accept(this);
+		TempValue rightValue = inEquality.right.accept(this);
+
+		return leftValue.inEqual(rightValue);
+	}
+
+	@Override
 	public TempValue visitLiteralVector(LiteralVector literalVector) {
 
 		NumValue x = (NumValue) literalVector.x.accept(this);

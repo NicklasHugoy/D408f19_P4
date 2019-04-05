@@ -40,6 +40,16 @@ public class NumValue implements TempValue<Float>{
 	}
 
 	@Override
+	public TempValue equal(TempValue<Float> rightValue) {
+		return new BoolValue(value == rightValue.getValue());
+	}
+
+	@Override
+	public TempValue inEqual(TempValue<Float> rightValue) {
+		return new BoolValue(value != rightValue.getValue());
+	}
+
+	@Override
 	public Float getValue() {
 		return value;
 	}

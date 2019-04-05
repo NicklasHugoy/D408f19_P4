@@ -263,4 +263,175 @@ class ExpressionEvaluatorVisitorTest {
 			or.accept(expressionEvaluatorVisitor).getValue();
 		});
 	}
+
+	@Test
+	void visitEquality_numTrue(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = 3 == 3 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Equality equality = (Equality) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(true, equality.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitEquality_numFalse(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = 2 == 3 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Equality equality = (Equality) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(false, equality.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitEquality_boolTrue(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = true == true }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Equality equality = (Equality) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(true, equality.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitEquality_boolFalse(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = true == false }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Equality equality = (Equality) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(false, equality.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitEquality_vectorTrue(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = (1,2,3) == (1,2,3) }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Equality equality = (Equality) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(true, equality.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitEquality_vectorFalse(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = (1,2,3) == (1,2,4) }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Equality equality = (Equality) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(false, equality.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+
+	@Test
+	void visitInEquality_numFalse(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = 3 != 3 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		InEquality inEquality = (InEquality) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(false, inEquality.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitInEquality_numTrue(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = 3 != 4 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		InEquality inEquality = (InEquality) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(true, inEquality.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitInEquality_boolFalse(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = false != false }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		InEquality inEquality = (InEquality) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(false, inEquality.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitInEquality_boolTrue(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = false != true }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		InEquality inEquality = (InEquality) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(true, inEquality.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+
+	@Test
+	void visitInEquality_vectorFalse(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = (1,2,3) != (1,2,3) }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		InEquality inEquality = (InEquality) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(false, inEquality.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitInEquality_vectorTrue(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = (3,2,3) != (1,2,3) }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		InEquality inEquality = (InEquality) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(true, inEquality.accept(expressionEvaluatorVisitor).getValue());
+	}
+
 }

@@ -7,6 +7,8 @@ public interface TempValue<T> {
 	TempValue times(TempValue<T> other);
 	TempValue and(TempValue<T> rightValue);
 	TempValue or(TempValue<T> rightValue);
+	TempValue equal(TempValue<T> rightValue);
+	TempValue inEqual(TempValue<T> rightValue);
 
 	T getValue();
 }

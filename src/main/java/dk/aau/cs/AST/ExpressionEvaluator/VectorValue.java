@@ -48,6 +48,16 @@ public class VectorValue implements TempValue<Vector>{
 	}
 
 	@Override
+	public TempValue equal(TempValue<Vector> rightValue) {
+		return new BoolValue(vector.equals(rightValue.getValue()));
+	}
+
+	@Override
+	public TempValue inEqual(TempValue<Vector> rightValue) {
+		return new BoolValue(!vector.equals(rightValue.getValue()));
+	}
+
+	@Override
 	public Vector getValue() {
 		return vector;
 	}
