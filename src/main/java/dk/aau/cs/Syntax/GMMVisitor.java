@@ -1,4 +1,4 @@
-package dk.aau.cs.Syntax;// Generated from C:/Users/thoru/OneDrive/Dokumenter/Git/D408f19_P4\GMM.g4 by ANTLR 4.7.2
+package dk.aau.cs.Syntax;// Generated from C:/Dev/D408f19_P4\GMM.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -128,6 +128,13 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionReturn(GMMParser.FunctionReturnContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExplicitGCode}
+	 * labeled alternative in {@link GMMParser#scopedStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExplicitGCode(GMMParser.ExplicitGCodeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GMMParser#functionCall}.
 	 * @param ctx the parse tree
