@@ -2,11 +2,13 @@ package dk.aau.cs.AST.Nodes;
 
 import dk.aau.cs.AST.ASTVisitor;
 
+import java.util.Objects;
+
 public class LiteralNumber extends PositionedNode implements Expression {
 
-    public float value;
+    public double value;
 
-    public LiteralNumber(float value) {
+    public LiteralNumber(double value) {
         super(0,0);
         this.value = value;
     }
@@ -29,5 +31,18 @@ public class LiteralNumber extends PositionedNode implements Expression {
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitLiteralNumber(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LiteralNumber that = (LiteralNumber) o;
+        return Double.compare(that.value, value) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 }
