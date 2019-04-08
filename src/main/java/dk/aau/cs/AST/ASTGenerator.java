@@ -72,7 +72,7 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
     @Override
     public Node visitFormalParameters(GMMParser.FormalParametersContext ctx) {
-        throw new IllegalArgumentException("This shouldnt be called exception"); // This node should be ignored because it simply acts as a structural node
+        throw new IllegalArgumentException("This should not be called exception"); // This node should be ignored because it simply acts as a structural node
     }
 
     @Override
@@ -105,7 +105,7 @@ public class ASTGenerator implements GMMVisitor<Node> {
             case "vector":
                 return new TypeNode(line, charNr, GMMType.Vector);
         }
-        throw new IllegalArgumentException( type.getText() + " Doesnt match any of the types");
+        throw new IllegalArgumentException( type.getText() + " Does not match any of the types");
     }
 
     private TypeNode GetFunctionTypeNode(TerminalNode type) {
@@ -122,12 +122,12 @@ public class ASTGenerator implements GMMVisitor<Node> {
             case "void":
                 return new TypeNode(line, charNr, GMMType.Void);
         }
-        throw new IllegalArgumentException( type.getText() + " Doesnt match any of the types");
+        throw new IllegalArgumentException( type.getText() + " Does not match any of the types");
     }
 
     @Override
     public Node visitMachineOptions(GMMParser.MachineOptionsContext ctx) {
-        throw new IllegalArgumentException("This shouldnt be called exception"); // This node should be ignored because it simply acts as a structural node
+        throw new IllegalArgumentException("This should not be called"); // This node should be ignored because it simply acts as a structural node
     }
 
     @Override
@@ -190,22 +190,6 @@ public class ASTGenerator implements GMMVisitor<Node> {
     public Node visitScopedStmtFunctionCall(GMMParser.ScopedStmtFunctionCallContext ctx) {
         return ctx.functionCall().accept(this);
     }
-
-/*
-    @Override
-    public Node visitCallFunction(GMMParser.CallFunctionContext ctx)
-    {
-        ID idNode = GetIDNode(ctx.ID());
-        List<Expression> expressions = new ArrayList<>();
-
-        if(ctx.parameters() != null){
-            for(GMMParser.ExpressionContext expressionContext : ctx.parameters().expression())
-                expressions.add((Expression) expressionContext.accept(this));
-        }
-
-        return new FunctionCall(idNode, expressions);
-    }
- */
 
     @Override
     public Node visitAssignment(GMMParser.AssignmentContext ctx)
@@ -323,7 +307,7 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
     @Override
     public Node visitParameters(GMMParser.ParametersContext ctx) {
-        throw new IllegalArgumentException("This shouldnt be called exception"); // This node should be ignored because it simply acts as a structural node
+        throw new IllegalArgumentException("This should not be called"); // This node should be ignored because it simply acts as a structural node
     }
 
     @Override
