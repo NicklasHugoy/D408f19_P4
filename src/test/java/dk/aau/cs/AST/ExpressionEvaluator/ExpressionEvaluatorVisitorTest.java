@@ -2,6 +2,7 @@ package dk.aau.cs.AST.ExpressionEvaluator;
 
 import dk.aau.cs.AST.ASTGenerator;
 import dk.aau.cs.AST.FunctionVisitor.FunctionVisitor;
+import dk.aau.cs.AST.GMMType;
 import dk.aau.cs.AST.Node;
 import dk.aau.cs.AST.Nodes.*;
 import dk.aau.cs.AST.TypeChecking.FunctionTable;
@@ -613,5 +614,21 @@ class ExpressionEvaluatorVisitorTest {
 		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
 
 		assertEquals(new Vector(1,2,3), negate.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+
+	@Test
+	void visitVariable(){
+		CharStream cs = CharStreams.fromString("block[]{ num x = 2 + y }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Plus plus = (Plus) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		symbolTable.enterSymbol("y", GMMType.Num, new NumValue(5));
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(7f, plus.accept(expressionEvaluatorVisitor).getValue());
 	}
 }

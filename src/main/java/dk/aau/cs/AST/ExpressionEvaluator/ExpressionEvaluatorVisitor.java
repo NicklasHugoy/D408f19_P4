@@ -1,6 +1,7 @@
 package dk.aau.cs.AST.ExpressionEvaluator;
 
 import dk.aau.cs.AST.ASTVisitor;
+import dk.aau.cs.AST.GMMType;
 import dk.aau.cs.AST.Nodes.*;
 import dk.aau.cs.AST.TypeChecking.IFunctionTable;
 import dk.aau.cs.AST.TypeChecking.ISymbolTable;
@@ -102,6 +103,11 @@ public class ExpressionEvaluatorVisitor implements ASTVisitor<IValue> {
 		IValue value = negate.expression.accept(this);
 
 		return value.negate();
+	}
+
+	@Override
+	public IValue visitVariable(Variable variable) {
+		return symbolTable.retrieveSymbolWithValue(variable.identifier.identifier).getValue();
 	}
 
 	@Override
