@@ -115,13 +115,18 @@ public class ParserTest {
 
     @Test
     void getBlockDefCtx(){
-        CharStream cs = CharStreams.fromString("");
+        CharStream cs = CharStreams.fromString("block[tool:1, bound_x:200]{x = 2}");
         GMMParser parser = getParser(cs);
-
-        ParserRuleContext rule = new ParserRuleContext();
-        GMMParser.BlockDefContext blockDef = new GMMParser.BlockDefContext(rule, 3);
+        GMMParser.BlockDefContext blockDef = parser.blockDef();
 
         assertEquals(2, blockDef.getRuleIndex());
+        assertEquals(parser.getTokenStream().get(0).getText(), blockDef.ID().toString());
+        assertEquals(parser.getTokenStream().get(1).getText(), blockDef.LSquare().toString());
+        assertEquals(parser.getTokenStream().get(9).getText(), blockDef.RSquare().toString());
+        assertEquals(parser.getTokenStream().get(10).getText(), blockDef.LCurl().toString());
+        assertEquals(parser.getTokenStream().get(14).getText(), blockDef.RCurl().toString());
+        //assertEquals(, blockDef.scopedStmt(0));
+
     }
 
 
