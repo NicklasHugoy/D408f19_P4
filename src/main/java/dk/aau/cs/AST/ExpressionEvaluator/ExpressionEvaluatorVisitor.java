@@ -74,6 +74,22 @@ public class ExpressionEvaluatorVisitor implements ASTVisitor<TempValue> {
 	}
 
 	@Override
+	public TempValue visitGreaterThan(GreaterThan greaterThan) {
+		TempValue leftValue = greaterThan.left.accept(this);
+		TempValue rightValue = greaterThan.right.accept(this);
+
+		return leftValue.greaterThan(rightValue);
+	}
+
+	@Override
+	public TempValue visitLessThan(LessThan lessThan) {
+		TempValue leftValue = lessThan.left.accept(this);
+		TempValue rightValue = lessThan.right.accept(this);
+
+		return leftValue.lessThan(rightValue);
+	}
+
+	@Override
 	public TempValue visitLiteralVector(LiteralVector literalVector) {
 
 		NumValue x = (NumValue) literalVector.x.accept(this);
@@ -81,6 +97,13 @@ public class ExpressionEvaluatorVisitor implements ASTVisitor<TempValue> {
 		NumValue z = (NumValue) literalVector.z.accept(this);
 
 		return new VectorValue(new Vector(x.getValue(), y.getValue(), z.getValue()));
+	}
+
+	@Override
+	public TempValue visitNegate(Negate negate) {
+		TempValue value = negate.expression.accept(this);
+
+		return value.negate();
 	}
 
 	@Override

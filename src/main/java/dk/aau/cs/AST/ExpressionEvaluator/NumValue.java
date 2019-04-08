@@ -50,6 +50,21 @@ public class NumValue implements TempValue<Float>{
 	}
 
 	@Override
+	public TempValue greaterThan(TempValue<Float> rightValue) {
+		return new BoolValue(value > rightValue.getValue());
+	}
+
+	@Override
+	public TempValue lessThan(TempValue<Float> rightValue) {
+		return new BoolValue(value < rightValue.getValue());
+	}
+
+	@Override
+	public TempValue negate() {
+		return new NumValue(-value);
+	}
+
+	@Override
 	public Float getValue() {
 		return value;
 	}

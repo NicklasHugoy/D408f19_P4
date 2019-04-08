@@ -51,6 +51,21 @@ public class BoolValue implements TempValue<Boolean>{
 	}
 
 	@Override
+	public TempValue greaterThan(TempValue<Boolean> rightValue) {
+		throw new OperationNotSupportedException("'greater than' are not supported for booleans");
+	}
+
+	@Override
+	public TempValue lessThan(TempValue<Boolean> rightValue) {
+		throw new OperationNotSupportedException("'less than' are not supported for booleans");
+	}
+
+	@Override
+	public TempValue negate() {
+		return new BoolValue(!value);
+	}
+
+	@Override
 	public Boolean getValue() {
 		return value;
 	}

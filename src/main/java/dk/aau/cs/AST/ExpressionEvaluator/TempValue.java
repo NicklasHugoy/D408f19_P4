@@ -9,6 +9,9 @@ public interface TempValue<T> {
 	TempValue or(TempValue<T> rightValue);
 	TempValue equal(TempValue<T> rightValue);
 	TempValue inEqual(TempValue<T> rightValue);
+	TempValue greaterThan(TempValue<T> rightValue);
+	TempValue lessThan(TempValue<T> rightValue);
+	TempValue negate();
 
 	T getValue();
 }

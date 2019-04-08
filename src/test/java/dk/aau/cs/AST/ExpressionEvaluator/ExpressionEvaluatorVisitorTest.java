@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ExpressionEvaluatorVisitorTest {
 
@@ -348,7 +349,6 @@ class ExpressionEvaluatorVisitorTest {
 		assertEquals(false, equality.accept(expressionEvaluatorVisitor).getValue());
 	}
 
-
 	@Test
 	void visitInEquality_numFalse(){
 		CharStream cs = CharStreams.fromString("block[]{ bool x = 3 != 3 }");
@@ -405,7 +405,6 @@ class ExpressionEvaluatorVisitorTest {
 		assertEquals(true, inEquality.accept(expressionEvaluatorVisitor).getValue());
 	}
 
-
 	@Test
 	void visitInEquality_vectorFalse(){
 		CharStream cs = CharStreams.fromString("block[]{ bool x = (1,2,3) != (1,2,3) }");
@@ -434,4 +433,185 @@ class ExpressionEvaluatorVisitorTest {
 		assertEquals(true, inEquality.accept(expressionEvaluatorVisitor).getValue());
 	}
 
+	@Test
+	void visitGreaterThan_numTrue(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = 3 > 2 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		GreaterThan greaterThan = (GreaterThan) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(true, greaterThan.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitGreaterThan_numFalse(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = 2 > 5 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		GreaterThan greaterThan = (GreaterThan) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(false, greaterThan.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitGreaterThan_numFalseNegativeNum(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = -6 > -5 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		GreaterThan greaterThan = (GreaterThan) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(false, greaterThan.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitGreaterThan_numTrueNegativeNum(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = -4 > -7 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		GreaterThan greaterThan = (GreaterThan) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(true, greaterThan.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitGreaterThan_numTrueMixedNum(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = 2 > -7 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		GreaterThan greaterThan = (GreaterThan) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(true, greaterThan.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitLessThan_numTrue(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = 2 < 3 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		LessThan lessThan = (LessThan) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(true, lessThan.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitLessThan_numFalse(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = 5 < 3 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		LessThan lessThan = (LessThan) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(false, lessThan.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitNegate_numPositiveToNegative(){
+		CharStream cs = CharStreams.fromString("block[]{ num x = -3 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Negate negate = (Negate) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(-3f, negate.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitNegate_numDoubleNegate(){
+		CharStream cs = CharStreams.fromString("block[]{ num x = --3 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Negate negate = (Negate) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(3f, negate.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitNegate_boolNegate(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = -true }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Negate negate = (Negate) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(false, negate.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitNegate_boolDoubleNegate(){
+		CharStream cs = CharStreams.fromString("block[]{ bool x = --true }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Negate negate = (Negate) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(true, negate.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitNegate_vectorNegate(){
+		CharStream cs = CharStreams.fromString("block[]{ vector x = -(1,2,3) }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Negate negate = (Negate) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(new Vector(-1,-2,-3), negate.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitNegate_vectorDoubleNegate(){
+		CharStream cs = CharStreams.fromString("block[]{ vector x = --(1,2,3) }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Negate negate = (Negate) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+
+		assertEquals(new Vector(1,2,3), negate.accept(expressionEvaluatorVisitor).getValue());
+	}
 }

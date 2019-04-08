@@ -58,6 +58,22 @@ public class VectorValue implements TempValue<Vector>{
 	}
 
 	@Override
+	public TempValue greaterThan(TempValue<Vector> rightValue) {
+		throw new OperationNotSupportedException("'greater than' not supported for vector");
+	}
+
+	@Override
+	public TempValue lessThan(TempValue<Vector> rightValue) {
+		throw new OperationNotSupportedException("'less than' not supported for vector");
+	}
+
+	@Override
+	public TempValue negate() {
+		Vector newVector = new Vector(-vector.getX(), -vector.getY(), -vector.getZ());
+		return new VectorValue(newVector);
+	}
+
+	@Override
 	public Vector getValue() {
 		return vector;
 	}
