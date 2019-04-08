@@ -1,7 +1,7 @@
 package dk.aau.cs.AST.TypeChecking;
 
+import dk.aau.cs.AST.ExpressionEvaluator.IValue;
 import dk.aau.cs.AST.GMMType;
-import dk.aau.cs.AST.IValue;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 

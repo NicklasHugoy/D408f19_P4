@@ -1,13 +1,11 @@
 package dk.aau.cs.AST.ExpressionEvaluator;
 
 import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.GMMType;
 import dk.aau.cs.AST.Nodes.*;
 import dk.aau.cs.AST.TypeChecking.IFunctionTable;
 import dk.aau.cs.AST.TypeChecking.ISymbolTable;
-import dk.aau.cs.AST.TypeChecking.TypeValuePair;
 
-public class ExpressionEvaluatorVisitor implements ASTVisitor<TempValue> {
+public class ExpressionEvaluatorVisitor implements ASTVisitor<IValue> {
 
 	private IFunctionTable functionTable;
 	private ISymbolTable symbolTable;
@@ -18,79 +16,79 @@ public class ExpressionEvaluatorVisitor implements ASTVisitor<TempValue> {
 	}
 
 	@Override
-	public TempValue visitPlus(Plus plus) {
-		TempValue leftTypeValuePair = plus.left.accept(this);
-		TempValue rightTypeValuePair = plus.right.accept(this);
+	public IValue visitPlus(Plus plus) {
+		IValue leftTypeValuePair = plus.left.accept(this);
+		IValue rightTypeValuePair = plus.right.accept(this);
 
 		return leftTypeValuePair.add(rightTypeValuePair);
 	}
 
 	@Override
-	public TempValue visitMinus(Minus minus) {
-		TempValue leftTypeValuePair = minus.left.accept(this);
-		TempValue rightTypeValuePair = minus.right.accept(this);
+	public IValue visitMinus(Minus minus) {
+		IValue leftTypeValuePair = minus.left.accept(this);
+		IValue rightTypeValuePair = minus.right.accept(this);
 
 		return leftTypeValuePair.minus(rightTypeValuePair);
 	}
 
 	@Override
-	public TempValue visitTimes(Times times) {
-		TempValue leftValue = times.left.accept(this);
-		TempValue rightValue = times.right.accept(this);
+	public IValue visitTimes(Times times) {
+		IValue leftValue = times.left.accept(this);
+		IValue rightValue = times.right.accept(this);
 
 		return leftValue.times(rightValue);
 	}
 
 	@Override
-	public TempValue visitAnd(And and) {
-		TempValue leftValue = and.left.accept(this);
-		TempValue rightValue = and.right.accept(this);
+	public IValue visitAnd(And and) {
+		IValue leftValue = and.left.accept(this);
+		IValue rightValue = and.right.accept(this);
 
 		return leftValue.and(rightValue);
 	}
 
 	@Override
-	public TempValue visitOr(Or or) {
-		TempValue leftValue = or.left.accept(this);
-		TempValue rightValue = or.right.accept(this);
+	public IValue visitOr(Or or) {
+		IValue leftValue = or.left.accept(this);
+		IValue rightValue = or.right.accept(this);
 
 		return leftValue.or(rightValue);
 	}
 
 	@Override
-	public TempValue visitEquality(Equality equality) {
-		TempValue leftValue = equality.left.accept(this);
-		TempValue rightValue = equality.right.accept(this);
+	public IValue visitEquality(Equality equality) {
+		IValue leftValue = equality.left.accept(this);
+		IValue rightValue = equality.right.accept(this);
 
 		return leftValue.equal(rightValue);
 	}
 
 	@Override
-	public TempValue visitInEquality(InEquality inEquality) {
-		TempValue leftValue = inEquality.left.accept(this);
-		TempValue rightValue = inEquality.right.accept(this);
+	public IValue visitInEquality(InEquality inEquality) {
+		IValue leftValue = inEquality.left.accept(this);
+		IValue rightValue = inEquality.right.accept(this);
 
 		return leftValue.inEqual(rightValue);
 	}
 
 	@Override
-	public TempValue visitGreaterThan(GreaterThan greaterThan) {
-		TempValue leftValue = greaterThan.left.accept(this);
-		TempValue rightValue = greaterThan.right.accept(this);
+	public IValue visitGreaterThan(GreaterThan greaterThan) {
+		IValue leftValue = greaterThan.left.accept(this);
+		IValue rightValue = greaterThan.right.accept(this);
 
 		return leftValue.greaterThan(rightValue);
 	}
 
 	@Override
-	public TempValue visitLessThan(LessThan lessThan) {
-		TempValue leftValue = lessThan.left.accept(this);
-		TempValue rightValue = lessThan.right.accept(this);
+	public IValue visitLessThan(LessThan lessThan) {
+		IValue leftValue = lessThan.left.accept(this);
+		IValue rightValue = lessThan.right.accept(this);
 
 		return leftValue.lessThan(rightValue);
 	}
 
 	@Override
-	public TempValue visitLiteralVector(LiteralVector literalVector) {
+	public IValue visitLiteralVector(LiteralVector literalVector) {
 
 		NumValue x = (NumValue) literalVector.x.accept(this);
 		NumValue y = (NumValue) literalVector.y.accept(this);
@@ -100,19 +98,19 @@ public class ExpressionEvaluatorVisitor implements ASTVisitor<TempValue> {
 	}
 
 	@Override
-	public TempValue visitNegate(Negate negate) {
-		TempValue value = negate.expression.accept(this);
+	public IValue visitNegate(Negate negate) {
+		IValue value = negate.expression.accept(this);
 
 		return value.negate();
 	}
 
 	@Override
-	public TempValue visitLiteralNumber(LiteralNumber literalNumber) {
+	public IValue visitLiteralNumber(LiteralNumber literalNumber) {
 		return new NumValue(literalNumber.value);
 	}
 
 	@Override
-	public TempValue visitLiteralBool(LiteralBool literalBool) {
+	public IValue visitLiteralBool(LiteralBool literalBool) {
 		return new BoolValue(literalBool.boolValue);
 	}
 }

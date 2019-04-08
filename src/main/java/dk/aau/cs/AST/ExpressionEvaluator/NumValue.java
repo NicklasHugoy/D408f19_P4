@@ -2,7 +2,7 @@ package dk.aau.cs.AST.ExpressionEvaluator;
 
 import dk.aau.cs.Exceptions.OperationNotSupportedException;
 
-public class NumValue implements TempValue<Float>{
+public class NumValue implements IValue<Float> {
 	private float value;
 
 	public NumValue(float value) {
@@ -10,57 +10,57 @@ public class NumValue implements TempValue<Float>{
 	}
 
 	@Override
-	public NumValue add(TempValue<Float> other) {
+	public NumValue add(IValue<Float> other) {
 		return new NumValue(value + other.getValue());
 	}
 
 	@Override
-	public NumValue minus(TempValue<Float> other) {
+	public NumValue minus(IValue<Float> other) {
 		return new NumValue(value - other.getValue());
 	}
 
 	@Override
-	public NumValue divide(TempValue<Float> other) {
+	public NumValue divide(IValue<Float> other) {
 		return new NumValue(value / other.getValue());
 	}
 
 	@Override
-	public NumValue times(TempValue<Float> other) {
+	public NumValue times(IValue<Float> other) {
 		return new NumValue(value * other.getValue());
 	}
 
 	@Override
-	public TempValue and(TempValue<Float> rightValue) {
+	public IValue and(IValue<Float> rightValue) {
 		throw new OperationNotSupportedException("'And' operation is not supported on num");
 	}
 
 	@Override
-	public TempValue or(TempValue<Float> rightValue) {
+	public IValue or(IValue<Float> rightValue) {
 		throw new OperationNotSupportedException("'Or' operation is not supported on num");
 	}
 
 	@Override
-	public TempValue equal(TempValue<Float> rightValue) {
+	public IValue equal(IValue<Float> rightValue) {
 		return new BoolValue(value == rightValue.getValue());
 	}
 
 	@Override
-	public TempValue inEqual(TempValue<Float> rightValue) {
+	public IValue inEqual(IValue<Float> rightValue) {
 		return new BoolValue(value != rightValue.getValue());
 	}
 
 	@Override
-	public TempValue greaterThan(TempValue<Float> rightValue) {
+	public IValue greaterThan(IValue<Float> rightValue) {
 		return new BoolValue(value > rightValue.getValue());
 	}
 
 	@Override
-	public TempValue lessThan(TempValue<Float> rightValue) {
+	public IValue lessThan(IValue<Float> rightValue) {
 		return new BoolValue(value < rightValue.getValue());
 	}
 
 	@Override
-	public TempValue negate() {
+	public IValue negate() {
 		return new NumValue(-value);
 	}
 

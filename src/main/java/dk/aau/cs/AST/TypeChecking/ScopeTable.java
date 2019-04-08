@@ -1,7 +1,7 @@
 package dk.aau.cs.AST.TypeChecking;
 
+import dk.aau.cs.AST.ExpressionEvaluator.IValue;
 import dk.aau.cs.AST.GMMType;
-import dk.aau.cs.AST.IValue;
 
 import java.util.ArrayList;
 import java.util.List;

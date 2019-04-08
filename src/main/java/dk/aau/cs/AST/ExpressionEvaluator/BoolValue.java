@@ -2,7 +2,7 @@ package dk.aau.cs.AST.ExpressionEvaluator;
 
 import dk.aau.cs.Exceptions.OperationNotSupportedException;
 
-public class BoolValue implements TempValue<Boolean>{
+public class BoolValue implements IValue<Boolean> {
 
 	private boolean value;
 
@@ -11,57 +11,57 @@ public class BoolValue implements TempValue<Boolean>{
 	}
 
 	@Override
-	public TempValue add(TempValue<Boolean> other) {
+	public IValue add(IValue<Boolean> other) {
 		throw new OperationNotSupportedException("Adding booleans are not supported");
 	}
 
 	@Override
-	public TempValue minus(TempValue<Boolean> other) {
+	public IValue minus(IValue<Boolean> other) {
 		throw new OperationNotSupportedException("Subtracting booleans are not supported");
 	}
 
 	@Override
-	public TempValue divide(TempValue<Boolean> other) {
+	public IValue divide(IValue<Boolean> other) {
 		throw new OperationNotSupportedException("Dividing booleans are not supported");
 	}
 
 	@Override
-	public TempValue times(TempValue<Boolean> other) {
+	public IValue times(IValue<Boolean> other) {
 		throw new OperationNotSupportedException("Multiplying booleans are not supported");
 	}
 
 	@Override
-	public TempValue and(TempValue<Boolean> rightValue) {
+	public IValue and(IValue<Boolean> rightValue) {
 		return new BoolValue(value && rightValue.getValue());
 	}
 
 	@Override
-	public TempValue or(TempValue<Boolean> rightValue) {
+	public IValue or(IValue<Boolean> rightValue) {
 		return new BoolValue(value || rightValue.getValue());
 	}
 
 	@Override
-	public TempValue equal(TempValue<Boolean> rightValue) {
+	public IValue equal(IValue<Boolean> rightValue) {
 		return new BoolValue(value == rightValue.getValue());
 	}
 
 	@Override
-	public TempValue inEqual(TempValue<Boolean> rightValue) {
+	public IValue inEqual(IValue<Boolean> rightValue) {
 		return new BoolValue(value != rightValue.getValue());
 	}
 
 	@Override
-	public TempValue greaterThan(TempValue<Boolean> rightValue) {
+	public IValue greaterThan(IValue<Boolean> rightValue) {
 		throw new OperationNotSupportedException("'greater than' are not supported for booleans");
 	}
 
 	@Override
-	public TempValue lessThan(TempValue<Boolean> rightValue) {
+	public IValue lessThan(IValue<Boolean> rightValue) {
 		throw new OperationNotSupportedException("'less than' are not supported for booleans");
 	}
 
 	@Override
-	public TempValue negate() {
+	public IValue negate() {
 		return new BoolValue(!value);
 	}
 

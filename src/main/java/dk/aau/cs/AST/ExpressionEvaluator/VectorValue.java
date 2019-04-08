@@ -2,7 +2,7 @@ package dk.aau.cs.AST.ExpressionEvaluator;
 
 import dk.aau.cs.Exceptions.OperationNotSupportedException;
 
-public class VectorValue implements TempValue<Vector>{
+public class VectorValue implements IValue<Vector> {
 	private Vector vector;
 
 	public VectorValue(Vector vector) {
@@ -10,7 +10,7 @@ public class VectorValue implements TempValue<Vector>{
 	}
 
 	@Override
-	public VectorValue add(TempValue<Vector> other) {
+	public VectorValue add(IValue<Vector> other) {
 		Vector newVector = new Vector(
 				vector.getX()+other.getValue().getX(),
 				vector.getY()+other.getValue().getY(),
@@ -19,7 +19,7 @@ public class VectorValue implements TempValue<Vector>{
 	}
 
 	@Override
-	public VectorValue minus(TempValue<Vector> other) {
+	public VectorValue minus(IValue<Vector> other) {
 		Vector newVector = new Vector(
 				vector.getX()-other.getValue().getX(),
 				vector.getY()-other.getValue().getY(),
@@ -28,47 +28,47 @@ public class VectorValue implements TempValue<Vector>{
 	}
 
 	@Override
-	public VectorValue divide(TempValue<Vector> other) {
+	public VectorValue divide(IValue<Vector> other) {
 		throw new OperationNotSupportedException("Can't divide vectors");
 	}
 
 	@Override
-	public TempValue times(TempValue<Vector> other) {
+	public IValue times(IValue<Vector> other) {
 		throw new OperationNotSupportedException("Can't multiply vectors");
 	}
 
 	@Override
-	public TempValue and(TempValue<Vector> rightValue) {
+	public IValue and(IValue<Vector> rightValue) {
 		throw new OperationNotSupportedException("'And' operation not supported on vector");
 	}
 
 	@Override
-	public TempValue or(TempValue<Vector> rightValue) {
+	public IValue or(IValue<Vector> rightValue) {
 		throw new OperationNotSupportedException("'Or' operation not supported on vector");
 	}
 
 	@Override
-	public TempValue equal(TempValue<Vector> rightValue) {
+	public IValue equal(IValue<Vector> rightValue) {
 		return new BoolValue(vector.equals(rightValue.getValue()));
 	}
 
 	@Override
-	public TempValue inEqual(TempValue<Vector> rightValue) {
+	public IValue inEqual(IValue<Vector> rightValue) {
 		return new BoolValue(!vector.equals(rightValue.getValue()));
 	}
 
 	@Override
-	public TempValue greaterThan(TempValue<Vector> rightValue) {
+	public IValue greaterThan(IValue<Vector> rightValue) {
 		throw new OperationNotSupportedException("'greater than' not supported for vector");
 	}
 
 	@Override
-	public TempValue lessThan(TempValue<Vector> rightValue) {
+	public IValue lessThan(IValue<Vector> rightValue) {
 		throw new OperationNotSupportedException("'less than' not supported for vector");
 	}
 
 	@Override
-	public TempValue negate() {
+	public IValue negate() {
 		Vector newVector = new Vector(-vector.getX(), -vector.getY(), -vector.getZ());
 		return new VectorValue(newVector);
 	}
