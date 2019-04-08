@@ -31,8 +31,10 @@ RightCircleCommand=30
 Type=31
 AbsoluteParameter=32
 CommandParameter=33
-ID=34
-WS=35
+GCode=34
+GCodeVarRef=35
+ID=36
+WS=37
 'return '=1
 '='=2
 '+'=3

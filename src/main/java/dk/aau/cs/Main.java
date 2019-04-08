@@ -11,15 +11,29 @@ import dk.aau.cs.Syntax.GMMLexer;
 import dk.aau.cs.Syntax.GMMParser;
 import org.antlr.v4.runtime.*;
 
+import java.io.*;
+
 
 public class Main {
 
-    public static void main(String[] args){
-        CharStream cs = CharStreams.fromString("" +
-                "block[]{ \n" +
-                "bool x = -true \n" +
-                "}");
+    public static void main(String[] args) {
+        String inputFile = args[0];
+        String outputFile = args[0].replace(".gmm", ".gcode");
 
+        try{
+        CharStream cs = CharStreams.fromFileName(inputFile);
+        Writer writer = new BufferedWriter(new FileWriter(outputFile, false));
+
+        compile(cs, writer);
+
+        writer.flush();
+        writer.close();
+        }catch (IOException e){
+            System.out.println(e);
+        }
+    }
+
+    public static void compile(CharStream cs, Writer writer){
         //Scan and parse code
         GMMLexer lexer = new GMMLexer(cs);
         TokenStream ts = new BufferedTokenStream(lexer);

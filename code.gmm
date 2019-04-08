@@ -1,0 +1,20 @@
+num fac(num n) {
+    if(n == 1) {
+        return 1
+    }
+    return n * fac(n - 1)
+}
+
+void drawBox(num size){
+    move X=size
+    move Y=size
+    move X=-size
+    move Y=-size
+
+}
+
+block[tool:0] {
+    move X=$0 Y=$0 Z=$0
+
+    drawBox(50)
+}

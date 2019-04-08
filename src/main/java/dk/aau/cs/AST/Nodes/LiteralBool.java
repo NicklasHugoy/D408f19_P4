@@ -2,6 +2,8 @@ package dk.aau.cs.AST.Nodes;
 
 import dk.aau.cs.AST.ASTVisitor;
 
+import java.util.Objects;
+
 public class LiteralBool extends PositionedNode implements Expression {
 
     public boolean boolValue;
@@ -29,5 +31,18 @@ public class LiteralBool extends PositionedNode implements Expression {
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitLiteralBool(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LiteralBool that = (LiteralBool) o;
+        return boolValue == that.boolValue;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(boolValue);
     }
 }
