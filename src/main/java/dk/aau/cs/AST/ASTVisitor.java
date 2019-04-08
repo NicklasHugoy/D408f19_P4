@@ -38,4 +38,5 @@ public interface ASTVisitor<T> {
     default T visitVectorComponent(VectorComponent vectorComponent){return null;}
     default T visitLiteralVector(LiteralVector literalVector){return null;}
     default T visitNegate(Negate negate) {return null;}
+    default T visitExplicitGCode(ExplicitGCode explicitGCode) {return null;}
 }

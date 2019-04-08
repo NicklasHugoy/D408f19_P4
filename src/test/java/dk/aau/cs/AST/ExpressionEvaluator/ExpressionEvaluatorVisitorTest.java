@@ -3,7 +3,6 @@ package dk.aau.cs.AST.ExpressionEvaluator;
 import dk.aau.cs.AST.ASTGenerator;
 import dk.aau.cs.AST.FunctionVisitor.FunctionVisitor;
 import dk.aau.cs.AST.GMMType;
-import dk.aau.cs.AST.Node;
 import dk.aau.cs.AST.Nodes.*;
 import dk.aau.cs.AST.TypeChecking.FunctionTable;
 import dk.aau.cs.AST.TypeChecking.IFunctionTable;
@@ -21,7 +20,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ExpressionEvaluatorVisitorTest {
 
@@ -63,7 +61,7 @@ class ExpressionEvaluatorVisitorTest {
 		symbolTable.openScope();
 		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
 
-		assertEquals(5f, plus.accept(expressionEvaluatorVisitor).getValue());
+		assertEquals(5.0, plus.accept(expressionEvaluatorVisitor).getValue());
 	}
 
 	@Test
@@ -109,7 +107,7 @@ class ExpressionEvaluatorVisitorTest {
 		symbolTable.openScope();
 		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
 
-		assertEquals(1f, minus.accept(expressionEvaluatorVisitor).getValue());
+		assertEquals(1.0, minus.accept(expressionEvaluatorVisitor).getValue());
 	}
 
 	@Test
@@ -139,7 +137,7 @@ class ExpressionEvaluatorVisitorTest {
 		symbolTable.openScope();
 		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
 
-		assertEquals(12f, times.accept(expressionEvaluatorVisitor).getValue());
+		assertEquals(12.0, times.accept(expressionEvaluatorVisitor).getValue());
 	}
 
 	@Test
@@ -543,7 +541,7 @@ class ExpressionEvaluatorVisitorTest {
 		symbolTable.openScope();
 		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
 
-		assertEquals(-3f, negate.accept(expressionEvaluatorVisitor).getValue());
+		assertEquals(-3.0, negate.accept(expressionEvaluatorVisitor).getValue());
 	}
 
 	@Test
@@ -557,7 +555,7 @@ class ExpressionEvaluatorVisitorTest {
 		symbolTable.openScope();
 		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
 
-		assertEquals(3f, negate.accept(expressionEvaluatorVisitor).getValue());
+		assertEquals(3.0, negate.accept(expressionEvaluatorVisitor).getValue());
 	}
 
 	@Test
@@ -599,7 +597,7 @@ class ExpressionEvaluatorVisitorTest {
 		symbolTable.openScope();
 		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
 
-		assertEquals(new Vector(-1,-2,-3), negate.accept(expressionEvaluatorVisitor).getValue());
+		assertEquals(new Vector(-1.0,-2.0,-3.0), negate.accept(expressionEvaluatorVisitor).getValue());
 	}
 
 	@Test
@@ -613,7 +611,7 @@ class ExpressionEvaluatorVisitorTest {
 		symbolTable.openScope();
 		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
 
-		assertEquals(new Vector(1,2,3), negate.accept(expressionEvaluatorVisitor).getValue());
+		assertEquals(new Vector(1.0,2.0,3.0), negate.accept(expressionEvaluatorVisitor).getValue());
 	}
 
 
@@ -629,6 +627,6 @@ class ExpressionEvaluatorVisitorTest {
 		symbolTable.enterSymbol("y", GMMType.Num, new NumValue(5));
 		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
 
-		assertEquals(7f, plus.accept(expressionEvaluatorVisitor).getValue());
+		assertEquals(7.0, plus.accept(expressionEvaluatorVisitor).getValue());
 	}
 }

@@ -32,7 +32,9 @@ scopedStmt
     | MoveCommand commandParameter+ #Move
     | RightCircleCommand commandParameter+ #RightCircle
     | LeftCircleCommand commandParameter+ #LeftCircle
-    | Return expression # FunctionReturn;
+    | Return expression # FunctionReturn
+    | GCode # ExplicitGCode
+    ;
 
 functionCall
     :ID LParan parameters? RParan;
@@ -159,6 +161,13 @@ AbsoluteParameter
 
 CommandParameter
     : 'X' | 'Y' | 'Z' | 'I' | 'J'| 'R';
+
+
+GCode
+    : '@' (Letter | Digit | WS | GCodeVarRef)* '@';
+
+GCodeVarRef
+    : '{' ID '}';
 
 ID
     : Letter (Letter | Digit | '_')*;

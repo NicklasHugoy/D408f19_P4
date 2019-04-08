@@ -3,6 +3,7 @@ package dk.aau.cs.AST.TypeChecking;
 import dk.aau.cs.AST.ExpressionEvaluator.IValue;
 import dk.aau.cs.AST.GMMType;
 import dk.aau.cs.ErrorReporting.Logger;
+import dk.aau.cs.ErrorReporting.UndeclaredReferenceError;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 
 import java.util.LinkedList;
@@ -30,9 +31,9 @@ public class SymbolTable implements ISymbolTable {
 			if (typeValuePair != null) return typeValuePair.getType();
 		}
 
-		Logger.Log("Variable '" + symbol + "' has not been declared", WarningLevel.Error);
-		return GMMType.Void;
-	}
+        Logger.Log(new UndeclaredReferenceError("Variable '" + symbol + "' has not been declared"));
+        return GMMType.Void;
+    }
 
 	@Override
 	public TypeValuePair retrieveSymbolWithValue(String symbol) {
@@ -41,7 +42,7 @@ public class SymbolTable implements ISymbolTable {
 			if (typeValuePair != null) return typeValuePair;
 		}
 
-		Logger.Log("Variable '" + symbol + "' has not been declared", WarningLevel.Error);
+		Logger.Log(new UndeclaredReferenceError("Variable '" + symbol + "' has not been declared"));
 		return new TypeValuePair(GMMType.Void, null);
 	}
 

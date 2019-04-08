@@ -1,17 +1,22 @@
 package dk.aau.cs.AST.Nodes;
 
 import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.Expression;
-import dk.aau.cs.AST.Node;
 
 import java.util.ArrayList;
 
-public class LessThan implements Expression {
+public class LessThan extends PositionedNode implements Expression {
 
 	public Expression left;
 	public Expression right;
 
 	public LessThan(Expression left, Expression right) {
+		super(0,0);
+		this.left = left;
+		this.right = right;
+	}
+
+	public LessThan(int lineNumber, int charNumber, Expression left, Expression right) {
+		super(lineNumber, charNumber);
 		this.left = left;
 		this.right = right;
 	}

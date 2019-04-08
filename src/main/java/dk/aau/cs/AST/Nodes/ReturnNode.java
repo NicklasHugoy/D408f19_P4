@@ -1,15 +1,18 @@
 package dk.aau.cs.AST.Nodes;
 
-import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.Expression;
-import dk.aau.cs.AST.FunctionStatement;
-import dk.aau.cs.AST.Node;
+import dk.aau.cs.AST.*;
 
-public class ReturnNode implements FunctionStatement {
+public class ReturnNode extends PositionedNode implements FunctionStatement {
 
     public Expression expression;
 
     public ReturnNode(Expression expression) {
+        super(0,0);
+        this.expression = expression;
+    }
+
+    public ReturnNode(int lineNumber, int charNumber, Expression expression) {
+        super(lineNumber, charNumber);
         this.expression = expression;
     }
 

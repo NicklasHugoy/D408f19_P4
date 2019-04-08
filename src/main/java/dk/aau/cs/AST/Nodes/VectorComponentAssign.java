@@ -1,20 +1,25 @@
 package dk.aau.cs.AST.Nodes;
 
-import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.Expression;
-import dk.aau.cs.AST.Node;
-import dk.aau.cs.AST.Statement;
+import dk.aau.cs.AST.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VectorComponentAssign implements Statement {
+public class VectorComponentAssign extends PositionedNode implements Statement {
 
     public ID identifier;
     public ID component;
     public Expression expression;
 
     public VectorComponentAssign(ID identifier, ID component, Expression expression) {
+        super(0,0);
+        this.identifier = identifier;
+        this.component = component;
+        this.expression = expression;
+    }
+
+    public VectorComponentAssign(int lineNumber, int charNumber, ID identifier, ID component, Expression expression) {
+        super(lineNumber, charNumber);
         this.identifier = identifier;
         this.component = component;
         this.expression = expression;

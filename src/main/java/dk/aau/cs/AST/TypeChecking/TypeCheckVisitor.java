@@ -3,8 +3,7 @@ package dk.aau.cs.AST.TypeChecking;
 import dk.aau.cs.AST.*;
 import dk.aau.cs.AST.FunctionVisitor.FunctionEntry;
 import dk.aau.cs.AST.Nodes.*;
-import dk.aau.cs.ErrorReporting.Logger;
-import dk.aau.cs.ErrorReporting.WarningLevel;
+import dk.aau.cs.ErrorReporting.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
 
         for(GMMType actualReturnType : actualReturnTypes){
             if(returnType != actualReturnType){
-                Logger.Log(functionDef.idNode.identifier + " has a mismatched return type", WarningLevel.Error);
+                Logger.Log(new InvalidReturnTypeError( functionDef.idNode.identifier + " has a mismatched return type expected " + returnType + " but got " + actualReturnType, functionDef));
             }
         }
 
@@ -83,7 +82,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType exprType = relativeParameter.expression.accept(this);
 
         if(exprType != GMMType.Num){
-            Logger.Log("Relative parameters only accepts type Num not " + exprType, WarningLevel.Error);
+            Logger.Log(new InvalidExpressionType("Relative parameters only accepts type Num but got " + exprType, relativeParameter));
         }
         return null;
     }
@@ -94,13 +93,13 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType expressedType = declaration.expression.accept(this);
 
         if(symbolTable.retrieveSymbolInScope(declaration.identifier.identifier) != null){
-            Logger.Log("Variable " + declaration.identifier.identifier + " has already been declared in this scope", WarningLevel.Error);
+            Logger.Log(new OccupiedSymbolError(declaration.identifier.identifier + " has already been declared in this scope", declaration));
         }
 
         symbolTable.enterSymbol(declaration.identifier.identifier, declaredType);
 
         if(declaredType != expressedType){
-            Logger.Log("Mismatched type during " + declaration.identifier.identifier + " declaration expected "+ declaredType + " but got " + expressedType, WarningLevel.Error);
+            Logger.Log(new AssignmentTypeError("Mismatched type during " + declaration.identifier.identifier + " declaration expected "+ declaredType + " but got " + expressedType, declaration));
         }
 
         return null;
@@ -112,7 +111,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType expressedType = assign.expression.accept(this);
 
         if(variableType != expressedType){
-            Logger.Log("Mismatched types around var = expr statement", WarningLevel.Error);
+            Logger.Log(new AssignmentTypeError("Mismatched types around var = expr statement expected " + variableType + " but got " + expressedType, assign));
         }
 
         return null;
@@ -124,7 +123,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
 
         for(int i = 0; i < functionCall.parameters.size(); i++){
             if(functionSig.getParameterTypes().get(i) != functionCall.parameters.get(i).accept(this)){
-                Logger.Log("Function call to " + functionSig.getId() + " has mismatched arguments", WarningLevel.Error);
+                Logger.Log(new InvalidParameterTypeError("Function call to " + functionSig.getId() + " has mismatched arguments", functionCall));
             }
         }
 
@@ -140,7 +139,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         }
 
         if(predicateType != GMMType.Bool){
-            Logger.Log("If statement got " + predicateType + " type but expected a bool", WarningLevel.Error);
+            Logger.Log(new InvalidPredicateType("If statement got " + predicateType + " type but expected a bool", ifNode));
         }
 
         return null;
@@ -160,7 +159,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType exprType = absoluteParameter.expression.accept(this);
 
         if(exprType != GMMType.Num){
-            Logger.Log("Absolute parameters only accepts type Num not " + exprType, WarningLevel.Error);
+            Logger.Log(new InvalidExpressionType("Absolute parameters only accepts type Num but got " + exprType, absoluteParameter));
         }
         return null;
     }
@@ -171,8 +170,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType right = equality.right.accept(this);
 
         if(left != right){
-            Logger.Log("Got mismatched types from == expression", WarningLevel.Error);
-            return null;
+            Logger.Log(new MismatchedExpressionTypeError("== expected similar types but got " + left + " == " + right, equality));
         }
 
         return GMMType.Bool;
@@ -184,8 +182,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType right = inEquality.right.accept(this);
 
         if(left != right){
-            Logger.Log("Got mismatched types from != expression", WarningLevel.Error);
-            return null;
+            Logger.Log(new MismatchedExpressionTypeError("!= expected similar types but got " + left + " != " + right, inEquality));
         }
 
         return GMMType.Bool;
@@ -196,9 +193,11 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType left = and.left.accept(this);
         GMMType right = and.right.accept(this);
 
-        if(left != GMMType.Bool || right != GMMType.Bool){
-            Logger.Log("Got non Bool types from && expression", WarningLevel.Error);
-            return null;
+        if(left != GMMType.Bool){
+            Logger.Log(new InvalidExpressionType("The && can only operate on type Bool but got " + left, and));
+        }
+        if(right != GMMType.Bool){
+            Logger.Log(new InvalidExpressionType("The && can only operate on type Bool but got " + right, and));
         }
 
         return GMMType.Bool;
@@ -209,9 +208,11 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType left = or.left.accept(this);
         GMMType right = or.right.accept(this);
 
-        if(left != GMMType.Bool || right != GMMType.Bool){
-            Logger.Log("Got non Bool types from || expression", WarningLevel.Error);
-            return null;
+        if(left != GMMType.Bool){
+            Logger.Log(new InvalidExpressionType("The || can only operate on type Bool but got " + left, or));
+        }
+        if(right != GMMType.Bool){
+            Logger.Log(new InvalidExpressionType("The || can only operate on type Bool but got " + right, or));
         }
 
         return GMMType.Bool;
@@ -223,15 +224,15 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType right = divide.right.accept(this);
 
         if(left == GMMType.Bool || right == GMMType.Bool){
-            Logger.Log("The / operator cannot operate on type Bool", WarningLevel.Error);
+            Logger.Log(new InvalidExpressionType("The / operator cannot operate on type Bool", divide));
         }
 
         if(left == GMMType.Vector || right == GMMType.Vector){
-            Logger.Log("Divide expression does not accept Vector type", WarningLevel.Error);
+            Logger.Log(new InvalidExpressionType("/ expression does not accept Vector type", divide));
             return null;
         }
         if(left != right){
-            Logger.Log("Got mismatched types from divide expression", WarningLevel.Error);
+            Logger.Log(new MismatchedExpressionTypeError("/ only accepts operands of the same type got "+left + " and " + right, divide));
             return null;
         }
 
@@ -244,16 +245,16 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType right = times.right.accept(this);
 
         if(left == GMMType.Bool || right == GMMType.Bool){
-            Logger.Log("The * operator cannot operate on type Bool", WarningLevel.Error);
+            Logger.Log(new InvalidExpressionType("The * operator cannot operate on type Bool", times));
             return null;
         }else if(left == GMMType.Vector && right == GMMType.Vector){
-            Logger.Log("The * operator cannot operate on two Vectors", WarningLevel.Error);
+            Logger.Log(new InvalidExpressionType("The * operator cannot operate on two Vectors", times));
             return null;
         } else if(left == GMMType.Num && right == GMMType.Vector || left == GMMType.Vector && right == GMMType.Num){
             return GMMType.Vector;
         }
         else if(left != right){
-            Logger.Log("Got mismatched types from times expression", WarningLevel.Error);
+            Logger.Log(new MismatchedExpressionTypeError("* only accepts operands of the same type got "+left + " and " + right, times));
             return null;
         }
 
@@ -266,11 +267,11 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType right = plus.right.accept(this);
 
         if(left == GMMType.Bool || right == GMMType.Bool){
-            Logger.Log("The + operator cannot operate on type Bool", WarningLevel.Error);
+            Logger.Log(new InvalidExpressionType("The + operator cannot operate on type Bool", plus));
         }
 
         if(left != right){
-            Logger.Log("Got mismatched types from plus expression", WarningLevel.Error);
+            Logger.Log(new MismatchedExpressionTypeError("+ only accepts operands of the same type got "+left + " and " + right, plus));
             return null;
         }
 
@@ -283,11 +284,11 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType right = minus.right.accept(this);
 
         if(left == GMMType.Bool || right == GMMType.Bool){
-            Logger.Log("The - operator cannot operate on type Bool", WarningLevel.Error);
+            Logger.Log(new InvalidExpressionType("The - operator cannot operate on type Bool", minus));
         }
 
         if(left != right){
-            Logger.Log("Got mismatched types from minus expression", WarningLevel.Error);
+            Logger.Log(new MismatchedExpressionTypeError("- only accepts operands of the same type got "+left + " and " + right, minus));
             return null;
         }
 
@@ -345,7 +346,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         symbolTable.openScope();
 
         if(predicateType != GMMType.Bool){
-            Logger.Log("Mismatched type While loop expected type Bool but got " + predicateType, WarningLevel.Error);
+            Logger.Log(new InvalidPredicateType("While loop expected type Bool but got " + predicateType, whileLoop));
         }
 
         for (Statement statement : whileLoop.statements)
@@ -367,9 +368,11 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType left = greaterThan.left.accept(this);
         GMMType right = greaterThan.right.accept(this);
 
-        if(left != GMMType.Num || right != GMMType.Num){
-            Logger.Log("Got non Num types from > expression", WarningLevel.Error);
-            return null;
+        if(left != GMMType.Num){
+            Logger.Log(new InvalidExpressionType("> can only operate on Num but got "+left, greaterThan));
+        }
+        if(right != GMMType.Num){
+            Logger.Log(new InvalidExpressionType("> can only operate on Num but got "+right, greaterThan));
         }
 
         return GMMType.Bool;
@@ -380,9 +383,11 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType left = lessThan.left.accept(this);
         GMMType right = lessThan.right.accept(this);
 
-        if(left != GMMType.Num || right != GMMType.Num){
-            Logger.Log("Got non Bool types from < expression", WarningLevel.Error);
-            return null;
+        if(left != GMMType.Num){
+            Logger.Log(new InvalidExpressionType("< can only operate on Num but got "+left, lessThan));
+        }
+        if(right != GMMType.Num){
+            Logger.Log(new InvalidExpressionType("< can only operate on Num but got "+right, lessThan));
         }
 
         return GMMType.Bool;
@@ -393,7 +398,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType expressedType = vectorComponentAssign.expression.accept(this);
 
         if(expressedType != GMMType.Num){
-            Logger.Log("Vector component assignment expected a Num but got " + expressedType, WarningLevel.Error);
+            Logger.Log(new AssignmentTypeError("Vector component assignment expected a Num but got " + expressedType, vectorComponentAssign));
         }
 
         return null;
@@ -411,11 +416,11 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType z = literalVector.z.accept(this);
 
         if(x != GMMType.Num)
-            Logger.Log("First component of Literal Vector expected type Num but got " + x, WarningLevel.Error);
+            Logger.Log(new InvalidExpressionType("First component of Literal Vector expected type Num but got " + x, literalVector));
         if(y != GMMType.Num)
-            Logger.Log("Second component of Literal Vector expected type Num but got " + y, WarningLevel.Error);
+            Logger.Log(new InvalidExpressionType("Second component of Literal Vector expected type Num but got " + y, literalVector));
         if(z != GMMType.Num)
-            Logger.Log("Third component of Literal Vector expected type Num but got " + z, WarningLevel.Error);
+            Logger.Log(new InvalidExpressionType("Third component of Literal Vector expected type Num but got " + z, literalVector));
 
         return GMMType.Vector;
     }
@@ -425,7 +430,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType type = negate.expression.accept(this);
 
         if(type == GMMType.Void){
-            Logger.Log("Cannot negate Type Void", WarningLevel.Error);
+            Logger.Log(new InvalidExpressionType("Cannot negate type Void", negate));
         }
 
         return type;

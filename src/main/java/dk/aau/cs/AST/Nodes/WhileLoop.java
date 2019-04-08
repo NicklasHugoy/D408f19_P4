@@ -1,19 +1,23 @@
 package dk.aau.cs.AST.Nodes;
 
-import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.Expression;
-import dk.aau.cs.AST.Node;
-import dk.aau.cs.AST.Statement;
+import dk.aau.cs.AST.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WhileLoop implements Statement {
+public class WhileLoop extends PositionedNode implements Statement {
 
     public Expression expression;
     public List<Statement> statements;
 
     public WhileLoop(Expression expression, List<Statement> statements) {
+        super(0,0);
+        this.expression = expression;
+        this.statements = statements;
+    }
+
+    public WhileLoop(int lineNumber, int charNumber, Expression expression, List<Statement> statements) {
+        super(lineNumber, charNumber);
         this.expression = expression;
         this.statements = statements;
     }

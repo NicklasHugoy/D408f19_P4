@@ -1,19 +1,23 @@
 package dk.aau.cs.AST.Nodes;
 
-import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.CommandParameter;
-import dk.aau.cs.AST.Expression;
-import dk.aau.cs.AST.Node;
+import dk.aau.cs.AST.*;
 
 import java.util.ArrayList;
 
-public class AbsoluteParameter implements CommandParameter {
+public class AbsoluteParameter extends PositionedNode implements CommandParameter {
 
     public ID identifier;
 
     public Expression expression;
 
     public AbsoluteParameter(ID identifier, Expression expression) {
+        super(0,0);
+        this.identifier = identifier;
+        this.expression = expression;
+    }
+
+    public AbsoluteParameter(int lineNumber, int charNumber, ID identifier, Expression expression) {
+        super(lineNumber, charNumber);
         this.identifier = identifier;
         this.expression = expression;
     }

@@ -1,18 +1,22 @@
 package dk.aau.cs.AST.Nodes;
 
 import dk.aau.cs.AST.ASTVisitor;
-import dk.aau.cs.AST.Expression;
-import dk.aau.cs.AST.Node;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
-public class Minus implements Expression {
+public class Minus extends PositionedNode implements Expression {
 
     public Expression left;
     public Expression right;
 
     public Minus(Expression left, Expression right) {
+        super(0,0);
+        this.left = left;
+        this.right = right;
+    }
+
+    public Minus(int lineNumber, int charNumber, Expression left, Expression right) {
+        super(lineNumber, charNumber);
         this.left = left;
         this.right = right;
     }
