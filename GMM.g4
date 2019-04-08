@@ -59,6 +59,7 @@ booleanExpr
     | expr InEquality expr # InEqualityExpr
     | expr GreaterThan expr # GreaterThanExpr
     | expr LessThan expr # LessThanExpr
+    | LParan logic RParan # ParanLogic
     | expr # BooleanExprDerivation
     ;
 

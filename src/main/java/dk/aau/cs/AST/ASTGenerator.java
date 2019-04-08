@@ -387,6 +387,11 @@ public class ASTGenerator implements GMMVisitor<Node> {
     }
 
     @Override
+    public Node visitParanLogic(GMMParser.ParanLogicContext ctx) {
+        return ctx.logic().accept(this);
+    }
+
+    @Override
     public Node visitBooleanExprDerivation(GMMParser.BooleanExprDerivationContext ctx) {
         return ctx.expr().accept(this);
     }

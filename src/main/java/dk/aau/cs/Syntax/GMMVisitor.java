@@ -210,6 +210,13 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLessThanExpr(GMMParser.LessThanExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code ParanLogic}
+	 * labeled alternative in {@link GMMParser#booleanExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParanLogic(GMMParser.ParanLogicContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code BooleanExprDerivation}
 	 * labeled alternative in {@link GMMParser#booleanExpr}.
 	 * @param ctx the parse tree
@@ -266,7 +273,7 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParanExpr(GMMParser.ParanExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code LiteralNumber}
+	 * Visit a parse tree produced by the {@code LiteralInt}
 	 * labeled alternative in {@link GMMParser#factor}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args){
         CharStream cs = CharStreams.fromString("" +
                 "block[]{ \n" +
-                "num x = -1.3245 + true \n" +
+                "bool x = -true \n" +
                 "}");
 
         //Scan and parse code
