@@ -3,10 +3,7 @@ package dk.aau.cs.BlockDefChecker;
 import dk.aau.cs.AST.ASTGenerator;
 import dk.aau.cs.AST.ExpressionEvaluator.ExpressionEvaluatorVisitor;
 import dk.aau.cs.AST.FunctionVisitor.FunctionVisitor;
-import dk.aau.cs.AST.Nodes.BlockDef;
-import dk.aau.cs.AST.Nodes.ExplicitGCode;
-import dk.aau.cs.AST.Nodes.Node;
-import dk.aau.cs.AST.Nodes.Plus;
+import dk.aau.cs.AST.Nodes.*;
 import dk.aau.cs.AST.TypeChecking.FunctionTable;
 import dk.aau.cs.AST.TypeChecking.IFunctionTable;
 import dk.aau.cs.AST.TypeChecking.ISymbolTable;
@@ -19,6 +16,9 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.TokenStream;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,14 +36,6 @@ class BlockDefCheckerTest {
 		//Convert parse tree to AST
 		ASTGenerator astGenerator = new ASTGenerator();
 		ast = parser.prog().accept(astGenerator);
-
-		//Initialize function and symbol table
-		functionTable = new FunctionTable();
-		ISymbolTable symbolTable = new SymbolTable();
-
-		//Cultivate the function table
-		FunctionVisitor functionVisitor = new FunctionVisitor(functionTable);
-		ast.accept(functionVisitor);
 	}
 
 	@Test
@@ -51,14 +43,82 @@ class BlockDefCheckerTest {
 		CharStream cs = CharStreams.fromString("block[tool:2]{ num x = 2 + 3 }");
 		runCode(cs);
 		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
-		SymbolTable symbolTable = new SymbolTable();
 
-		symbolTable.openScope();
-		BlockDefChecker blockDefChecker = new BlockDefChecker(symbolTable);
+		BlockDefChecker blockDefChecker = new BlockDefChecker();
 		blockDefChecker.enterBlock(blockDef);
 
-		Logger.PrintLogs(System.out);
 		ExplicitGCode explicitGCode = (ExplicitGCode) blockDef.statements.get(0);
 		assertEquals("T2", explicitGCode.gcode);
+	}
+
+	@Test
+	void exitFunction_01() {
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("unit"), "mm"));
+		}};
+		List<MachineOption> options2 = new ArrayList<>(){{
+			add(new MachineOption(new ID("unit"), "inch"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		BlockDef blockDef2 = new BlockDef(options2, new ArrayList<>());
+		BlockDefChecker blockDefChecker = new BlockDefChecker();
+
+		blockDefChecker.EnterFunction();
+		blockDefChecker.enterBlock(blockDef1);
+		blockDefChecker.enterBlock(blockDef2);
+		List<ExplicitGCode> gCodeArrayList = blockDefChecker.exitFunction();
+
+		assertEquals("G21", gCodeArrayList.get(1).gcode);
+	}
+
+	@Test
+	void exitFunction_02() {
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("unit"), "mm"));
+		}};
+		List<MachineOption> options2 = new ArrayList<>(){{
+			add(new MachineOption(new ID("unit"), "inch"));
+		}};
+		List<MachineOption> options3 = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "2"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		BlockDef blockDef2 = new BlockDef(options2, new ArrayList<>());
+		BlockDef blockDef3 = new BlockDef(options3, new ArrayList<>());
+		BlockDefChecker blockDefChecker = new BlockDefChecker();
+
+		blockDefChecker.enterBlock(blockDef3);
+		blockDefChecker.EnterFunction();
+		blockDefChecker.enterBlock(blockDef1);
+		blockDefChecker.enterBlock(blockDef2);
+		List<ExplicitGCode> gCodeArrayList = blockDefChecker.exitFunction();
+
+		assertEquals("G21", gCodeArrayList.get(1).gcode);
+	}
+
+	@Test
+	void exitFunction_03() {
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("unit"), "mm"));
+		}};
+		List<MachineOption> options2 = new ArrayList<>(){{
+			add(new MachineOption(new ID("unit"), "inch"));
+		}};
+		List<MachineOption> options3 = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "2"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		BlockDef blockDef2 = new BlockDef(options2, new ArrayList<>());
+		BlockDef blockDef3 = new BlockDef(options3, new ArrayList<>());
+		BlockDefChecker blockDefChecker = new BlockDefChecker();
+
+		blockDefChecker.enterBlock(blockDef3);
+		blockDefChecker.EnterFunction();
+		blockDefChecker.enterBlock(blockDef1);
+		blockDefChecker.enterBlock(blockDef2);
+		blockDefChecker.exitFunction();
+		ExplicitGCode gcode = blockDefChecker.exitBlock();
+
+		assertEquals("T2", gcode.gcode);
 	}
 }
