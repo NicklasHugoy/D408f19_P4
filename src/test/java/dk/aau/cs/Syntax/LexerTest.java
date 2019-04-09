@@ -2,6 +2,7 @@ package dk.aau.cs.Syntax;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Array;
@@ -15,6 +16,7 @@ public class LexerTest {
     }
 
 
+    @Disabled
     @Test
     void getRuleName(){
         CharStream cs = CharStreams.fromString("");
@@ -56,6 +58,7 @@ public class LexerTest {
         assertEquals("GMM.g4", lexer.getGrammarFileName());
     }
 
+    @Disabled
     @Test
     void getATN(){
         CharStream cs = CharStreams.fromString("");
@@ -104,6 +107,7 @@ public class LexerTest {
         assertEquals("'=='", lexer.getVocabulary().getDisplayName(9));
     }
 
+    @Disabled
     @Test
     void getTokenNames(){
         CharStream cs = CharStreams.fromString("");
@@ -120,6 +124,7 @@ public class LexerTest {
         assertEquals(Arrays.toString(tokens), Arrays.toString(lexer.getTokenNames()));
     }
 
+    @Disabled
     @Test
     void getSerializedATN(){
         CharStream cs = CharStreams.fromString("");
