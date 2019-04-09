@@ -1,5 +1,6 @@
 package dk.aau.cs.Syntax;
 
+import dk.aau.cs.AST.Nodes.TypeNode;
 import org.antlr.v4.runtime.*;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -104,29 +105,103 @@ public class ParserTest {
 
 
     @Test
-    void getRuleStateAndParrent(){
+    void ruleStateAndParrent(){
         RuleContext parrentRule = new RuleContext();
         RuleContext rule = new RuleContext(parrentRule, 12);
-
+        ParserRuleContext ps = new ParserRuleContext();
         assertEquals(12, rule.invokingState);
         assertEquals(parrentRule, rule.parent);
         assertEquals(1, parrentRule.depth());
     }
 
     @Test
-    void getBlockDefCtx(){
+    void functionDefCtx(){
+        CharStream cs = CharStreams.fromString("num fac(num x){return x+2}");
+        GMMParser parser = getParser(cs);
+        GMMParser.FunctionDefContext fc = parser.functionDef();
+
+        assertEquals(1, fc.getRuleIndex());
+        assertEquals(parser.getTokenStream().get(0), fc.Type().getSymbol());
+        assertEquals(parser.getTokenStream().get(1), fc.ID().getSymbol());
+        assertEquals(parser.getTokenStream().get(6), fc.LCurl().getSymbol());
+        assertEquals(parser.getTokenStream().get(11), fc.RCurl().getSymbol());
+        assertEquals(parser.getTokenStream().get(2), fc.LParan().getSymbol());
+        assertEquals(parser.getTokenStream().get(5), fc.RParan().getSymbol());
+    }
+
+    @Test
+    void blockDefCtx(){
         CharStream cs = CharStreams.fromString("block[tool:1, bound_x:200]{x = 2}");
         GMMParser parser = getParser(cs);
         GMMParser.BlockDefContext blockDef = parser.blockDef();
 
         assertEquals(2, blockDef.getRuleIndex());
-        assertEquals(parser.getTokenStream().get(0).getText(), blockDef.ID().toString());
-        assertEquals(parser.getTokenStream().get(1).getText(), blockDef.LSquare().toString());
-        assertEquals(parser.getTokenStream().get(9).getText(), blockDef.RSquare().toString());
-        assertEquals(parser.getTokenStream().get(10).getText(), blockDef.LCurl().toString());
-        assertEquals(parser.getTokenStream().get(14).getText(), blockDef.RCurl().toString());
-        //assertEquals(, blockDef.scopedStmt(0));
+        assertEquals(parser.getTokenStream().get(0), blockDef.ID().getSymbol());
+        assertEquals(parser.getTokenStream().get(1), blockDef.LSquare().getSymbol());
+        assertEquals(parser.getTokenStream().get(9), blockDef.RSquare().getSymbol());
+        assertEquals(parser.getTokenStream().get(10), blockDef.LCurl().getSymbol());
+        assertEquals(parser.getTokenStream().get(14), blockDef.RCurl().getSymbol());
+    }
 
+    @Test
+    void formalParameterCtx01(){
+        CharStream cs = CharStreams.fromString("num fac(num x){return x+2}");
+        GMMParser parser = getParser(cs);
+        GMMParser.FormalParameterContext fp = parser.formalParameter();
+
+        assertEquals(4, fp.getRuleIndex());
+        assertEquals(parser.getTokenStream().get(1), fp.ID().getSymbol());
+        assertEquals(parser.getTokenStream().get(0), fp.Type().getSymbol());
+    }
+
+    @Test
+    void formalParameterCtx02(){
+        CharStream cs = CharStreams.fromString("num fac(num x, num y){return x+2}");
+        GMMParser parser = getParser(cs);
+        GMMParser.FunctionDefContext fc = parser.functionDef();
+
+        assertEquals(parser.getTokenStream().get(5), fc.formalParameters().CommaSeperator().get(0).getSymbol());
+        assertEquals(parser.getTokenStream().get(3), fc.formalParameters().formalParameter().get(0).start);
+        assertEquals(3, fc.formalParameters().getRuleIndex());
+
+    }
+
+    @Test
+    void machineOptionCtx01(){
+        CharStream cs = CharStreams.fromString("block[tool:1, bound_x:200]{x = 2}");
+        GMMParser parser = getParser(cs);
+        GMMParser.MachineOptionContext mc = parser.machineOption();
+
+        assertEquals(6, mc.getRuleIndex());
+        assertEquals(parser.getTokenStream().get(0), mc.ID().getSymbol());
+        assertEquals(parser.getTokenStream().get(3), mc.Colon().getSymbol());
+    }
+
+    @Test
+    void machineOptionCtx02(){
+        CharStream cs = CharStreams.fromString("block[tool:1, bound_x:200]{x = 2}");
+        GMMParser parser = getParser(cs);
+        GMMParser.BlockDefContext blockDef = parser.blockDef();
+
+        assertEquals(parser.getTokenStream().get(5), blockDef.machineOptions().CommaSeperator().get(0).getSymbol());
+        assertEquals(parser.getTokenStream().get(2), blockDef.machineOptions().machineOption().get(0).start);
+        assertEquals(5, blockDef.machineOptions().getRuleIndex());
+    }
+
+    @Test
+    void scopedStmtCtx(){
+        CharStream cs = CharStreams.fromString("num fac(num x, num y){return x+2}");
+        GMMParser parser = getParser(cs);
+        GMMParser.ScopedStmtContext sctx = parser.scopedStmt();
+
+        assertEquals(7, sctx.getRuleIndex());
+    }
+
+    @Test
+    void Ctx(){
+        CharStream cs = CharStreams.fromString("block[tool:1, bound_x:200]{num x = 2}");
+        GMMParser parser = getParser(cs);
+        
     }
 
 
