@@ -6,19 +6,18 @@ import java.util.ArrayList;
 
 public class MachineOption extends PositionedNode implements Node {
     public ID identifier;
-    public Expression expression;
+    public String option;
 
-
-    public MachineOption(ID identifier, Expression expression) {
-        super(0,0);
+    public MachineOption(ID identifier, String option) {
+        super(0, 0);
         this.identifier = identifier;
-        this.expression = expression;
+        this.option = option;
     }
 
-    public MachineOption(int lineNumber, int charNumber, ID identifier, Expression expression) {
+    public MachineOption(int lineNumber, int charNumber, ID identifier, String option) {
         super(lineNumber, charNumber);
         this.identifier = identifier;
-        this.expression = expression;
+        this.option = option;
     }
 
     @Override
@@ -26,7 +25,6 @@ public class MachineOption extends PositionedNode implements Node {
         ArrayList<Node> nodes = new ArrayList<>();
 
         nodes.add(identifier);
-        nodes.add(expression);
 
         return nodes.toArray(new Node[0]);
     }

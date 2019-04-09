@@ -34,7 +34,8 @@ CommandParameter=33
 GCode=34
 GCodeVarRef=35
 ID=36
-WS=37
+BlockParam=37
+WS=38
 'return '=1
 '='=2
 '+'=3

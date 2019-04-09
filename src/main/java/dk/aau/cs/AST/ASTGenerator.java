@@ -136,10 +136,11 @@ public class ASTGenerator implements GMMVisitor<Node> {
         int line = ctx.start.getLine();
         int charNr = ctx.start.getCharPositionInLine();
 
-        ID idNode = GetIDNode(ctx.ID());
-        Expression expression = (Expression) ctx.expression().accept(this);
+        String[] blockParam = ctx.BlockParam().getText().split(":");
 
-        return new MachineOption(line, charNr, idNode, expression);
+        ID idNode = new ID(ctx.start.getLine(), ctx.start.getCharPositionInLine(), blockParam[0].trim());
+
+        return new MachineOption(line, charNr, idNode, blockParam[1]);
     }
 
     @Override

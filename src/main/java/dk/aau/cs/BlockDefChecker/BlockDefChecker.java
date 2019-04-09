@@ -30,8 +30,10 @@ public class BlockDefChecker {
 		for (MachineOption option : blockDef.options){
 			switch (option.identifier.identifier){
 				case "tool":
-					ExplicitGCode explicitGCode = toolChange(blockDef, option);
-					addGCode(blockDef, explicitGCode);
+					addGCode(blockDef, toolChange(blockDef, option));
+					break;
+				case "unit":
+					addGCode(blockDef, unitChange(blockDef, option));
 					break;
 				default:
 					Logger.Log(new InvalidBlockParameter(
@@ -56,16 +58,21 @@ public class BlockDefChecker {
 		blockStack.push(gCode);
 	}
 
-	private ExplicitGCode toolChange(BlockDef blockDef, MachineOption option) {
-		IValue toolNumberValue = option.expression.accept(expressionEvaluatorVisitor);
-		if(toolNumberValue instanceof NumValue){
-			int toolNumber = ((Double)toolNumberValue.getValue()).intValue();
-			return new ExplicitGCode(0, 0, "T" + toolNumber);
-		}
-		Logger.Log(new InvalidBlockParameter(
-				"Block parameter 'tool' expected value of type 'NumValue' but got '" + toolNumberValue.getClass().getSimpleName() + "'",
-				blockDef,
-				WarningLevel.Error));
+	private ExplicitGCode unitChange(BlockDef blockDef, MachineOption option) {
 		return null;
+	}
+
+	private ExplicitGCode toolChange(BlockDef blockDef, MachineOption option) {
+		String optionString = option.option.replaceAll("\\s+","");
+		if(optionString.matches("\\d+")){
+			return new ExplicitGCode(0, 0, "T" + optionString);
+		}
+		else{
+			Logger.Log(new InvalidBlockParameter(
+					"Block parameter 'tool' expected a number but got '" + optionString + "'",
+					blockDef,
+					WarningLevel.Error));
+			return null;
+		}
 	}
 }

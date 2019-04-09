@@ -19,7 +19,7 @@ machineOptions
     : machineOption (CommaSeperator machineOption )*;
 
 machineOption
-    : ID Colon expression;
+    : BlockParam;
 
 scopedStmt
     : blockDef # Block
@@ -172,6 +172,9 @@ GCodeVarRef
 
 ID
     : Letter (Letter | Digit | '_')*;
+
+BlockParam
+    : ID WS* Colon WS* (Letter | Digit)+;
 
 fragment Letter
     : ([a-z] | [A-Z]);
