@@ -2,8 +2,6 @@ house[]{
     num houseWidth = 100
     num houseHeight = 100
 
-    num half = houseHeight / 2
-
     wall[]{
         num y = 0
         while(y < houseHeight){
@@ -20,11 +18,9 @@ house[]{
         num ceilingHeight = 50
         num overhang = 10
 
-        num half = houseHeight / 2
-
-        move X=0-overhang Y=100
-        move X=houseHeight/2 Y=houseHeight+ceilingHeight
-        move X=houseWidth+overhang Y=100
+        move X=0-overhang Y=houseHeight
+        move X=houseWidth/2 Y=houseHeight+ceilingHeight
+        move X=houseWidth+overhang Y=houseHeight
         move X=houseWidth
     }
 }

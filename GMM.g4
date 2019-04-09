@@ -112,7 +112,7 @@ False: 'false';
 
 INT
     : Digit+
-    | Digit DotOperator Digit? Digit? Digit? Digit?;
+    | Digit+ DotOperator Digit? Digit? Digit? Digit?;
 
 SemiColon
     : ';';
