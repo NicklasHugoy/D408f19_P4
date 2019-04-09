@@ -8,11 +8,9 @@ import dk.aau.cs.AST.TypeChecking.ISymbolTable;
 
 public class ExpressionEvaluatorVisitor implements ASTVisitor<IValue> {
 
-	private IFunctionTable functionTable;
 	private ISymbolTable symbolTable;
 
-	public ExpressionEvaluatorVisitor(IFunctionTable functionTable, ISymbolTable symbolTable) {
-		this.functionTable = functionTable;
+	public ExpressionEvaluatorVisitor(ISymbolTable symbolTable) {
 		this.symbolTable = symbolTable;
 	}
 

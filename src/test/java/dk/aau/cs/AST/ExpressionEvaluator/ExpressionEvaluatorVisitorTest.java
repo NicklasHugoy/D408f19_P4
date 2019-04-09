@@ -59,7 +59,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(5.0, plus.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -73,7 +73,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertThrows(OperationNotSupportedException.class, () -> {
 			plus.accept(expressionEvaluatorVisitor).getValue();
@@ -89,7 +89,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		Vector actualVector = (Vector) plus.accept(expressionEvaluatorVisitor).getValue();
 		Vector expectedVector = new Vector(4, 6, 8);
@@ -105,7 +105,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(1.0, minus.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -119,7 +119,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertThrows(OperationNotSupportedException.class, () -> {
 			minus.accept(expressionEvaluatorVisitor).getValue();
@@ -135,7 +135,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(12.0, times.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -149,7 +149,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertThrows(OperationNotSupportedException.class, () -> {
 			times.accept(expressionEvaluatorVisitor).getValue();
@@ -165,7 +165,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertThrows(OperationNotSupportedException.class, () -> {
 			times.accept(expressionEvaluatorVisitor).getValue();
@@ -181,7 +181,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertThrows(OperationNotSupportedException.class, () -> {
 			and.accept(expressionEvaluatorVisitor).getValue();
@@ -197,7 +197,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(false, and.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -211,7 +211,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertThrows(OperationNotSupportedException.class, () -> {
 			and.accept(expressionEvaluatorVisitor).getValue();
@@ -227,7 +227,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertThrows(OperationNotSupportedException.class, () -> {
 			or.accept(expressionEvaluatorVisitor).getValue();
@@ -243,7 +243,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(true, or.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -257,7 +257,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertThrows(OperationNotSupportedException.class, () -> {
 			or.accept(expressionEvaluatorVisitor).getValue();
@@ -273,7 +273,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(true, equality.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -287,7 +287,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(false, equality.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -301,7 +301,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(true, equality.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -315,7 +315,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(false, equality.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -329,7 +329,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(true, equality.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -343,7 +343,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(false, equality.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -357,7 +357,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(false, inEquality.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -371,7 +371,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(true, inEquality.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -385,7 +385,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(false, inEquality.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -399,7 +399,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(true, inEquality.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -413,7 +413,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(false, inEquality.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -427,7 +427,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(true, inEquality.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -441,7 +441,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(true, greaterThan.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -455,7 +455,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(false, greaterThan.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -469,7 +469,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(false, greaterThan.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -483,7 +483,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(true, greaterThan.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -497,7 +497,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(true, greaterThan.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -511,7 +511,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(true, lessThan.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -525,7 +525,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(false, lessThan.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -539,7 +539,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(-3.0, negate.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -553,7 +553,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(3.0, negate.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -567,7 +567,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(false, negate.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -581,7 +581,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(true, negate.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -595,7 +595,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(new Vector(-1.0,-2.0,-3.0), negate.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -609,7 +609,7 @@ class ExpressionEvaluatorVisitorTest {
 		SymbolTable symbolTable = new SymbolTable();
 
 		symbolTable.openScope();
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(new Vector(1.0,2.0,3.0), negate.accept(expressionEvaluatorVisitor).getValue());
 	}
@@ -625,7 +625,7 @@ class ExpressionEvaluatorVisitorTest {
 
 		symbolTable.openScope();
 		symbolTable.enterSymbol("y", GMMType.Num, new NumValue(5));
-		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(functionTable, symbolTable);
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(7.0, plus.accept(expressionEvaluatorVisitor).getValue());
 	}
