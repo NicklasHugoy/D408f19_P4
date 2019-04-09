@@ -13,7 +13,7 @@ import java.util.Stack;
 
 public class BlockDefChecker {
 
-	private Stack<ExplicitGCode> blockStack;
+	private Stack<List<ExplicitGCode>> blockStack;
 
 	private Boolean insideFunction;
 	private int blockDefFunctionCounter;
@@ -28,13 +28,18 @@ public class BlockDefChecker {
 		if(insideFunction)
 			blockDefFunctionCounter++;
 
+		List<ExplicitGCode> gCodeArrayList = new ArrayList<>();
+
 		for (MachineOption option : blockDef.options){
 			switch (option.identifier.identifier){
 				case "tool":
-					addGCode(blockDef, toolChange(blockDef, option.option));
+					gCodeArrayList.add(toolChange(blockDef, option.option));
 					break;
 				case "unit":
-					addGCode(blockDef, unitChange(blockDef, option.option));
+					gCodeArrayList.add(unitChange(blockDef, option.option));
+					break;
+				case "positionMode":
+					gCodeArrayList.add(positionModeChange(blockDef, option.option));
 					break;
 				default:
 					Logger.Log(new InvalidBlockParameter(
@@ -43,12 +48,17 @@ public class BlockDefChecker {
 							WarningLevel.Error));
 			}
 		}
+		addGCode(blockDef, gCodeArrayList);
 	}
 
-	public ExplicitGCode exitBlock(){
+	public List<ExplicitGCode> exitBlock(){
 		if(insideFunction)
 			blockDefFunctionCounter--;
-		return blockStack.pop();
+		blockStack.pop();
+		if(blockStack.empty()){
+			return new ArrayList<>();
+		}
+		return blockStack.peek();
 	}
 
 	public void EnterFunction(){
@@ -58,17 +68,35 @@ public class BlockDefChecker {
 	public List<ExplicitGCode> exitFunction(){
 		ArrayList<ExplicitGCode> gCodesList = new ArrayList<>();
 		while (blockDefFunctionCounter > 0){
-			gCodesList.add(blockStack.pop());
+			gCodesList.addAll(blockStack.pop());
 			blockDefFunctionCounter--;
 		}
 		return gCodesList;
 	}
 
-	private void addGCode(BlockDef blockDef, ExplicitGCode gCode){
-		if (null == gCode)
+	private void addGCode(BlockDef blockDef, List<ExplicitGCode> gCodeList){
+		if (gCodeList.isEmpty())
 			return;
-		blockDef.statements.add(0, gCode);
-		blockStack.push(gCode);
+
+		for(ExplicitGCode gCode : gCodeList){
+			blockDef.statements.add(0, gCode);
+		}
+		blockStack.push(gCodeList);
+	}
+
+	private ExplicitGCode positionModeChange(BlockDef blockDef, String option) {
+		switch (option){
+			case "absolute":
+				return new ExplicitGCode(0, 0, "G90");
+			case "relative":
+				return new ExplicitGCode(0, 0, "G91");
+			default:
+				Logger.Log(new InvalidBlockParameter(
+						"Block parameter 'positionMode' expected 'absolute' or 'relative' but got '" + option + "'",
+						blockDef,
+						WarningLevel.Error));
+				return null;
+		}
 	}
 
 	private ExplicitGCode unitChange(BlockDef blockDef, String option) {
