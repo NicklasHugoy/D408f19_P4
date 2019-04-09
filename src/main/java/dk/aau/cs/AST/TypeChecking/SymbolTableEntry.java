@@ -25,4 +25,12 @@ public class SymbolTableEntry{
 	public IValue getValue() {
 		return value;
 	}
+
+	public void setType(GMMType type) {
+		this.type = type;
+	}
+
+	public void setValue(IValue value) {
+		this.value = value;
+	}
 }

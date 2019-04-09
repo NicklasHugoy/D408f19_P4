@@ -1,20 +1,30 @@
-num fac(num n) {
-    if(n == 1) {
-        return 1
+house[]{
+    num houseWidth = 100
+    num houseHeight = 100
+
+    num half = houseHeight / 2
+
+    wall[]{
+        num y = 0
+        while(y < houseHeight){
+            move X=houseWidth Y=y
+            move X=houseWidth Y=y+5
+            move X=0 Y=y+5
+            move X=0 Y=y
+            move X=0 Y=y+5
+            y = y + 5
+        }
     }
-    return n * fac(n - 1)
-}
 
-void drawBox(num size){
-    move X=size
-    move Y=size
-    move X=-size
-    move Y=-size
+    ceiling[]{
+        num ceilingHeight = 50
+        num overhang = 10
 
-}
+        num half = houseHeight / 2
 
-block[tool:0] {
-    move X=$0 Y=$0 Z=$0
-
-    drawBox(50)
+        move X=0-overhang Y=100
+        move X=houseHeight/2 Y=houseHeight+ceilingHeight
+        move X=houseWidth+overhang Y=100
+        move X=houseWidth
+    }
 }

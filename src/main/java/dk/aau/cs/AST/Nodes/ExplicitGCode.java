@@ -60,4 +60,9 @@ public class ExplicitGCode extends PositionedNode implements Statement {
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitExplicitGCode(this);
     }
+
+    @Override
+    public String toString() {
+        return "ExplicitGCode";
+    }
 }

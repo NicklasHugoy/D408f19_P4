@@ -29,6 +29,7 @@ public class SymbolTable implements ISymbolTable {
 		for (int i = scopes.size() - 1; i >= 0; i--) {
 			TypeValuePair typeValuePair =  scopes.get(i).Find(symbol);
 			if (typeValuePair != null) return typeValuePair.getType();
+			if (scopes.get(i).isIsolatedScope()) break;
 		}
 
         Logger.Log(new UndeclaredReferenceError("Variable '" + symbol + "' has not been declared"));
@@ -40,6 +41,7 @@ public class SymbolTable implements ISymbolTable {
 		for (int i = scopes.size() - 1; i >= 0; i--) {
 			TypeValuePair typeValuePair =  scopes.get(i).Find(symbol);
 			if (typeValuePair != null) return typeValuePair;
+			if(scopes.get(i).isIsolatedScope()) break;
 		}
 
 		Logger.Log(new UndeclaredReferenceError("Variable '" + symbol + "' has not been declared"));
@@ -57,8 +59,25 @@ public class SymbolTable implements ISymbolTable {
 	}
 
 	@Override
+	public void assignValue(String symbol, IValue value) {
+		for(int i = scopes.size() - 1; i >= 0; i--){
+			TypeValuePair entry = scopes.get(i).Find(symbol);
+			if(entry != null){
+				scopes.get(i).Add(symbol, entry.getType(), value);
+				return;
+			}
+			if(scopes.get(i).isIsolatedScope()) return;
+		}
+	}
+
+	@Override
 	public void openScope() {
 		scopes.add(new ScopeTable());
+	}
+
+	@Override
+	public void isolateScope() {
+		scopes.getLast().isolate();
 	}
 
 	@Override

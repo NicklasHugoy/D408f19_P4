@@ -44,6 +44,10 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
             }
         }
 
+        if(returnType != GMMType.Void && actualReturnTypes.size() == 0){
+            Logger.Log(new InvalidReturnTypeError("Function " + functionDef.idNode.identifier + " does not return anything", functionDef));
+        }
+
         for(GMMType actualReturnType : actualReturnTypes){
             if(returnType != actualReturnType){
                 Logger.Log(new InvalidReturnTypeError( functionDef.idNode.identifier + " has a mismatched return type expected " + returnType + " but got " + actualReturnType, functionDef));
@@ -121,6 +125,10 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
     public GMMType visitFunctionCall(FunctionCall functionCall) {
         FunctionEntry functionSig = functionTable.retrieveFunction(functionCall.identifier.identifier);
 
+        if(functionSig == null){
+            return GMMType.Void; //Error logging handled elsewhere
+        }
+
         for(int i = 0; i < functionCall.parameters.size(); i++){
             if(functionSig.getParameterTypes().get(i) != functionCall.parameters.get(i).accept(this)){
                 Logger.Log(new InvalidParameterTypeError("Function call to " + functionSig.getId() + " has mismatched arguments", functionCall));
@@ -142,6 +150,11 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
             Logger.Log(new InvalidPredicateType("If statement got " + predicateType + " type but expected a bool", ifNode));
         }
 
+        return null;
+    }
+
+    @Override
+    public GMMType visitExplicitGCode(ExplicitGCode explicitGCode) {
         return null;
     }
 

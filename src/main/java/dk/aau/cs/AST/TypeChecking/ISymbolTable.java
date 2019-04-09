@@ -10,9 +10,11 @@ public interface ISymbolTable {
     TypeValuePair retrieveSymbolWithValue(String symbol);
     void enterSymbol(String symbol, GMMType type);
     void enterSymbol(String symbol, GMMType type, IValue value);
+    void assignValue(String symbol, IValue value);
 
 
 
     void openScope();
+    void isolateScope();
     void leaveScope();
 }

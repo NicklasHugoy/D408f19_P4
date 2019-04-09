@@ -10,6 +10,13 @@ public class ExpressionEvaluatorVisitor implements ASTVisitor<IValue> {
 
 	private IFunctionTable functionTable;
 	private ISymbolTable symbolTable;
+	private ASTVisitor functionEvaluater;
+
+	public ExpressionEvaluatorVisitor(IFunctionTable functionTable, ISymbolTable symbolTable, ASTVisitor functionEvaluater) {
+		this.functionTable = functionTable;
+		this.symbolTable = symbolTable;
+		this.functionEvaluater = functionEvaluater;
+	}
 
 	public ExpressionEvaluatorVisitor(IFunctionTable functionTable, ISymbolTable symbolTable) {
 		this.functionTable = functionTable;
@@ -118,5 +125,10 @@ public class ExpressionEvaluatorVisitor implements ASTVisitor<IValue> {
 	@Override
 	public IValue visitLiteralBool(LiteralBool literalBool) {
 		return new BoolValue(literalBool.boolValue);
+	}
+
+	@Override
+	public IValue visitFunctionCall(FunctionCall functionCall) {
+		return (IValue) functionCall.accept(functionEvaluater);
 	}
 }
