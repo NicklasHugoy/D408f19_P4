@@ -138,9 +138,9 @@ public class ParserTest {
         assertEquals(2, blockDef.getRuleIndex());
         assertEquals(parser.getTokenStream().get(0), blockDef.ID().getSymbol());
         assertEquals(parser.getTokenStream().get(1), blockDef.LSquare().getSymbol());
-        assertEquals(parser.getTokenStream().get(9), blockDef.RSquare().getSymbol());
-        assertEquals(parser.getTokenStream().get(10), blockDef.LCurl().getSymbol());
-        assertEquals(parser.getTokenStream().get(14), blockDef.RCurl().getSymbol());
+        assertEquals(parser.getTokenStream().get(5), blockDef.RSquare().getSymbol());
+        assertEquals(parser.getTokenStream().get(6), blockDef.LCurl().getSymbol());
+        assertEquals(parser.getTokenStream().get(10), blockDef.RCurl().getSymbol());
     }
 
     @Test
@@ -173,8 +173,8 @@ public class ParserTest {
         GMMParser.MachineOptionContext mc = parser.machineOption();
 
         assertEquals(6, mc.getRuleIndex());
-        assertEquals(parser.getTokenStream().get(0), mc.ID().getSymbol());
-        assertEquals(parser.getTokenStream().get(3), mc.Colon().getSymbol());
+
+        assertEquals(parser.getTokenStream().get(2), mc.BlockParam().getSymbol());
     }
 
     @Test
@@ -183,7 +183,7 @@ public class ParserTest {
         GMMParser parser = getParser(cs);
         GMMParser.BlockDefContext blockDef = parser.blockDef();
 
-        assertEquals(parser.getTokenStream().get(5), blockDef.machineOptions().CommaSeperator().get(0).getSymbol());
+        assertEquals(parser.getTokenStream().get(3), blockDef.machineOptions().CommaSeperator().get(0).getSymbol());
         assertEquals(parser.getTokenStream().get(2), blockDef.machineOptions().machineOption().get(0).start);
         assertEquals(5, blockDef.machineOptions().getRuleIndex());
     }
