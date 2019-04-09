@@ -41,6 +41,14 @@ public class ExpressionEvaluatorVisitor implements ASTVisitor<IValue> {
 	}
 
 	@Override
+	public IValue visitDivide(Divide divide) {
+		IValue leftValue = divide.left.accept(this);
+		IValue rightValue = divide.right.accept(this);
+
+		return leftValue.divide(rightValue);
+	}
+
+	@Override
 	public IValue visitAnd(And and) {
 		IValue leftValue = and.left.accept(this);
 		IValue rightValue = and.right.accept(this);
