@@ -1,26 +1,11 @@
-house[]{
-    num houseWidth = 100
-    num houseHeight = 100
+main[unit:mm, positionMode:relative]{
 
-    wall[]{
-        num y = 0
-        while(y < houseHeight){
-            move X=houseWidth Y=y
-            move X=houseWidth Y=y+5
-            move X=0 Y=y+5
-            move X=0 Y=y
-            move X=0 Y=y+5
-            y = y + 5
+    smoothing[tool:23]{
+        num x = 50
+        while ( x > 0 ) {
+            move X=1 Y=1
+            x = x - 1
         }
     }
 
-    ceiling[]{
-        num ceilingHeight = 50
-        num overhang = 10
-
-        move X=0-overhang Y=houseHeight
-        move X=houseWidth/2 Y=houseHeight+ceilingHeight
-        move X=houseWidth+overhang Y=houseHeight
-        move X=houseWidth
-    }
 }

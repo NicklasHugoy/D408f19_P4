@@ -9,6 +9,7 @@ import dk.aau.cs.AST.TypeChecking.IFunctionTable;
 import dk.aau.cs.AST.TypeChecking.ISymbolTable;
 import dk.aau.cs.AST.TypeChecking.SymbolTableEntry;
 import dk.aau.cs.AST.TypeChecking.TypeValuePair;
+import dk.aau.cs.BlockDefChecker.BlockDefChecker;
 import dk.aau.cs.Syntax.GMMVisitor;
 
 import java.io.IOException;
@@ -23,12 +24,14 @@ public class CodeGeneratorVisitor implements ASTVisitor {
     private Writer writer;
 
     private ExpressionEvaluatorVisitor evaluator;
+    private BlockDefChecker blockChecker;
 
     public CodeGeneratorVisitor(ISymbolTable symbolTable, IFunctionTable functionTable, Writer writer) {
         this.symbolTable = symbolTable;
         this.functionTable = functionTable;
         this.writer = writer;
         evaluator = new ExpressionEvaluatorVisitor(symbolTable, this);
+        blockChecker = new BlockDefChecker();
     }
 
     @Override
@@ -177,6 +180,7 @@ public class CodeGeneratorVisitor implements ASTVisitor {
         //todo handle machine options
 
         symbolTable.openScope();
+        blockChecker.enterBlock(blockDef);
 
         Object returnValue = null;
         for(Statement statement : blockDef.statements){
@@ -186,6 +190,9 @@ public class CodeGeneratorVisitor implements ASTVisitor {
             }
         }
 
+        List<ExplicitGCode> gcodes = blockChecker.exitBlock();
+        for(ExplicitGCode gCode : gcodes)
+            gCode.accept(this);
 
         symbolTable.leaveScope();
         return returnValue;
