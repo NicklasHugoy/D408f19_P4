@@ -222,9 +222,9 @@ class ASTGeneratorTest {
 		GMMParser parser = getParser(cs);
 		BlockDef blockDef = (BlockDef) astGenerator.visitBlockDef(parser.blockDef());
 		MachineOption machineOption = blockDef.options.get(0);
-		LiteralNumber literalNumber = (LiteralNumber) machineOption.expression;
+		String option = machineOption.option;
 
-		assertEquals(0, literalNumber.value,
+		assertEquals("0", option,
 				"Expected value of first option to be 0");
 	}
 
@@ -235,9 +235,9 @@ class ASTGeneratorTest {
 		GMMParser parser = getParser(cs);
 		BlockDef blockDef = (BlockDef) astGenerator.visitBlockDef(parser.blockDef());
 		MachineOption machineOption = blockDef.options.get(1);
-		LiteralNumber literalNumber = (LiteralNumber) machineOption.expression;
+		String option = machineOption.option;
 
-		assertEquals(200, literalNumber.value,
+		assertEquals("200", option,
 				"Expected value of second option to be 200");
 	}
 

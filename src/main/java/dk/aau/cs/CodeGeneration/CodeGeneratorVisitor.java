@@ -28,7 +28,7 @@ public class CodeGeneratorVisitor implements ASTVisitor {
         this.symbolTable = symbolTable;
         this.functionTable = functionTable;
         this.writer = writer;
-        evaluator = new ExpressionEvaluatorVisitor(functionTable, symbolTable, this);
+        evaluator = new ExpressionEvaluatorVisitor(symbolTable, this);
     }
 
     @Override

@@ -48,10 +48,8 @@ public class TreePrinterTest {
                 "|  Block definition\r\n" +
                 "|  |  MachineOption\r\n" +
                 "|  |  |  ID = tool\r\n" +
-                "|  |  |  Num = 0.0\r\n" +
                 "|  |  MachineOption\r\n" +
                 "|  |  |  ID = bound_x\r\n" +
-                "|  |  |  Num = 200.0\r\n" +
                 "|  |  Move\r\n" +
                 "|  |  |  Relative Parameter\r\n" +
                 "|  |  |  |  ID = X\r\n" +
