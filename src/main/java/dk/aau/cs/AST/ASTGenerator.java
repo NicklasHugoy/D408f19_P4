@@ -14,6 +14,8 @@ import java.util.List;
 
 public class ASTGenerator implements GMMVisitor<Node> {
 
+    private boolean functionScope = false;
+
     @Override
     public Node visitProg(GMMParser.ProgContext ctx) {
         ArrayList<BaseNode> nodes = new ArrayList<>();
@@ -40,8 +42,12 @@ public class ASTGenerator implements GMMVisitor<Node> {
                 parameters.add((FormalParameter) parameterContext.accept(this));
         }
 
+        functionScope = true;
+
         for(GMMParser.ScopedStmtContext stmtContext : ctx.scopedStmt())
             statements.add((Statement) stmtContext.accept(this));
+
+        functionScope = false;
 
         return new FunctionDef(line, charNr ,typeNode, idNode, parameters, statements);
     }
@@ -61,7 +67,7 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
         for(GMMParser.ScopedStmtContext stmtContext : ctx.scopedStmt()){
             statements.add((Statement) stmtContext.accept(this));
-            if(stmtContext instanceof GMMParser.FunctionReturnContext){
+            if(stmtContext instanceof GMMParser.FunctionReturnContext && !functionScope){
                 Logger.Log(new SyntaxError("return statement used in block definition", WarningLevel.Error));
             }
         }
@@ -155,7 +161,7 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
     @Override
     public Node visitExplicitGCode(GMMParser.ExplicitGCodeContext ctx) {
-        return null;
+        return new ExplicitGCode(ctx.start.getLine(), ctx.start.getCharPositionInLine(), ctx.getText());
     }
 
     @Override
@@ -290,7 +296,7 @@ public class ASTGenerator implements GMMVisitor<Node> {
     }
 
     @Override
-    public Node visitRelativeParameter(GMMParser.RelativeParameterContext ctx) {
+    public Node visitCommandParameter(GMMParser.CommandParameterContext ctx) {
         int line = ctx.start.getLine();
         int charNr = ctx.start.getCharPositionInLine();
 
@@ -298,17 +304,6 @@ public class ASTGenerator implements GMMVisitor<Node> {
         Expression expression = (Expression) ctx.expression().accept(this);
 
         return new RelativeParameter(line, charNr, idNode, expression);
-    }
-
-    @Override
-    public Node visitAbsoluteParameter(GMMParser.AbsoluteParameterContext ctx) {
-        int line = ctx.start.getLine();
-        int charNr = ctx.start.getCharPositionInLine();
-
-        ID idNode = GetIDNode(ctx.CommandParameter());
-        Expression expression = (Expression) ctx.expression().accept(this);
-
-        return new AbsoluteParameter(line, charNr, idNode, expression);
     }
 
     @Override

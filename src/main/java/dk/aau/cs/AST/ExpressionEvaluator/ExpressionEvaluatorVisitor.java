@@ -9,6 +9,12 @@ import dk.aau.cs.AST.TypeChecking.ISymbolTable;
 public class ExpressionEvaluatorVisitor implements ASTVisitor<IValue> {
 
 	private ISymbolTable symbolTable;
+	private ASTVisitor functionEvaluater;
+
+	public ExpressionEvaluatorVisitor(ISymbolTable symbolTable, ASTVisitor functionEvaluater) {
+		this.symbolTable = symbolTable;
+		this.functionEvaluater = functionEvaluater;
+	}
 
 	public ExpressionEvaluatorVisitor(ISymbolTable symbolTable) {
 		this.symbolTable = symbolTable;
@@ -124,5 +130,10 @@ public class ExpressionEvaluatorVisitor implements ASTVisitor<IValue> {
 	@Override
 	public IValue visitLiteralBool(LiteralBool literalBool) {
 		return new BoolValue(literalBool.boolValue);
+	}
+
+	@Override
+	public IValue visitFunctionCall(FunctionCall functionCall) {
+		return (IValue) functionCall.accept(functionEvaluater);
 	}
 }

@@ -68,4 +68,9 @@ public class NumValue implements IValue<Double> {
 	public Double getValue() {
 		return value;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%.4f", value).replace(',', '.');
+	}
 }

@@ -40,8 +40,7 @@ functionCall
     :ID LParan parameters? RParan;
 
 commandParameter
-    : CommandParameter Equals expression # RelativeParameter
-    | CommandParameter Equals AbsoluteParameter expression # AbsoluteParameter;
+    : CommandParameter Equals expression;
 
 parameters
     : expression (CommaSeperator expression)*;
@@ -49,8 +48,7 @@ parameters
 expression
     : logic;
 
-  //expressions
-logic // Det er ikke muligt at bruge parenteser til bolske operationer
+logic
     : logic And booleanExpr # AndLogic
     | logic Or booleanExpr # OrLogic
     | booleanExpr # LogicDerivation
@@ -114,7 +112,7 @@ False: 'false';
 
 INT
     : Digit+
-    | Digit DotOperator Digit? Digit? Digit? Digit?;
+    | Digit+ DotOperator Digit? Digit? Digit? Digit?;
 
 SemiColon
     : ';';

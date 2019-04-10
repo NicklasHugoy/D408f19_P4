@@ -34,9 +34,10 @@ public class FunctionVisitor implements ASTVisitor<List<FunctionEntry>> {
 	@Override
 	public List<FunctionEntry> visitFunctionDef(FunctionDef functionDef) {
 		ArrayList<GMMType> parameters = new ArrayList<>();
-		functionDef.parameters.forEach(parameter -> parameters.add(parameter.type.type));
+		ArrayList<String> names = new ArrayList<>();
+		functionDef.parameters.forEach(parameter -> {parameters.add(parameter.type.type); names.add(parameter.identifier.identifier);});
 
-		FunctionEntry function = new FunctionEntry(functionDef.idNode.identifier, functionDef.returnType.type, parameters);
+		FunctionEntry function = new FunctionEntry(functionDef.idNode.identifier, functionDef.returnType.type, parameters, functionDef.statements, names);
 
 		functionTable.enterFunction(function);
 		functionEntries.add(function);

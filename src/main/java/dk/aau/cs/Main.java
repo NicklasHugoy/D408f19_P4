@@ -5,6 +5,7 @@ import dk.aau.cs.AST.FunctionVisitor.FunctionVisitor;
 import dk.aau.cs.AST.Nodes.Node;
 import dk.aau.cs.AST.TreePrinter;
 import dk.aau.cs.AST.TypeChecking.*;
+import dk.aau.cs.CodeGeneration.CodeGeneratorVisitor;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 import dk.aau.cs.Syntax.GMMLexer;
@@ -73,6 +74,9 @@ public class Main {
         //Print AST
         TreePrinter printer = new TreePrinter(ast);
         printer.Print();
+
+        CodeGeneratorVisitor codeGenerator = new CodeGeneratorVisitor(symbolTable, functionTable, writer);
+        ast.accept(codeGenerator);
     }
 
     public static void PrintLog(){
