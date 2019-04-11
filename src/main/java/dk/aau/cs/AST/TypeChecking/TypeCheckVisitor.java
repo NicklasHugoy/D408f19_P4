@@ -97,7 +97,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         GMMType declaredType = declaration.type.accept(this);
         GMMType expressedType = declaration.expression.accept(this);
 
-        if(symbolTable.retrieveSymbolInScope(declaration.identifier.identifier) != null){
+        if(symbolTable.retrieveSymbolInScope(declaration.identifier.identifier) != GMMType.Void){
             Logger.Log(new OccupiedSymbolError(declaration.identifier.identifier + " has already been declared in this scope", declaration));
         }
 

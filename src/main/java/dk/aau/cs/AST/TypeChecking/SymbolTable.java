@@ -21,7 +21,7 @@ public class SymbolTable implements ISymbolTable {
 		if(typeValuePair != null){
 			return scopes.getLast().Find(symbol).getType();
 		}
-		return null;
+		return GMMType.Void;
 	}
 
 	@Override
