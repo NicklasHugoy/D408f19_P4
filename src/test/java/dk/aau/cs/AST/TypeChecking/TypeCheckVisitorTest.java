@@ -362,8 +362,21 @@ class TypeCheckVisitorTest {
     }
 
 
+    @Test
+    public void testVectorParameter(){
+        Logger.Flush();
+        testCode("b[]{ " +
+                "move (5, 2, 3) X=2 " +
+                "}");
+        assertEquals(WarningLevel.Error, Logger.GetWarningLevel());
+    }
 
-
-
-
+    @Test
+    public void testMultipleParameters(){
+        Logger.Flush();
+        testCode("b[]{" +
+                "move X=50 Y=50 X=60 Y=60 " +
+                "}");
+        assertEquals(2, Logger.Flush().size());
+    }
 }

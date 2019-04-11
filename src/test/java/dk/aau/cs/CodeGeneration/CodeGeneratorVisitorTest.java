@@ -6,6 +6,7 @@ import dk.aau.cs.AST.FunctionVisitor.FunctionVisitor;
 import dk.aau.cs.AST.Nodes.Node;
 import dk.aau.cs.AST.TypeChecking.*;
 import dk.aau.cs.ErrorReporting.Logger;
+import dk.aau.cs.Exceptions.ImaginaryNumberException;
 import dk.aau.cs.Syntax.GMMLexer;
 import dk.aau.cs.Syntax.GMMParser;
 import org.antlr.v4.runtime.BufferedTokenStream;
@@ -127,6 +128,7 @@ class CodeGeneratorVisitorTest {
         assertEquals("G1 Y27.0000\n", output);
     }
 
+    @Test
     public void testFunction01(){
         String output = generateCode("void moveRec(num n){ " +
                 "move X=n" +
@@ -138,6 +140,7 @@ class CodeGeneratorVisitorTest {
         assertEquals("G1 X20.0000\n", output);
     }
 
+    @Test
     public void testFunction02(){
         String output = generateCode("num moveRec(num n){ " +
                 "return n+50" +
@@ -148,6 +151,58 @@ class CodeGeneratorVisitorTest {
 
         assertEquals("G1 X70.0000\n", output);
     }
+
+    @Test
+    public void testVectorParameter01(){
+        String output = generateCode(
+                "b[]{" +
+                "move (5, 2, 3) " +
+                "}");
+
+        assertEquals("G1 X5.0000 Y2.0000 Z3.0000\n", output);
+    }
+
+    @Test
+    public void testVectorParameter02(){
+        String output = generateCode(
+                "b[]{" +
+                        "leftCircle (5, 2, 3) R=50 " +
+                        "}");
+
+        assertEquals("G3 X5.0000 Y2.0000 Z3.0000 R50.0000\n", output);
+    }
+
+
+    @Test
+    public void testSquareRoot01(){
+        String output = generateCode(
+                "b[]{" +
+                        "leftCircle (5, 2, 3) R=sqrt(50) " +
+                        "}");
+
+        assertEquals("G3 X5.0000 Y2.0000 Z3.0000 R7.0711\n", output);
+    }
+
+    @Test
+    public void testSquareRoot02(){
+        String output = generateCode(
+                "b[]{" +
+                        "leftCircle (5, 2, 3) R=sqrt(0) " +
+                        "}");
+
+        assertEquals("G3 X5.0000 Y2.0000 Z3.0000 R0.0000\n", output);
+    }
+
+    @Test
+    public void testSquareRoot03(){
+        assertThrows(ImaginaryNumberException.class, () ->{
+        String output = generateCode(
+                "b[]{" +
+                        "leftCircle (5, 2, 3) R=sqrt(-1) " +
+                        "}"); });
+    }
+
+
 
 
 

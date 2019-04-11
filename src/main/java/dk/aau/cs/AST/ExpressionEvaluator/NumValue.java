@@ -1,5 +1,6 @@
 package dk.aau.cs.AST.ExpressionEvaluator;
 
+import dk.aau.cs.Exceptions.ImaginaryNumberException;
 import dk.aau.cs.Exceptions.OperationNotSupportedException;
 
 public class NumValue implements IValue<Double> {
@@ -61,6 +62,9 @@ public class NumValue implements IValue<Double> {
 
 	@Override
 	public IValue sqrt() {
+	    if(value == -1)
+	        throw new ImaginaryNumberException("imaginary numbers are not supported i.e. sqrt(-1)");
+
 		return new NumValue(Math.sqrt(value));
 	}
 
