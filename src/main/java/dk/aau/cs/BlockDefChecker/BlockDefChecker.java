@@ -13,28 +13,25 @@ import java.util.Stack;
 
 public class BlockDefChecker {
 
-	private Stack<List<ExplicitGCode>> blockStack;
+	private Stack<List<BlockParam>> blockStack;
 
 	public BlockDefChecker() {
 		blockStack = new Stack<>();
 	}
 
 	public void enterBlock(BlockDef blockDef) {
-		List<ExplicitGCode> gCodeArrayList = new ArrayList<>();
+		List<BlockParam> gCodeArrayList = new ArrayList<>();
 
 		for (MachineOption option : blockDef.options){
 			switch (option.identifier.identifier){
 				case "tool":
-					BlockParam toolBlockParam = new ToolBlockParam(option.option, blockDef);
-					gCodeArrayList.add(toolBlockParam.getGcode());
+					gCodeArrayList.add(new ToolBlockParam(option.option, blockDef));
 					break;
 				case "unit":
-					BlockParam unitBlockParam = new UnitBlockParam(option.option, blockDef);
-					gCodeArrayList.add(unitBlockParam.getGcode());
+					gCodeArrayList.add(new UnitBlockParam(option.option, blockDef));
 					break;
 				case "positionMode":
-					BlockParam posBlockParam = new PositionModeBlockParam(option.option, blockDef);
-					gCodeArrayList.add(posBlockParam.getGcode());
+					gCodeArrayList.add(new PositionModeBlockParam(option.option, blockDef));
 					break;
 				default:
 					Logger.Log(new InvalidBlockParameter(
@@ -47,20 +44,27 @@ public class BlockDefChecker {
 	}
 
 	public List<ExplicitGCode> exitBlock(){
-		if(blockStack.empty()){
-			return new ArrayList<>();
-		}else{
+		if(!blockStack.empty()){
 			blockStack.pop();
 		}
-		return blockStack.peek();
+
+		List<ExplicitGCode> gCodesToReturn = new ArrayList<>();
+
+		if(!blockStack.empty()){
+			for(BlockParam blockParam : blockStack.peek()){
+				gCodesToReturn.add(blockParam.getGcode());
+			}
+		}
+		return gCodesToReturn;
 	}
 
-	private void addGCode(BlockDef blockDef, List<ExplicitGCode> gCodeList){
+
+	private void addGCode(BlockDef blockDef, List<BlockParam> gCodeList){
 		if (gCodeList.isEmpty())
 			return;
 
-		for(ExplicitGCode gCode : gCodeList){
-			blockDef.statements.add(0, gCode);
+		for(BlockParam blockParam : gCodeList){
+			blockDef.statements.add(0, blockParam.getGcode());
 		}
 		blockStack.push(gCodeList);
 	}
