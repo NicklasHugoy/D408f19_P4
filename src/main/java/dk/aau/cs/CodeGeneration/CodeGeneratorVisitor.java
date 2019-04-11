@@ -176,6 +176,16 @@ public class CodeGeneratorVisitor implements ASTVisitor {
     }
 
     @Override
+    public Object visitJump(Jump jump) {
+        safeWrite("G0");
+        for(CommandParameter parameter : jump.parameters){
+            parameter.accept(this);
+        }
+        safeWrite("\n");
+        return null;
+    }
+
+    @Override
     public Object visitBlockDef(BlockDef blockDef) {
         //todo handle machine options
 

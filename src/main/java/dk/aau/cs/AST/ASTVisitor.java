@@ -41,4 +41,5 @@ public interface ASTVisitor<T> {
     default T visitExplicitGCode(ExplicitGCode explicitGCode) {return null;}
     default T visitSquareRoot(SquareRoot squareRoot) {return null;}
     default T visitVectorCommandParameter(VectorCommandParameter vectorCommandParameter) {return null;}
+    default T visitJump(Jump jump) {return null;}
 }

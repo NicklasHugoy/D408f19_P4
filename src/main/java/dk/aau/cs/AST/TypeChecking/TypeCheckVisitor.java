@@ -346,6 +346,16 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         return null;
     }
 
+    @Override
+    public GMMType visitJump(Jump jump) {
+        for(CommandParameter parameter : jump.parameters)
+            parameter.accept(this);
+
+        checkForMultiple(jump.parameters, jump);
+
+        return null;
+    }
+
     private void checkForMultiple(List<CommandParameter> parameters, PositionedNode node) {
         List<String> activeSymbols = new ArrayList<>();
         for(CommandParameter parameter : parameters){

@@ -258,6 +258,22 @@ public class ASTGenerator implements GMMVisitor<Node> {
     }
 
     @Override
+    public Node visitJump(GMMParser.JumpContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
+        List<CommandParameter> commandParameters = new ArrayList<>();
+
+        if(ctx.vectorCommandParameter() != null)
+            commandParameters.add((CommandParameter) ctx.vectorCommandParameter().accept(this));
+
+        for(GMMParser.SingleCommandParameterContext singleCommandParameterContext : ctx.singleCommandParameter())
+            commandParameters.add((CommandParameter) singleCommandParameterContext.accept(this));
+
+        return new Jump(line, charNr, commandParameters);
+    }
+
+    @Override
     public Node visitRightCircle(GMMParser.RightCircleContext ctx) {
         int line = ctx.start.getLine();
         int charNr = ctx.start.getCharPositionInLine();

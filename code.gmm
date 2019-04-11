@@ -3,5 +3,10 @@ vector parable(num x) {
 }
 
 block[positionMode:absolute, unit:mm]{
-    
+    num x = -5
+    jump (5, 3, 2)
+    while(x < 5){
+        move parable(x)
+        x = x + 0.001
+    }
 }

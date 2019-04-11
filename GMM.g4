@@ -32,6 +32,7 @@ scopedStmt
     | MoveCommand vectorCommandParameter? singleCommandParameter* #Move
     | RightCircleCommand vectorCommandParameter? singleCommandParameter* #RightCircle
     | LeftCircleCommand vectorCommandParameter? singleCommandParameter* #LeftCircle
+    | RapidMoveCommand vectorCommandParameter? singleCommandParameter* # Jump
     | Return expression # FunctionReturn
     | GCode # ExplicitGCode
     ;
@@ -148,6 +149,8 @@ RSquare : ']';
 LCurl : '{';
 RCurl : '}';
 
+RapidMoveCommand
+    : 'jump ';
 MoveCommand
     : 'move ';
 LeftCircleCommand

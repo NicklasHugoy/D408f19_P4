@@ -122,6 +122,13 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLeftCircle(GMMParser.LeftCircleContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code Jump}
+	 * labeled alternative in {@link GMMParser#scopedStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJump(GMMParser.JumpContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code FunctionReturn}
 	 * labeled alternative in {@link GMMParser#scopedStmt}.
 	 * @param ctx the parse tree
