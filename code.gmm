@@ -1,12 +1,26 @@
-vector parable(num x) {
-    return (x+5, x * x + 20, 0)
-}
+house[]{
+    num houseWidth = 100
+    num houseHeight = 100
 
-block[positionMode:absolute, unit:mm]{
-    num x = -5
-    jump (5, 3, 2)
-    while(x < 5){
-        move parable(x)
-        x = x + 0.001
+    wall[]{
+        num y = 0
+        while(y < houseHeight){
+            move X=houseWidth Y=y
+            move X=houseWidth Y=y+5
+            move X=0 Y=y+5
+            move X=0 Y=y
+            move X=0 Y=y+5
+            y = y + 5
+        }
+    }
+
+    ceiling[]{
+        num ceilingHeight = 50
+        num overhang = 10
+
+        move X=0-overhang Y=houseHeight
+        move X=houseWidth/2 Y=houseHeight+ceilingHeight
+        move X=houseWidth+overhang Y=houseHeight
+        move X=houseWidth
     }
 }
