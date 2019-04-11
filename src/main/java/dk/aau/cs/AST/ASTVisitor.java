@@ -39,4 +39,6 @@ public interface ASTVisitor<T> {
     default T visitLiteralVector(LiteralVector literalVector){return null;}
     default T visitNegate(Negate negate) {return null;}
     default T visitExplicitGCode(ExplicitGCode explicitGCode) {return null;}
+    default T visitSquareRoot(SquareRoot squareRoot) {return null;}
+    default T visitVectorCommandParameter(VectorCommandParameter vectorCommandParameter) {return null;}
 }

@@ -68,6 +68,11 @@ public class VectorValue implements IValue<Vector> {
 	}
 
 	@Override
+	public IValue sqrt() {
+		throw new OperationNotSupportedException("Adding booleans are not supported");
+	}
+
+	@Override
 	public IValue negate() {
 		Vector newVector = new Vector(-vector.getX(), -vector.getY(), -vector.getZ());
 		return new VectorValue(newVector);

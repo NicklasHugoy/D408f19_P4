@@ -248,8 +248,11 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
         List<CommandParameter> commandParameters = new ArrayList<>();
 
-        for(GMMParser.CommandParameterContext commandParameterContext : ctx.commandParameter())
-            commandParameters.add((CommandParameter) commandParameterContext.accept(this));
+        if(ctx.vectorCommandParameter() != null)
+            commandParameters.add((CommandParameter) ctx.vectorCommandParameter().accept(this));
+
+        for(GMMParser.SingleCommandParameterContext singleCommandParameterContext : ctx.singleCommandParameter())
+            commandParameters.add((CommandParameter) singleCommandParameterContext.accept(this));
 
         return new Move(line, charNr, commandParameters);
     }
@@ -261,8 +264,11 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
         List<CommandParameter> commandParameters = new ArrayList<>();
 
-        for(GMMParser.CommandParameterContext commandParameterContext : ctx.commandParameter())
-            commandParameters.add((CommandParameter) commandParameterContext.accept(this));
+        if(ctx.vectorCommandParameter() != null)
+            commandParameters.add((CommandParameter) ctx.vectorCommandParameter().accept(this));
+
+        for(GMMParser.SingleCommandParameterContext singleCommandParameterContext : ctx.singleCommandParameter())
+            commandParameters.add((CommandParameter) singleCommandParameterContext.accept(this));
 
         return new RightCircle(line, charNr, commandParameters);
     }
@@ -274,8 +280,12 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
         List<CommandParameter> commandParameters = new ArrayList<>();
 
-        for(GMMParser.CommandParameterContext commandParameterContext : ctx.commandParameter())
-            commandParameters.add((CommandParameter) commandParameterContext.accept(this));
+        if(ctx.vectorCommandParameter() != null)
+            commandParameters.add((CommandParameter) ctx.vectorCommandParameter().accept(this));
+
+        for(GMMParser.SingleCommandParameterContext singleCommandParameterContext : ctx.singleCommandParameter())
+            commandParameters.add((CommandParameter) singleCommandParameterContext.accept(this));
+
         return new LeftCircle(line, charNr,commandParameters);
     }
 
@@ -296,7 +306,7 @@ public class ASTGenerator implements GMMVisitor<Node> {
     }
 
     @Override
-    public Node visitCommandParameter(GMMParser.CommandParameterContext ctx) {
+    public Node visitSingleCommandParameter(GMMParser.SingleCommandParameterContext ctx) {
         int line = ctx.start.getLine();
         int charNr = ctx.start.getCharPositionInLine();
 
@@ -304,6 +314,14 @@ public class ASTGenerator implements GMMVisitor<Node> {
         Expression expression = (Expression) ctx.expression().accept(this);
 
         return new RelativeParameter(line, charNr, idNode, expression);
+    }
+
+    @Override
+    public Node visitVectorCommandParameter(GMMParser.VectorCommandParameterContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
+        return new VectorCommandParameter(line, charNr, (Expression) ctx.expression().accept(this));
     }
 
     @Override
@@ -500,6 +518,14 @@ public class ASTGenerator implements GMMVisitor<Node> {
         return new VectorComponent(line, charNr, identifier, component);
     }
 
+    @Override
+    public Node visitSquareRoot(GMMParser.SquareRootContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
+        return new SquareRoot(line, charNr, (Expression) ctx.expr().accept(this));
+    }
+
     private ID GetComponentIDNode(TerminalNode id) {
         int line = id.getSymbol().getLine();
         int charNr = id.getSymbol().getCharPositionInLine();
@@ -532,6 +558,8 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
         return new Negate(line, charNr, (Expression) ctx.factor().accept(this));
     }
+
+
 
     @Override
     public Node visit(ParseTree tree) {

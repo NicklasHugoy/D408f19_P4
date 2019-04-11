@@ -1,11 +1,7 @@
-main[unit:mm, positionMode:relative]{
+vector parable(num x) {
+    return (x+5, x * x + 20, 0)
+}
 
-    smoothing[tool:23]{
-        num x = 50
-        while ( x > 0 ) {
-            move X=1 Y=1
-            x = x - 1
-        }
-    }
-
+block[positionMode:absolute, unit:mm]{
+    
 }

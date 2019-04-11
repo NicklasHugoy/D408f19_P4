@@ -60,6 +60,11 @@ public class NumValue implements IValue<Double> {
 	}
 
 	@Override
+	public IValue sqrt() {
+		return new NumValue(Math.sqrt(value));
+	}
+
+	@Override
 	public IValue negate() {
 		return new NumValue(-value);
 	}

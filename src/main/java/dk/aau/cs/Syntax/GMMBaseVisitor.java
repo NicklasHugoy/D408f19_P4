@@ -156,7 +156,14 @@ public class GMMBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements GM
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCommandParameter(GMMParser.CommandParameterContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVectorCommandParameter(GMMParser.VectorCommandParameterContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitSingleCommandParameter(GMMParser.SingleCommandParameterContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -318,6 +325,13 @@ public class GMMBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements GM
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitAccessVector(GMMParser.AccessVectorContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitSquareRoot(GMMParser.SquareRootContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -136,4 +136,9 @@ public class ExpressionEvaluatorVisitor implements ASTVisitor<IValue> {
 	public IValue visitFunctionCall(FunctionCall functionCall) {
 		return (IValue) functionCall.accept(functionEvaluater);
 	}
+
+	@Override
+	public IValue visitSquareRoot(SquareRoot squareRoot) {
+		return squareRoot.expression.accept(this).sqrt();
+	}
 }

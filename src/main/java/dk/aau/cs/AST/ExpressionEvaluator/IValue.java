@@ -11,6 +11,7 @@ public interface IValue<T> {
 	IValue inEqual(IValue<T> rightValue);
 	IValue greaterThan(IValue<T> rightValue);
 	IValue lessThan(IValue<T> rightValue);
+	IValue sqrt();
 	IValue negate();
 
 	T getValue();

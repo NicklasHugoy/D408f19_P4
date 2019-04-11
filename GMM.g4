@@ -29,9 +29,9 @@ scopedStmt
     | ID Equals expression # Assignment
     | ID DotOperator ID Equals expression # VectorComponentAssign
     | Type ID Equals expression # Declaration
-    | MoveCommand commandParameter+ #Move
-    | RightCircleCommand commandParameter+ #RightCircle
-    | LeftCircleCommand commandParameter+ #LeftCircle
+    | MoveCommand vectorCommandParameter? singleCommandParameter* #Move
+    | RightCircleCommand vectorCommandParameter? singleCommandParameter* #RightCircle
+    | LeftCircleCommand vectorCommandParameter? singleCommandParameter* #LeftCircle
     | Return expression # FunctionReturn
     | GCode # ExplicitGCode
     ;
@@ -39,7 +39,10 @@ scopedStmt
 functionCall
     :ID LParan parameters? RParan;
 
-commandParameter
+vectorCommandParameter
+    : expression;
+
+singleCommandParameter
     : CommandParameter Equals expression;
 
 parameters
@@ -82,10 +85,14 @@ factor
     | False # LiteralFalse
     | ID # Variable
     | ID DotOperator ID # AccessVector
+    | Sqrt LParan expr RParan # SquareRoot
     | functionCall # ExpressionFunctionCall
     | LParan expression CommaSeperator expression CommaSeperator expression RParan # LiteralVector
     | Minus factor # NegatedFactor
     ;
+
+Sqrt
+    : 'sqrt';
 
 Return
     : 'return ';

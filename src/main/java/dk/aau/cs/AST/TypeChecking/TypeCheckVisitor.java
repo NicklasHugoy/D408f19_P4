@@ -4,6 +4,7 @@ import dk.aau.cs.AST.*;
 import dk.aau.cs.AST.FunctionVisitor.FunctionEntry;
 import dk.aau.cs.AST.Nodes.*;
 import dk.aau.cs.ErrorReporting.*;
+import dk.aau.cs.Syntax.GMMParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -163,6 +164,8 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         for(CommandParameter parameter : leftCircle.parameters){
             parameter.accept(this);
         }
+
+        checkForMultiple(leftCircle.parameters, leftCircle);
 
         return null;
     }
@@ -328,6 +331,8 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
         for(CommandParameter parameter : rightCircle.parameters)
             parameter.accept(this);
 
+        checkForMultiple(rightCircle.parameters, rightCircle);
+
         return null;
     }
 
@@ -335,7 +340,30 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
     public GMMType visitMove(Move move) {
         for(CommandParameter parameter : move.parameters)
             parameter.accept(this);
+
+        checkForMultiple(move.parameters, move);
+
         return null;
+    }
+
+    private void checkForMultiple(List<CommandParameter> parameters, PositionedNode node) {
+        List<String> activeSymbols = new ArrayList<>();
+        for(CommandParameter parameter : parameters){
+            if(parameter instanceof VectorCommandParameter){
+                if(activeSymbols.contains("X") || activeSymbols.contains("Y") || activeSymbols.contains("Z"))
+                    Logger.Log(new MultipleCommandParameterError("multiple affecting X Y or Z", node));
+                activeSymbols.add("X");
+                activeSymbols.add("Y");
+                activeSymbols.add("Z");
+            }else{
+                RelativeParameter param = (RelativeParameter) parameter;
+                String symbol = param.identifier.identifier;
+                if(activeSymbols.contains(symbol))
+                    Logger.Log(new MultipleCommandParameterError("multiple affecting "+symbol, node));
+
+                activeSymbols.add(symbol);
+            }
+        }
     }
 
     @Override
@@ -448,4 +476,24 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
 
         return type;
     }
+
+    @Override
+    public GMMType visitSquareRoot(SquareRoot squareRoot) {
+        if(squareRoot.expression.accept(this) != GMMType.Num){
+            Logger.Log(new InvalidExpressionType("Square root can only operate on type Num", squareRoot));
+        }
+
+        return GMMType.Num;
+    }
+
+    @Override
+    public GMMType visitVectorCommandParameter(VectorCommandParameter vectorCommandParameter) {
+        GMMType type = vectorCommandParameter.vectorExpression.accept(this);
+        if(type != GMMType.Vector){
+            Logger.Log(new InvalidExpressionType("Command parameter expected type Vector but got "+ type, vectorCommandParameter));
+        }
+        return null;
+    }
+
+
 }

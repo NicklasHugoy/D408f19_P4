@@ -142,11 +142,17 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionCall(GMMParser.FunctionCallContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GMMParser#commandParameter}.
+	 * Visit a parse tree produced by {@link GMMParser#vectorCommandParameter}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCommandParameter(GMMParser.CommandParameterContext ctx);
+	T visitVectorCommandParameter(GMMParser.VectorCommandParameterContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GMMParser#singleCommandParameter}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSingleCommandParameter(GMMParser.SingleCommandParameterContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GMMParser#parameters}.
 	 * @param ctx the parse tree
@@ -306,6 +312,13 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAccessVector(GMMParser.AccessVectorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SquareRoot}
+	 * labeled alternative in {@link GMMParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSquareRoot(GMMParser.SquareRootContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ExpressionFunctionCall}
 	 * labeled alternative in {@link GMMParser#factor}.

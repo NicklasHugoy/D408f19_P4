@@ -44,6 +44,10 @@ public class Main {
         ASTGenerator astGenerator = new ASTGenerator();
         Node ast = parser.prog().accept(astGenerator);
 
+        //Print AST
+        TreePrinter printer = new TreePrinter(ast);
+        printer.Print();
+
         if(Logger.checkForError()){
             PrintLog();
             return;
@@ -71,9 +75,7 @@ public class Main {
             return;
         }
 
-        //Print AST
-        TreePrinter printer = new TreePrinter(ast);
-        printer.Print();
+
 
         CodeGeneratorVisitor codeGenerator = new CodeGeneratorVisitor(symbolTable, functionTable, writer);
         ast.accept(codeGenerator);

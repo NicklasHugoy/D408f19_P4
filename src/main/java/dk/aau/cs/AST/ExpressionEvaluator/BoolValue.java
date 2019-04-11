@@ -61,6 +61,11 @@ public class BoolValue implements IValue<Boolean> {
 	}
 
 	@Override
+	public IValue sqrt() {
+		throw new OperationNotSupportedException("Adding booleans are not supported");
+	}
+
+	@Override
 	public IValue negate() {
 		return new BoolValue(!value);
 	}

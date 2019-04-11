@@ -250,6 +250,13 @@ public class CodeGeneratorVisitor implements ASTVisitor {
         return null;
     }
 
+    @Override
+    public Object visitVectorCommandParameter(VectorCommandParameter vectorCommandParameter) {
+        Vector vec = ((VectorValue)vectorCommandParameter.vectorExpression.accept(evaluator)).getValue();
+        safeWrite(String.format(" X%.4f Y%.4f Z%.4f", vec.getX(), vec.getY(), vec.getZ()).replace(',', '.'));
+        return null;
+    }
+
     private void safeWrite(String str){
         try {
             writer.write(str);
