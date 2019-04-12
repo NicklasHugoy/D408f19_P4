@@ -3,6 +3,9 @@ package dk.aau.cs.ErrorReporting;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LoggerTest {
@@ -100,6 +103,17 @@ class LoggerTest {
         Logger.Log(errorMessage02);
         Logger.Log(errorMessage01);
         assertTrue(Logger.checkForError());
+    }
+
+    @Test
+    void printLogs(){
+        Logger.Flush();
+        Logger.Log(errorMessage01);
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        Logger.PrintLogs(new PrintStream(outContent));
+
+        assertEquals("This is a Warning\r\n", outContent.toString());
     }
 
 }

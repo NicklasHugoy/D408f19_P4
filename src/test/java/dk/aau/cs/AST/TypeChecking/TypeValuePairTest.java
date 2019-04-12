@@ -59,7 +59,7 @@ public class TypeValuePairTest {
     }
 
     @Test
-    void setValue(){
+    void setValue03(){
         type.setValue(new NumValue(500000000));
         assertEquals(5.0E8, type.getValue().getValue());
     }
