@@ -40,7 +40,7 @@ public class NumValue implements IValue<Double> {
 			return (IValue<T>) new NumValue(value * numValue.getValue());
 		}else if(other instanceof  VectorValue){
 			Vector vector = (Vector) other.getValue();
-			return (IValue<T>) new VectorValue(new Vector(vector.getX() * value, vector.getY() * value, vector.getY() * value));
+			return (IValue<T>) new VectorValue(new Vector(vector.getX() * value, vector.getY() * value, vector.getZ() * value));
 		}
 		throw new OperationNotSupportedException("NumValue can only be * with vector and num");
 	}

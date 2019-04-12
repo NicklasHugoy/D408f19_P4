@@ -26,6 +26,8 @@ public class CodeGeneratorVisitor implements ASTVisitor {
     private ExpressionEvaluatorVisitor evaluator;
     private BlockDefChecker blockChecker;
 
+    public boolean annotateWithLineNumbers = false;
+
     public CodeGeneratorVisitor(ISymbolTable symbolTable, IFunctionTable functionTable, Writer writer) {
         this.symbolTable = symbolTable;
         this.functionTable = functionTable;
@@ -57,7 +59,7 @@ public class CodeGeneratorVisitor implements ASTVisitor {
         String id = relativeParameter.identifier.identifier;
         IValue value = relativeParameter.expression.accept(evaluator);
 
-        safeWrite(" "+id + value.toString());
+        safeWrite(" "+id + value.toString(),relativeParameter);
 
         return null;
     }
@@ -136,11 +138,11 @@ public class CodeGeneratorVisitor implements ASTVisitor {
 
     @Override
     public Object visitLeftCircle(LeftCircle leftCircle) {
-        safeWrite("G3");
+        safeWrite("G3",leftCircle);
         for(CommandParameter parameter : leftCircle.parameters){
             parameter.accept(this);
         }
-        safeWrite("\n");
+        safeWrite("\n",leftCircle);
 
         return null;
     }
@@ -150,38 +152,38 @@ public class CodeGeneratorVisitor implements ASTVisitor {
         String id = absoluteParameter.identifier.identifier;
         IValue value = absoluteParameter.expression.accept(evaluator);
 
-        safeWrite(" "+id + value.toString());
+        safeWrite(" "+id + value.toString(), absoluteParameter);
         return null;
     }
 
     @Override
     public Object visitRightCircle(RightCircle rightCircle) {
-        safeWrite("G2");
+        safeWrite("G2",rightCircle);
         for(CommandParameter parameter : rightCircle.parameters){
             parameter.accept(this);
         }
-        safeWrite("\n");
+        safeWrite("\n", rightCircle);
 
         return null;
     }
 
     @Override
     public Object visitMove(Move move) {
-        safeWrite("G1");
+        safeWrite("G1", move);
         for(CommandParameter parameter : move.parameters){
             parameter.accept(this);
         }
-        safeWrite("\n");
+        safeWrite("\n", move);
         return null;
     }
 
     @Override
     public Object visitJump(Jump jump) {
-        safeWrite("G0");
+        safeWrite("G0", jump);
         for(CommandParameter parameter : jump.parameters){
             parameter.accept(this);
         }
-        safeWrite("\n");
+        safeWrite("\n", jump);
         return null;
     }
 
@@ -232,7 +234,7 @@ public class CodeGeneratorVisitor implements ASTVisitor {
         String component = vectorComponentAssign.component.identifier;
 
         TypeValuePair pair = symbolTable.retrieveSymbolWithValue(id);
-        Vector vector = (Vector)pair.getValue();
+        Vector vector = ((VectorValue)pair.getValue()).getValue();
 
         switch (component){
             case "x":
@@ -255,7 +257,7 @@ public class CodeGeneratorVisitor implements ASTVisitor {
     public Object visitExplicitGCode(ExplicitGCode explicitGCode) {
         String gcode = explicitGCode.fillReferences(symbolTable).replace('@', ' ').trim();
 
-        safeWrite(gcode+"\n");
+        safeWrite(gcode+"\n", explicitGCode);
 
         return null;
     }
@@ -263,11 +265,14 @@ public class CodeGeneratorVisitor implements ASTVisitor {
     @Override
     public Object visitVectorCommandParameter(VectorCommandParameter vectorCommandParameter) {
         Vector vec = ((VectorValue)vectorCommandParameter.vectorExpression.accept(evaluator)).getValue();
-        safeWrite(String.format(" X%.4f Y%.4f Z%.4f", vec.getX(), vec.getY(), vec.getZ()).replace(',', '.'));
+        safeWrite(String.format(" X%.4f Y%.4f Z%.4f", vec.getX(), vec.getY(), vec.getZ()).replace(',', '.'), vectorCommandParameter);
         return null;
     }
 
-    private void safeWrite(String str){
+    private void safeWrite(String str, PositionedNode writingNode){
+        if(annotateWithLineNumbers)
+            str = str.replace("\n", "    (line "+ writingNode.lineNumber +")\n");
+
         try {
             writer.write(str);
         } catch (IOException e) {
