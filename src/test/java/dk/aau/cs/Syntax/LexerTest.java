@@ -14,7 +14,7 @@ public class LexerTest {
     GMMLexer getLexer(CharStream cs) {
         return new GMMLexer(cs);
     }
-
+    //TODO: fix disabled test when impl is finalized
 
     @Disabled
     @Test
