@@ -21,12 +21,12 @@ public class BoolValue implements IValue<Boolean> {
 	}
 
 	@Override
-	public IValue divide(IValue<Boolean> other) {
+	public <T> IValue<T> divide(IValue<T> other) {
 		throw new OperationNotSupportedException("Dividing booleans are not supported");
 	}
 
 	@Override
-	public IValue times(IValue<Boolean> other) {
+	public <T> IValue<T> times(IValue<T> other) {
 		throw new OperationNotSupportedException("Multiplying booleans are not supported");
 	}
 

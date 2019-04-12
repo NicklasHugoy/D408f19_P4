@@ -141,4 +141,21 @@ public class ExpressionEvaluatorVisitor implements ASTVisitor<IValue> {
 	public IValue visitSquareRoot(SquareRoot squareRoot) {
 		return squareRoot.expression.accept(this).sqrt();
 	}
+
+	@Override
+	public IValue visitVectorComponent(VectorComponent vectorComponent) {
+		VectorValue value = (VectorValue) vectorComponent.vector.accept(this);
+
+		String component = vectorComponent.component.identifier;
+		switch (component)
+		{
+			case "x":
+				return new NumValue(value.getValue().getX());
+			case "y":
+				return new NumValue(value.getValue().getY());
+			case "z":
+				return new NumValue(value.getValue().getZ());
+		}
+		throw new RuntimeException("Unable to match " + component + " to a vector component");
+	}
 }

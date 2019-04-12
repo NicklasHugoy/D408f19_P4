@@ -21,13 +21,28 @@ public class NumValue implements IValue<Double> {
 	}
 
 	@Override
-	public NumValue divide(IValue<Double> other) {
-		return new NumValue(value / other.getValue());
+	public <T> IValue<T> divide(IValue<T> other) {
+		if(other instanceof NumValue){
+			NumValue otherValue = (NumValue) other;
+			return (IValue<T>) new NumValue(value / otherValue.getValue());
+		}
+		else{
+			throw new OperationNotSupportedException("NumValue can only be divded with other NumValues");
+		}
+
+
 	}
 
 	@Override
-	public NumValue times(IValue<Double> other) {
-		return new NumValue(value * other.getValue());
+	public <T> IValue<T> times(IValue<T> other) {
+		if(other instanceof NumValue){
+			NumValue numValue = (NumValue) other;
+			return (IValue<T>) new NumValue(value * numValue.getValue());
+		}else if(other instanceof  VectorValue){
+			Vector vector = (Vector) other.getValue();
+			return (IValue<T>) new VectorValue(new Vector(vector.getX() * value, vector.getY() * value, vector.getY() * value));
+		}
+		throw new OperationNotSupportedException("NumValue can only be * with vector and num");
 	}
 
 	@Override

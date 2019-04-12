@@ -28,13 +28,21 @@ public class VectorValue implements IValue<Vector> {
 	}
 
 	@Override
-	public VectorValue divide(IValue<Vector> other) {
-		throw new OperationNotSupportedException("Can't divide vectors");
+	public <T> IValue<T> divide(IValue<T> other) {
+		if(other instanceof NumValue){
+			double scalar = ((NumValue) other).getValue();
+			return (IValue<T>) new VectorValue(new Vector(getValue().getX() / scalar, getValue().getY() / scalar, getValue().getZ() / scalar));
+		}
+		throw new OperationNotSupportedException("Vectors can only be divded with Numbers");
 	}
 
 	@Override
-	public IValue times(IValue<Vector> other) {
-		throw new OperationNotSupportedException("Can't multiply vectors");
+	public <T> IValue<T> times(IValue<T> other) {
+		if(other instanceof NumValue){
+			double scalar = ((NumValue) other).getValue();
+			return (IValue<T>) new VectorValue(new Vector(getValue().getX() * scalar, getValue().getY() * scalar, getValue().getZ() * scalar));
+		}
+		throw new OperationNotSupportedException("Vectors can only be multiplied with Numbers");
 	}
 
 	@Override

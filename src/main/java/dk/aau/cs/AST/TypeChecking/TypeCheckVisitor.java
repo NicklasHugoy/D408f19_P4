@@ -457,6 +457,12 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
 
     @Override
     public GMMType visitVectorComponent(VectorComponent vectorComponent) {
+        GMMType type = vectorComponent.vector.accept(this);
+
+        if(type != GMMType.Vector){
+            Logger.Log(new InvalidExpressionType("the dot operator can only be used on type Vector not "+type, vectorComponent));
+        }
+
         return GMMType.Num;
     }
 

@@ -85,7 +85,7 @@ factor
     | True # LiteralTrue
     | False # LiteralFalse
     | ID # Variable
-    | ID DotOperator ID # AccessVector
+    | factor DotOperator ID # AccessVector
     | Sqrt LParan expr RParan # SquareRoot
     | functionCall # ExpressionFunctionCall
     | LParan expression CommaSeperator expression CommaSeperator expression RParan # LiteralVector

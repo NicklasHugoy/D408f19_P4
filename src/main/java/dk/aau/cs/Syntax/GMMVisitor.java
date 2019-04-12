@@ -278,26 +278,19 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTimesTerm(GMMParser.TimesTermContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code AccessVector}
+	 * labeled alternative in {@link GMMParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAccessVector(GMMParser.AccessVectorContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ParanExpr}
 	 * labeled alternative in {@link GMMParser#factor}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitParanExpr(GMMParser.ParanExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code LiteralInt}
-	 * labeled alternative in {@link GMMParser#factor}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLiteralInt(GMMParser.LiteralIntContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code LiteralTrue}
-	 * labeled alternative in {@link GMMParser#factor}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLiteralTrue(GMMParser.LiteralTrueContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code LiteralFalse}
 	 * labeled alternative in {@link GMMParser#factor}.
@@ -313,26 +306,12 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariable(GMMParser.VariableContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code AccessVector}
-	 * labeled alternative in {@link GMMParser#factor}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAccessVector(GMMParser.AccessVectorContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code SquareRoot}
 	 * labeled alternative in {@link GMMParser#factor}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSquareRoot(GMMParser.SquareRootContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ExpressionFunctionCall}
-	 * labeled alternative in {@link GMMParser#factor}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionFunctionCall(GMMParser.ExpressionFunctionCallContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code LiteralVector}
 	 * labeled alternative in {@link GMMParser#factor}.
@@ -347,4 +326,25 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNegatedFactor(GMMParser.NegatedFactorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExpressionFunctionCall}
+	 * labeled alternative in {@link GMMParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressionFunctionCall(GMMParser.ExpressionFunctionCallContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LiteralInt}
+	 * labeled alternative in {@link GMMParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLiteralInt(GMMParser.LiteralIntContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LiteralTrue}
+	 * labeled alternative in {@link GMMParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLiteralTrue(GMMParser.LiteralTrueContext ctx);
 }

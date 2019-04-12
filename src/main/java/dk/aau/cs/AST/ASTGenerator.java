@@ -529,9 +529,9 @@ public class ASTGenerator implements GMMVisitor<Node> {
         int line = ctx.start.getLine();
         int charNr = ctx.start.getCharPositionInLine();
 
-        ID identifier = GetIDNode(ctx.ID(0));
-        ID component = GetComponentIDNode(ctx.ID(1));
-        return new VectorComponent(line, charNr, identifier, component);
+        Expression expression = (Expression) ctx.factor().accept(this);
+        ID component = GetComponentIDNode(ctx.ID());
+        return new VectorComponent(line, charNr, expression, component);
     }
 
     @Override
