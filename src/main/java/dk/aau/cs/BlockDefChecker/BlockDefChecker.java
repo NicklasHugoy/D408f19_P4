@@ -10,6 +10,7 @@ import dk.aau.cs.ErrorReporting.WarningLevel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 public class BlockDefChecker {
 
@@ -48,12 +49,13 @@ public class BlockDefChecker {
 			blockStack.pop();
 		}
 
-		List<ExplicitGCode> gCodesToReturn = new ArrayList<>();
+		return getTopOfStackAsExplicitGCode();
+	}
 
+	private List<ExplicitGCode> getTopOfStackAsExplicitGCode() {
+		List<ExplicitGCode> gCodesToReturn = new ArrayList<>();
 		if(!blockStack.empty()){
-			for(BlockParam blockParam : blockStack.peek()){
-				gCodesToReturn.add(blockParam.getGcode());
-			}
+			gCodesToReturn = blockStack.peek().stream().map(BlockParam::getGcode).collect(Collectors.toList());
 		}
 		return gCodesToReturn;
 	}
@@ -63,9 +65,31 @@ public class BlockDefChecker {
 		if (gCodeList.isEmpty())
 			return;
 
+		addGCodeToStartOfBlock(blockDef, gCodeList);
+
+		if(!blockStack.empty()){
+			blockStack.push(copyUnoverridenPreviousParams(gCodeList, blockStack.peek()));
+		}else{
+			blockStack.push(gCodeList);
+		}
+	}
+
+	private void addGCodeToStartOfBlock(BlockDef blockDef, List<BlockParam> gCodeList) {
 		for(BlockParam blockParam : gCodeList){
 			blockDef.statements.add(0, blockParam.getGcode());
 		}
-		blockStack.push(gCodeList);
+	}
+
+	private List<BlockParam> copyUnoverridenPreviousParams(List<BlockParam> newBlockParams, List<BlockParam> previousBlockParams) {
+		List<BlockParam> blockParamsToReturn = new ArrayList<>(List.copyOf(newBlockParams));
+
+		for(BlockParam previousBlocParam : previousBlockParams){
+			if(newBlockParams.stream().noneMatch(
+					newBlockParam -> newBlockParam.getClass().equals(previousBlocParam.getClass()))){
+				blockParamsToReturn.add(previousBlocParam);
+			}
+		}
+
+		return blockParamsToReturn;
 	}
 }

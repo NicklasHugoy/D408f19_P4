@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BlockDefCheckerTest {
 
@@ -132,7 +133,7 @@ class BlockDefCheckerTest {
 	}
 
 	@Test
-	void test() {
+	void exitBlock_test01() {
 		List<MachineOption> options1 = new ArrayList<>(){{
 			add(new MachineOption(new ID("unit"), "mm"));
 		}};
@@ -148,5 +149,31 @@ class BlockDefCheckerTest {
 		List<ExplicitGCode> gCodeArrayList = blockDefChecker.exitBlock();
 
 		assertEquals("G21", gCodeArrayList.get(0).gcode);
+	}
+
+	@Test
+	void exitBlock_test02() {
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "1"));
+			add(new MachineOption(new ID("unit"), "mm"));
+			add(new MachineOption(new ID("positionMode"), "relative"));
+		}};
+		List<MachineOption> options2 = new ArrayList<>(){{
+			add(new MachineOption(new ID("unit"), "inch"));
+		}};
+		List<MachineOption> options3 = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "2"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		BlockDef blockDef2 = new BlockDef(options2, new ArrayList<>());
+		BlockDef blockDef3 = new BlockDef(options3, new ArrayList<>());
+		BlockDefChecker blockDefChecker = new BlockDefChecker();
+
+		blockDefChecker.enterBlock(blockDef1);
+		blockDefChecker.enterBlock(blockDef2);
+		blockDefChecker.enterBlock(blockDef3);
+		List<ExplicitGCode> gCode = blockDefChecker.exitBlock();
+
+		assertEquals("T1" , gCode.get(1).gcode);
 	}
 }
