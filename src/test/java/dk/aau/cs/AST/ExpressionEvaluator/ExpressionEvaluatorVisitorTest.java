@@ -110,6 +110,8 @@ class ExpressionEvaluatorVisitorTest {
 		assertEquals(1.0, minus.accept(expressionEvaluatorVisitor).getValue());
 	}
 
+
+
 	@Test
 	void visitMinus_bool(){
 		CharStream cs = CharStreams.fromString("block[]{ bool x = true - false }");
@@ -138,6 +140,34 @@ class ExpressionEvaluatorVisitorTest {
 		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
 
 		assertEquals(12.0, times.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitTimes_numVector(){
+		CharStream cs = CharStreams.fromString("block[]{ vector x = 4 * (3, 2, 1) }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Times times = (Times) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
+
+		assertEquals(new Vector(12,8,4), times.accept(expressionEvaluatorVisitor).getValue());
+	}
+
+	@Test
+	void visitTimes_vectorNum(){
+		CharStream cs = CharStreams.fromString("block[]{ vector x = (3, 2, 1) * 5 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Times times = (Times) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
+
+		assertEquals(new Vector(15,10,5), times.accept(expressionEvaluatorVisitor).getValue());
 	}
 
 	@Test
