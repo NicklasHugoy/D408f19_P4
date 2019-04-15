@@ -12,6 +12,7 @@ import dk.aau.cs.ErrorReporting.PositionedErrorMessage;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 
 import java.net.Proxy;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,5 +65,18 @@ public class ExplicitGCode extends PositionedNode implements Statement {
     @Override
     public String toString() {
         return "ExplicitGCode";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ExplicitGCode that = (ExplicitGCode) o;
+        return Objects.equals(gcode, that.gcode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(gcode);
     }
 }

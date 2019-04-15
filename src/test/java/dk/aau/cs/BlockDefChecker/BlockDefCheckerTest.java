@@ -46,9 +46,8 @@ class BlockDefCheckerTest {
 		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
 
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
-		blockDefChecker.enterBlock(blockDef);
+		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef).get(0);
 
-		ExplicitGCode explicitGCode = (ExplicitGCode) blockDef.statements.get(0);
 		assertEquals("T2", explicitGCode.gcode);
 	}
 
@@ -60,9 +59,9 @@ class BlockDefCheckerTest {
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
-		blockDefChecker.enterBlock(blockDef1);
+		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
 
-		assertEquals("G91", ((ExplicitGCode)blockDef1.statements.get(0)).gcode);
+		assertEquals("G91", explicitGCode.gcode);
 	}
 
 	@Test
@@ -73,9 +72,9 @@ class BlockDefCheckerTest {
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
-		blockDefChecker.enterBlock(blockDef1);
+		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
 
-		assertEquals("G90", ((ExplicitGCode)blockDef1.statements.get(0)).gcode);
+		assertEquals("G90", explicitGCode.gcode);
 	}
 
 	@Test
@@ -86,9 +85,9 @@ class BlockDefCheckerTest {
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
-		blockDefChecker.enterBlock(blockDef1);
+		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
 
-		assertEquals("G21", ((ExplicitGCode)blockDef1.statements.get(0)).gcode);
+		assertEquals("G21", explicitGCode.gcode);
 	}
 
 	@Test
@@ -99,9 +98,9 @@ class BlockDefCheckerTest {
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
-		blockDefChecker.enterBlock(blockDef1);
+		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
 
-		assertEquals("G20", ((ExplicitGCode)blockDef1.statements.get(0)).gcode);
+		assertEquals("G20", explicitGCode.gcode);
 	}
 
 	@Test
@@ -113,9 +112,9 @@ class BlockDefCheckerTest {
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
-		blockDefChecker.enterBlock(blockDef1);
+		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
 
-		assertEquals("G91", ((ExplicitGCode)blockDef1.statements.get(0)).gcode);
+		assertEquals("G20", explicitGCode.gcode);
 	}
 
 	@Test
@@ -127,9 +126,9 @@ class BlockDefCheckerTest {
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
-		blockDefChecker.enterBlock(blockDef1);
+		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(1);
 
-		assertEquals("G20", ((ExplicitGCode)blockDef1.statements.get(1)).gcode);
+		assertEquals("G91", explicitGCode.gcode);
 	}
 
 	@Test

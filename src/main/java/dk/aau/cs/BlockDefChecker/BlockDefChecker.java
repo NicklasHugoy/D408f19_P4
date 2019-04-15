@@ -20,7 +20,7 @@ public class BlockDefChecker {
 		blockStack = new Stack<>();
 	}
 
-	public void enterBlock(BlockDef blockDef) {
+	public List<ExplicitGCode> enterBlock(BlockDef blockDef) {
 		List<BlockParam> gCodeArrayList = new ArrayList<>();
 
 		for (MachineOption option : blockDef.options){
@@ -41,42 +41,15 @@ public class BlockDefChecker {
 							WarningLevel.Error));
 			}
 		}
-		addGCode(blockDef, gCodeArrayList);
+		addGCodeToStack(gCodeArrayList);
+		return blockParamsToExplicitGCode(gCodeArrayList);
 	}
 
-	public List<ExplicitGCode> exitBlock(){
-		if(!blockStack.empty()){
-			blockStack.pop();
-		}
-
-		return getTopOfStackAsExplicitGCode();
-	}
-
-	private List<ExplicitGCode> getTopOfStackAsExplicitGCode() {
-		List<ExplicitGCode> gCodesToReturn = new ArrayList<>();
-		if(!blockStack.empty()){
-			gCodesToReturn = blockStack.peek().stream().map(BlockParam::getGcode).collect(Collectors.toList());
-		}
-		return gCodesToReturn;
-	}
-
-
-	private void addGCode(BlockDef blockDef, List<BlockParam> gCodeList){
-		if (gCodeList.isEmpty())
-			return;
-
-		addGCodeToStartOfBlock(blockDef, gCodeList);
-
+	private void addGCodeToStack(List<BlockParam> gCodeList){
 		if(!blockStack.empty()){
 			blockStack.push(copyUnoverridenPreviousParams(gCodeList, blockStack.peek()));
 		}else{
 			blockStack.push(gCodeList);
-		}
-	}
-
-	private void addGCodeToStartOfBlock(BlockDef blockDef, List<BlockParam> gCodeList) {
-		for(BlockParam blockParam : gCodeList){
-			blockDef.statements.add(0, blockParam.getGcode());
 		}
 	}
 
@@ -91,5 +64,25 @@ public class BlockDefChecker {
 		}
 
 		return blockParamsToReturn;
+	}
+
+	public List<ExplicitGCode> exitBlock(){
+		if(!blockStack.empty()){
+			blockStack.pop();
+		}
+
+		return getTopOfStackAsExplicitGCode();
+	}
+
+	private List<ExplicitGCode> getTopOfStackAsExplicitGCode() {
+		List<ExplicitGCode> gCodesToReturn = new ArrayList<>();
+		if(!blockStack.empty()){
+			gCodesToReturn = blockParamsToExplicitGCode(blockStack.peek());
+		}
+		return gCodesToReturn;
+	}
+
+	private List<ExplicitGCode> blockParamsToExplicitGCode(List<BlockParam> blockParams){
+		return blockParams.stream().map(BlockParam::getGcode).collect(Collectors.toList());
 	}
 }

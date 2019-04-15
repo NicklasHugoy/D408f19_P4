@@ -192,7 +192,10 @@ public class CodeGeneratorVisitor implements ASTVisitor {
         //todo handle machine options
 
         symbolTable.openScope();
-        blockChecker.enterBlock(blockDef);
+        List<ExplicitGCode> newBlockGCodes = blockChecker.enterBlock(blockDef);
+        for(ExplicitGCode gCode : newBlockGCodes)
+            gCode.accept(this);
+
 
         Object returnValue = null;
         for(Statement statement : blockDef.statements){
@@ -202,8 +205,8 @@ public class CodeGeneratorVisitor implements ASTVisitor {
             }
         }
 
-        List<ExplicitGCode> gcodes = blockChecker.exitBlock();
-        for(ExplicitGCode gCode : gcodes)
+        List<ExplicitGCode> previousBlockGCodes = blockChecker.exitBlock();
+        for(ExplicitGCode gCode : previousBlockGCodes)
             gCode.accept(this);
 
         symbolTable.leaveScope();
