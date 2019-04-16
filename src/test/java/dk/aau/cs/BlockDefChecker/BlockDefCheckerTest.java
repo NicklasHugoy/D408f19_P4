@@ -1,13 +1,8 @@
 package dk.aau.cs.BlockDefChecker;
 
 import dk.aau.cs.AST.ASTGenerator;
-import dk.aau.cs.AST.ExpressionEvaluator.ExpressionEvaluatorVisitor;
-import dk.aau.cs.AST.FunctionVisitor.FunctionVisitor;
 import dk.aau.cs.AST.Nodes.*;
-import dk.aau.cs.AST.TypeChecking.FunctionTable;
 import dk.aau.cs.AST.TypeChecking.IFunctionTable;
-import dk.aau.cs.AST.TypeChecking.ISymbolTable;
-import dk.aau.cs.AST.TypeChecking.SymbolTable;
 import dk.aau.cs.ErrorReporting.ErrorMessage;
 import dk.aau.cs.ErrorReporting.InvalidBlockParameter;
 import dk.aau.cs.ErrorReporting.Logger;
@@ -108,7 +103,7 @@ class BlockDefCheckerTest {
 	@Test
 	void feedRate_number() {
 		List<MachineOption> options1 = new ArrayList<>(){{
-			add(new MachineOption(new ID("feedRate"), "22"));
+			add(new MachineOption(new ID("speed"), "22"));
 		}};
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
@@ -121,7 +116,7 @@ class BlockDefCheckerTest {
 	@Test
 	void feedRate_NaN() {
 		List<MachineOption> options1 = new ArrayList<>(){{
-			add(new MachineOption(new ID("feedRate"), "abc"));
+			add(new MachineOption(new ID("speed"), "abc"));
 		}};
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
@@ -136,13 +131,54 @@ class BlockDefCheckerTest {
 	@Test
 	void feedRate_mixed() {
 		List<MachineOption> options1 = new ArrayList<>(){{
-			add(new MachineOption(new ID("feedRate"), "22d"));
+			add(new MachineOption(new ID("speed"), "22d"));
 		}};
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
 		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
 
+		List<ErrorMessage> errorMessages = Logger.Flush();
+
+		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
+	}
+
+	@Test
+	void spinrate_number(){
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("spinrate"), "123"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		BlockDefChecker blockDefChecker = new BlockDefChecker();
+
+		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
+
+		assertEquals("S123", explicitGCode.gcode);
+	}
+
+	@Test
+	void spinrate_mixed(){
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("spinrate"), "2d"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		BlockDefChecker blockDefChecker = new BlockDefChecker();
+
+		blockDefChecker.enterBlock(blockDef1);
+		List<ErrorMessage> errorMessages = Logger.Flush();
+
+		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
+	}
+
+	@Test
+	void spinrate_NaN(){
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("spinrate"), "dsad"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		BlockDefChecker blockDefChecker = new BlockDefChecker();
+
+		blockDefChecker.enterBlock(blockDef1);
 		List<ErrorMessage> errorMessages = Logger.Flush();
 
 		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
