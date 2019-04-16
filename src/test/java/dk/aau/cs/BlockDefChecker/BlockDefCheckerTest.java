@@ -8,6 +8,8 @@ import dk.aau.cs.AST.TypeChecking.FunctionTable;
 import dk.aau.cs.AST.TypeChecking.IFunctionTable;
 import dk.aau.cs.AST.TypeChecking.ISymbolTable;
 import dk.aau.cs.AST.TypeChecking.SymbolTable;
+import dk.aau.cs.ErrorReporting.ErrorMessage;
+import dk.aau.cs.ErrorReporting.InvalidBlockParameter;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.Syntax.GMMLexer;
 import dk.aau.cs.Syntax.GMMParser;
@@ -101,6 +103,49 @@ class BlockDefCheckerTest {
 		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
 
 		assertEquals("G20", explicitGCode.gcode);
+	}
+
+	@Test
+	void feedRate_number() {
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("feedRate"), "22"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		BlockDefChecker blockDefChecker = new BlockDefChecker();
+
+		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
+
+		assertEquals("F22", explicitGCode.gcode);
+	}
+
+	@Test
+	void feedRate_NaN() {
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("feedRate"), "abc"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		BlockDefChecker blockDefChecker = new BlockDefChecker();
+
+		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
+
+		List<ErrorMessage> errorMessages = Logger.Flush();
+
+		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
+	}
+
+	@Test
+	void feedRate_mixed() {
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("feedRate"), "22d"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		BlockDefChecker blockDefChecker = new BlockDefChecker();
+
+		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
+
+		List<ErrorMessage> errorMessages = Logger.Flush();
+
+		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
 	}
 
 	@Test

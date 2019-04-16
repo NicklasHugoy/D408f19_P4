@@ -34,6 +34,8 @@ public class BlockDefChecker {
 				case "positionMode":
 					gCodeArrayList.add(new PositionModeBlockParam(option.option, blockDef));
 					break;
+				case "feedRate":
+					gCodeArrayList.add(new FeedRateBlockParam(option.option, blockDef));
 				default:
 					Logger.Log(new InvalidBlockParameter(
 							"block parameter '" + option.identifier.identifier + "' is not valid",
