@@ -16,7 +16,7 @@ public class speedBlockParam implements BlockParam {
 	private ExplicitGCode generateGCode(String option, BlockDef blockDef) {
 
 		if(option.matches("\\d+")){
-			return new ExplicitGCode(0, 0, "F" + option);
+			return new ExplicitGCode(blockDef.lineNumber, blockDef.charNumber, "F" + option);
 		}else {
 			Logger.Log(new InvalidBlockParameter(
 					"Block parameter 'speed' expected a number but got '" + option + "'",

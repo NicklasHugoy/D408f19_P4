@@ -15,7 +15,7 @@ public class spinrateBlockParam implements BlockParam {
 
 	private ExplicitGCode generateGCode(String option, BlockDef blockDef) {
 		if(option.matches("\\d+")){
-			return new ExplicitGCode(0, 0, "S" + option);
+			return new ExplicitGCode(blockDef.lineNumber, blockDef.charNumber, "S" + option);
 		}else {
 			Logger.Log(new InvalidBlockParameter(
 					"Block parameter 'spinrate' expected a number but got '" + option + "'",

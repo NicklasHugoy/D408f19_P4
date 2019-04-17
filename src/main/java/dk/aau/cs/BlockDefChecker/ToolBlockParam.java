@@ -16,7 +16,7 @@ public class ToolBlockParam implements BlockParam{
 
 	private ExplicitGCode generateGCode(String option, BlockDef blockDef) {
 		if(option.matches("\\d+")){
-			return new ExplicitGCode(0, 0, "T" + option);
+			return new ExplicitGCode(blockDef.lineNumber, blockDef.charNumber, "T" + option);
 		}
 		else{
 			Logger.Log(new InvalidBlockParameter(

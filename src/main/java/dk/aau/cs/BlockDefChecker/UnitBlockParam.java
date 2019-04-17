@@ -16,9 +16,9 @@ public class UnitBlockParam implements BlockParam{
 	private ExplicitGCode generateGCode(String option, BlockDef blockDef) {
 		switch (option) {
 			case "mm":
-				return new ExplicitGCode(0, 0, "G21");
+				return new ExplicitGCode(blockDef.lineNumber, blockDef.charNumber, "G21");
 			case "inch":
-				return new ExplicitGCode(0, 0, "G20");
+				return new ExplicitGCode(blockDef.lineNumber, blockDef.charNumber, "G20");
 			default:
 				Logger.Log(new InvalidBlockParameter(
 						"Block parameter 'unit' expected 'mm' or 'inch' but got '" + option + "'",

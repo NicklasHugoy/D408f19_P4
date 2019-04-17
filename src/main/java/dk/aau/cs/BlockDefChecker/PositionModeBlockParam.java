@@ -16,9 +16,9 @@ public class PositionModeBlockParam implements BlockParam {
 	private ExplicitGCode generateGCode(String option, BlockDef blockDef) {
 		switch (option){
 			case "absolute":
-				return new ExplicitGCode(0, 0, "G90");
+				return new ExplicitGCode(blockDef.lineNumber, blockDef.charNumber, "G90");
 			case "relative":
-				return new ExplicitGCode(0, 0, "G91");
+				return new ExplicitGCode(blockDef.lineNumber, blockDef.charNumber, "G91");
 			default:
 				Logger.Log(new InvalidBlockParameter(
 						"Block parameter 'positionMode' expected 'absolute' or 'relative' but got '" + option + "'",
