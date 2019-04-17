@@ -41,9 +41,9 @@ public class CodeGeneratorVisitor implements ASTVisitor {
 
         for(BaseNode node : program.children){
             if(node instanceof BlockDef){
+                blockChecker.enterFirstBlock((BlockDef) node);
                 node.accept(this);
             }
-
         }
 
         return null;

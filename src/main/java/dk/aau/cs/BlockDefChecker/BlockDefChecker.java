@@ -21,7 +21,7 @@ public class BlockDefChecker {
 		blockStack = new Stack<>();
 	}
 
-	public List<ExplicitGCode> enterFirstBlock(BlockDef blockDef){
+	public void enterFirstBlock(BlockDef blockDef){
 		List<String> optionIdentifiers = blockDef.options.stream()
 				.map(machineOption -> machineOption.identifier.identifier).sorted(String::compareTo)
 				.collect(Collectors.toList());
@@ -35,8 +35,6 @@ public class BlockDefChecker {
 					blockDef,
 					WarningLevel.Error));
 		}
-
-		return enterBlock(blockDef);
 	}
 
 	public List<ExplicitGCode> enterBlock(BlockDef blockDef) {
