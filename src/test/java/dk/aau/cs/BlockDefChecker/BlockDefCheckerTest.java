@@ -277,7 +277,7 @@ class BlockDefCheckerTest {
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
-		List<ExplicitGCode> gCodes = blockDefChecker.enterFirstBlock(blockDef1);
+		blockDefChecker.enterFirstBlock(blockDef1);
 		List<ErrorMessage> errorMessages = Logger.Flush();
 
 		assertTrue(errorMessages.isEmpty());
@@ -294,7 +294,7 @@ class BlockDefCheckerTest {
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
-		List<ExplicitGCode> gCodes = blockDefChecker.enterFirstBlock(blockDef1);
+		blockDefChecker.enterFirstBlock(blockDef1);
 		List<ErrorMessage> errorMessages = Logger.Flush();
 
 		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
