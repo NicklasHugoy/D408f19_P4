@@ -12,6 +12,7 @@ import org.antlr.v4.runtime.BufferedTokenStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.TokenStream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -34,6 +35,11 @@ class BlockDefCheckerTest {
 		//Convert parse tree to AST
 		ASTGenerator astGenerator = new ASTGenerator();
 		ast = parser.prog().accept(astGenerator);
+	}
+
+	@BeforeEach
+	void beforeEach(){
+		Logger.Flush();
 	}
 
 	@Test
@@ -152,7 +158,9 @@ class BlockDefCheckerTest {
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
 		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
+		List<ErrorMessage> errorMessages = Logger.Flush();
 
+		assertTrue(errorMessages.isEmpty());
 		assertEquals("S123", explicitGCode.gcode);
 	}
 
@@ -255,5 +263,40 @@ class BlockDefCheckerTest {
 		List<ExplicitGCode> gCode = blockDefChecker.exitBlock();
 
 		assertEquals("T1" , gCode.get(1).gcode);
+	}
+
+	@Test
+	void enterFirstBlockNoErrorTest(){
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "1"));
+			add(new MachineOption(new ID("unit"), "mm"));
+			add(new MachineOption(new ID("positionMode"), "relative"));
+			add(new MachineOption(new ID("speed"), "200"));
+			add(new MachineOption(new ID("spinrate"), "300"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		BlockDefChecker blockDefChecker = new BlockDefChecker();
+
+		List<ExplicitGCode> gCodes = blockDefChecker.enterFirstBlock(blockDef1);
+		List<ErrorMessage> errorMessages = Logger.Flush();
+
+		assertTrue(errorMessages.isEmpty());
+	}
+
+	@Test
+	void enterFirstBlockMissingParamTest(){
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "1"));
+			add(new MachineOption(new ID("unit"), "mm"));
+			add(new MachineOption(new ID("positionMode"), "relative"));
+			add(new MachineOption(new ID("spinrate"), "300"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		BlockDefChecker blockDefChecker = new BlockDefChecker();
+
+		List<ExplicitGCode> gCodes = blockDefChecker.enterFirstBlock(blockDef1);
+		List<ErrorMessage> errorMessages = Logger.Flush();
+
+		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
 	}
 }
