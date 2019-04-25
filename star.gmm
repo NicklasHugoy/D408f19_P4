@@ -1,0 +1,14 @@
+block[speed:60]{
+   jump X=90 Y=120
+   move X=105 Y=160
+   move X=120 Y=120
+   move X=165
+   move X=130 Y=95
+   move X=145 Y=50
+   move X=105 Y=80
+   move X=65 Y=50
+   move X=80 Y=95
+   move X=45 Y=120
+   move X=90
+   jump Z=2
+}
