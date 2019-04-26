@@ -3,6 +3,7 @@ package dk.aau.cs.AST.TypeChecking;
 import dk.aau.cs.AST.ASTGenerator;
 import dk.aau.cs.AST.FunctionVisitor.FunctionVisitor;
 import dk.aau.cs.AST.Nodes.Node;
+import dk.aau.cs.ErrorReporting.InvalidTypeInLoopRange;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 import dk.aau.cs.Syntax.GMMLexer;
@@ -368,5 +369,39 @@ class TypeCheckVisitorTest {
         assertEquals(2, Logger.flush().size());
     }
 
+    @Test
+    public void testLoop_noErrorWhenUsingNums(){
+        testCode("b[]{loop(i=2..15){}}");
+        assertTrue(Logger.flush().isEmpty());
+    }
+
+    @Test
+    public void testLoop_noErrorWhenUsingNegativeNums(){
+        testCode("b[]{loop(i=2..-15){}}");
+        assertTrue(Logger.flush().isEmpty());
+    }
+
+    @Test
+    public void testLoop_errorWhenUsingBools01(){
+        testCode("b[]{loop(i=true..true){}}");
+        assertTrue(Logger.flush().get(0) instanceof InvalidTypeInLoopRange);
+    }
+
+    @Test
+    public void testLoop_errorWhenUsingBools02(){
+        testCode("b[]{loop(i=5..true){}}");
+        assertTrue(Logger.flush().get(0) instanceof InvalidTypeInLoopRange);
+    }
+
+    @Test
+    public void testLoop_errorWhenUsingVectors01(){
+        testCode("b[]{loop(i=(1,1,1)..(1,1,1)){}}");
+        assertTrue(Logger.flush().get(0) instanceof InvalidTypeInLoopRange);
+    }
+
+    @Test
+    public void testLoop_errorWhenUsingVectors02(){
+        testCode("b[]{loop(i=(1,1,1)..5){}}");
+        assertTrue(Logger.flush().get(0) instanceof InvalidTypeInLoopRange);
     }
 }
