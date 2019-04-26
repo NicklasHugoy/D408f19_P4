@@ -1,6 +1,5 @@
 package dk.aau.cs.ErrorReporting;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -17,88 +16,88 @@ class LoggerTest {
 
     @Test
     public void logFlush(){
-        Logger.Flush();
+        Logger.flush();
         Logger.Log(errorMessage01);
         Logger.Log(errorMessage02);
-        assertEquals(2, Logger.Flush().size());
+        assertEquals(2, Logger.flush().size());
     }
 
     @Test
     public void logWarningLevel01(){
-        Logger.Flush();
+        Logger.flush();
         Logger.Log(errorMessage01);
         assertEquals(WarningLevel.Warning, Logger.GetWarningLevel());
-        Logger.Flush();
+        Logger.flush();
     }
 
     @Test
     public void logWarningLevel02(){
-        Logger.Flush();
+        Logger.flush();
         Logger.Log(errorMessage01);
         Logger.Log(errorMessage02);
         assertEquals(WarningLevel.Error, Logger.GetWarningLevel());
-        Logger.Flush();
+        Logger.flush();
     }
 
     @Test
     public void logWarningLevel03(){
-        Logger.Flush();
+        Logger.flush();
         Logger.Log(errorMessage01);
         Logger.Log(errorMessage02);
         Logger.Log(errorMessage03);
         assertEquals(WarningLevel.Error, Logger.GetWarningLevel());
-        Logger.Flush();
+        Logger.flush();
     }
 
     @Test
     public void logWarningLevel04(){
-        Logger.Flush();
+        Logger.flush();
         assertEquals(WarningLevel.Comment, Logger.GetWarningLevel());
-        Logger.Flush();
+        Logger.flush();
     }
 
     @Test
     public void logMessageCount(){
-        Logger.Flush();
+        Logger.flush();
         Logger.Log(errorMessage01);
         Logger.Log(errorMessage02);
         Logger.Log(errorMessage03);
-        assertEquals(3, Logger.Flush().size());
+        assertEquals(3, Logger.flush().size());
     }
 
     @Test
     public void logMessageContent(){
-        Logger.Flush();
+        Logger.flush();
         Logger.Log(errorMessage01);
         Logger.Log(errorMessage02);
         Logger.Log(errorMessage03);
-        assertEquals("This is a Warning", Logger.Flush().get(0).getMessage());
+        assertEquals("This is a Warning", Logger.flush().get(0).getMessage());
     }
 
     @Test
     void checkForError01(){
-        Logger.Flush();
+        Logger.flush();
         Logger.Log(errorMessage02);
         assertTrue(Logger.checkForError());
     }
 
     @Test
     void checkForError02(){
-        Logger.Flush();
+        Logger.flush();
         Logger.Log(errorMessage01);
         assertFalse(Logger.checkForError());
     }
 
     @Test
     void checkForError03(){
-        Logger.Flush();
+        Logger.flush();
         Logger.Log(errorMessage03);
         assertFalse(Logger.checkForError());
     }
 
     @Test
     void checkForError04(){
-        Logger.Flush();
+        Logger.flush();
         Logger.Log(errorMessage03);
         Logger.Log(errorMessage02);
         Logger.Log(errorMessage01);
@@ -107,7 +106,7 @@ class LoggerTest {
 
     @Test
     void printLogs(){
-        Logger.Flush();
+        Logger.flush();
         Logger.Log(errorMessage01);
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));

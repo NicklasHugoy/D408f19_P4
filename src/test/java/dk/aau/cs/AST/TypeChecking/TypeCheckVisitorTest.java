@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.BufferedTokenStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.TokenStream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,9 +43,14 @@ class TypeCheckVisitorTest {
         ast.accept(typeCheckVisitor);
     }
 
+    @BeforeEach
+    public void beforeEach(){
+        Logger.flush();
+    }
+
     @Test
     public void testMismatchedTypeAssign01(){
-        Logger.Flush();
+        
         testCode("block[]{" +
                 "num x = 0 " +
                 "x = true " +
@@ -55,7 +61,7 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testMismatchedTypeAssign02(){
-        Logger.Flush();
+        
         testCode("block[]{" +
                 "num x = 0 " +
                 "x = (1,2,3) " +
@@ -66,7 +72,7 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testMismatchedTypeDeclaration(){
-        Logger.Flush();
+        
         testCode("block[]{" +
                 "num i = false" +
                 "}");
@@ -76,7 +82,7 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testMismatchedTypeReturn01(){
-        Logger.Flush();
+        
         testCode("num block(){" +
                 "return false " +
                 "}");
@@ -86,7 +92,7 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testMismatchedTypeReturn02(){
-        Logger.Flush();
+        
         testCode("num block(){" +
                 "return 0 " +
                 "return false " +
@@ -97,7 +103,7 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testUnexpectedReturn(){
-        Logger.Flush();
+        
         testCode("void block(){" +
                 "return 1 " +
                 "}");
@@ -107,7 +113,7 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testMismatchedTypeFormalParameters(){
-        Logger.Flush();
+        
         testCode("void block(bool x){" +
                 "move X=x " +
                 "}");
@@ -117,7 +123,7 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testMismatchedTypeActualParameters(){
-        Logger.Flush();
+        
         testCode("void block(num x){}" +
                 "b[]{" +
                 "block(true)" +
@@ -128,7 +134,7 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testCorrectCode01(){
-        Logger.Flush();
+        
         testCode("void move(vector v){ move X=v.x Y=v.y Z=v.z }" +
                 "b[]{" +
                 "vector v = (4, 2, 3) " +
@@ -140,7 +146,7 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testCorrectCode02(){
-        Logger.Flush();
+        
         testCode("void move(vector v){ move X=v.x Y=v.y Z=v.z }" +
                 "num fac(num n) {if(n==1) {return 1} return fac(n - 1) * n}" +
                 "b[]{" +
@@ -153,7 +159,7 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testMismatchedTypeVectorLiteral(){
-        Logger.Flush();
+        
         testCode("void block(){" +
                 "vector x = (5, true, 1) " +
                 "}");
@@ -163,7 +169,7 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testMismatchedTypeExpression(){
-        Logger.Flush();
+        
         testCode("num block(){" +
                 "return 50 + (5, 3, 2) " +
                 "}");
@@ -172,7 +178,7 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testCorrectExpression01(){
-        Logger.Flush();
+        
         testCode("num block(){" +
                 "return 1 + 1 " +
                 "}");
@@ -182,7 +188,7 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testCorrectExpression02(){
-        Logger.Flush();
+        
         testCode("num block(){" +
                 "return 1 - 1 " +
                 "}");
@@ -192,7 +198,7 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testCorrectExpression03(){
-        Logger.Flush();
+        
         testCode("num block(){" +
                 "return 1 * 1 " +
                 "}");
@@ -202,7 +208,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testCorrectExpression04(){
-        Logger.Flush();
         testCode("num block(){" +
                 "return 1 / 1 " +
                 "}");
@@ -212,7 +217,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testCorrectExpression05(){
-        Logger.Flush();
         testCode("vector block(){" +
                 "return 1 * (1,1,1) " +
                 "}");
@@ -222,7 +226,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testCorrectExpression06(){
-        Logger.Flush();
         testCode("vector block(){" +
                 "return (1,1,1) + (1,1,1) " +
                 "}");
@@ -232,7 +235,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testCorrectExpression07(){
-        Logger.Flush();
         testCode("bool block(){" +
                 "return true && false " +
                 "}");
@@ -241,7 +243,6 @@ class TypeCheckVisitorTest {
     }
     @Test
     public void testCorrectExpression08(){
-        Logger.Flush();
         testCode("bool block(){" +
                 "return 5 == 7 " +
                 "}");
@@ -252,7 +253,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testIncorrectExpression01(){
-        Logger.Flush();
         testCode("vector block(){" +
                 "return (1,1,1) * (1,1,1) " +
                 "}");
@@ -262,7 +262,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testIncorrectExpression02(){
-        Logger.Flush();
         testCode("vector block(){" +
                 "return (1,1,1) / (1,1,1) " +
                 "}");
@@ -272,7 +271,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testIncorrectExpression03(){
-        Logger.Flush();
         testCode("bool block(){" +
                 "return false / true " +
                 "}");
@@ -282,7 +280,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testIncorrectExpression04(){
-        Logger.Flush();
         testCode("bool block(){" +
                 "return false * true " +
                 "}");
@@ -292,7 +289,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testIncorrectExpression05(){
-        Logger.Flush();
         testCode("bool block(){" +
                 "return false - true " +
                 "}");
@@ -302,7 +298,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testIncorrectExpression06(){
-        Logger.Flush();
         testCode("bool block(){" +
                 "return false + true " +
                 "}");
@@ -312,7 +307,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testIncorrectExpression07(){
-        Logger.Flush();
         testCode("bool block(){" +
                 "return 2 && 5 " +
                 "}");
@@ -322,7 +316,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testIncorrectExpression08(){
-        Logger.Flush();
         testCode("bool block(){" +
                 "return (4,3,2) > (4,2,1) " +
                 "}");
@@ -332,7 +325,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testIfStatement(){
-        Logger.Flush();
         testCode("void block(){" +
                 "if(3) {} " +
                 "}");
@@ -342,7 +334,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testWhileStatement(){
-        Logger.Flush();
         testCode("void block(){" +
                 "while(3) {} " +
                 "}");
@@ -352,7 +343,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testVectorComponents(){
-        Logger.Flush();
         testCode("bool block(){" +
                 "vector v = (4 ,3 ,2) " +
                 "return v.x " +
@@ -364,7 +354,6 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testVectorParameter(){
-        Logger.Flush();
         testCode("b[]{ " +
                 "move (5, 2, 3) X=2 " +
                 "}");
@@ -373,10 +362,11 @@ class TypeCheckVisitorTest {
 
     @Test
     public void testMultipleParameters(){
-        Logger.Flush();
         testCode("b[]{" +
                 "move X=50 Y=50 X=60 Y=60 " +
                 "}");
-        assertEquals(2, Logger.Flush().size());
+        assertEquals(2, Logger.flush().size());
+    }
+
     }
 }

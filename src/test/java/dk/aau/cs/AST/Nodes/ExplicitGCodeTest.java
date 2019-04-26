@@ -15,7 +15,7 @@ class ExplicitGCodeTest {
 
     @Test
     public void testFillReferences01(){
-        Logger.Flush();
+        Logger.flush();
 
         ISymbolTable table = new SymbolTable();
         table.openScope();
@@ -29,7 +29,7 @@ class ExplicitGCodeTest {
 
     @Test
     public void testFillReferences02(){
-        Logger.Flush();
+        Logger.flush();
 
         ISymbolTable table = new SymbolTable();
         table.openScope();
@@ -43,7 +43,7 @@ class ExplicitGCodeTest {
 
     @Test
     public void testFillReferences03(){
-        Logger.Flush();
+        Logger.flush();
 
         ISymbolTable table = new SymbolTable();
         table.openScope();
@@ -58,7 +58,7 @@ class ExplicitGCodeTest {
 
     @Test
     public void testFillReferences04(){
-        Logger.Flush();
+        Logger.flush();
 
         ISymbolTable table = new SymbolTable();
         table.openScope();
@@ -74,7 +74,7 @@ class ExplicitGCodeTest {
 
     @Test
     public void testFillReferences05(){
-        Logger.Flush();
+        Logger.flush();
 
         ISymbolTable table = new SymbolTable();
         table.openScope();
