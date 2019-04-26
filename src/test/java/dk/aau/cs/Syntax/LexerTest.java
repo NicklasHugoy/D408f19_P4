@@ -72,7 +72,7 @@ public class LexerTest {
         CharStream cs = CharStreams.fromString("");
         GMMLexer lexer = getLexer(cs);
 
-        assertEquals("'>'", lexer.getVocabulary().getDisplayName(12));
+        assertEquals("'>'", lexer.getVocabulary().getDisplayName(13));
     }
 
     @Test
@@ -80,7 +80,7 @@ public class LexerTest {
         CharStream cs = CharStreams.fromString("");
         GMMLexer lexer = getLexer(cs);
 
-        assertEquals("'-'", lexer.getVocabulary().getDisplayName(5));
+        assertEquals("'-'", lexer.getVocabulary().getDisplayName(6));
     }
 
     @Test
@@ -88,7 +88,7 @@ public class LexerTest {
         CharStream cs = CharStreams.fromString("");
         GMMLexer lexer = getLexer(cs);
 
-        assertEquals("'jump '", lexer.getVocabulary().getDisplayName(29));
+        assertEquals("'jump '", lexer.getVocabulary().getDisplayName(31));
     }
 
     @Test
@@ -96,7 +96,7 @@ public class LexerTest {
         CharStream cs = CharStreams.fromString("");
         GMMLexer lexer = getLexer(cs);
 
-        assertEquals("';'", lexer.getVocabulary().getDisplayName(17));
+        assertEquals("';'", lexer.getVocabulary().getDisplayName(18));
     }
 
     @Test
@@ -104,7 +104,7 @@ public class LexerTest {
         CharStream cs = CharStreams.fromString("");
         GMMLexer lexer = getLexer(cs);
 
-        assertEquals("'||'", lexer.getVocabulary().getDisplayName(9));
+        assertEquals("'||'", lexer.getVocabulary().getDisplayName(10));
     }
 
     @Disabled
