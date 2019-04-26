@@ -94,6 +94,74 @@ class CodeGeneratorVisitorTest {
     }
 
     @Test
+    public void testLoop_withNumbers(){
+        String output = generateCode("b[]{" +
+                "loop (i=1..3) {" +
+                "move X=i " +
+                "}" +
+                "}");
+
+        assertEquals("G1 X1.0000\nG1 X2.0000\nG1 X3.0000\n", output);
+    }
+
+    @Test
+    public void testLoop_withExpressions(){
+        String output = generateCode("b[]{" +
+                "loop (i=1-1..3+1) {" +
+                "move X=i " +
+                "}" +
+                "}");
+
+        assertEquals("G1 X0.0000\nG1 X1.0000\nG1 X2.0000\nG1 X3.0000\nG1 X4.0000\n", output);
+    }
+
+    @Test
+    public void testLoop_withVariables(){
+        String output = generateCode("b[]{" +
+                "num a = 1" +
+                "num b = 3" +
+                "loop (i=a..b) {" +
+                "move X=i " +
+                "}" +
+                "}");
+
+        assertEquals("G1 X1.0000\nG1 X2.0000\nG1 X3.0000\n", output);
+    }
+
+    @Test
+    public void testLoop_countingDown(){
+        String output = generateCode("b[]{" +
+                "loop (i=3..1) {" +
+                "move X=i " +
+                "}" +
+                "}");
+
+        assertEquals("G1 X3.0000\nG1 X2.0000\nG1 X1.0000\n", output);
+    }
+
+    @Test
+    public void testLoop_withNegativeValuesBoth(){
+        String output = generateCode("b[]{" +
+                "loop (i=-4..-2) {" +
+                "move X=i " +
+                "}" +
+                "}");
+
+        assertEquals("G1 X-4.0000\nG1 X-3.0000\nG1 X-2.0000\n", output);
+    }
+
+    @Test
+    public void testLoop_withNegativeValuesOneCountingDown(){
+        String output = generateCode("b[]{" +
+                "loop (i=1..-2) {" +
+                "move X=i " +
+                "}" +
+                "}");
+
+        assertEquals("G1 X1.0000\nG1 X0.0000\nG1 X-1.0000\nG1 X-2.0000\n", output);
+    }
+
+    @Test
     public void testIfCommand01(){
         String output = generateCode("b[]{if(50 == 50.0000){move X=50.1}}");
 

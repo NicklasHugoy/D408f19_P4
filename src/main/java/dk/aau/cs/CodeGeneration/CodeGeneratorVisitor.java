@@ -231,6 +231,40 @@ public class CodeGeneratorVisitor implements ASTVisitor {
     }
 
     @Override
+    public Object visitLoop(Loop loop) {
+        double startValue = (double) loop.startExpression.accept(evaluator).getValue();
+        double endValue = (double) loop.endExpression.accept(evaluator).getValue();
+
+        symbolTable.enterSymbol(loop.identifier.identifier, GMMType.Num);
+
+        while(startValue != endValue){
+            Object returnValue = executeLoopBody(loop, startValue);
+            if (returnValue != null) return returnValue;
+
+            if(startValue < endValue)
+                startValue++;
+            else
+                startValue--;
+        }
+
+        Object returnValue = executeLoopBody(loop, startValue);
+        if (returnValue != null) return returnValue;
+
+        return null;
+    }
+
+    private Object executeLoopBody(Loop loop, double startValue) {
+        symbolTable.assignValue(loop.identifier.identifier, new NumValue(startValue));
+        for (Statement statement : loop.statements) {
+            Object returnValue = statement.accept(this);
+            if (returnValue != null) {
+                return returnValue;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public Object visitVectorComponentAssign(VectorComponentAssign vectorComponentAssign) {
         NumValue value = (NumValue) vectorComponentAssign.expression.accept(evaluator);
         String id = vectorComponentAssign.identifier.identifier;
