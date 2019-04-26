@@ -146,6 +146,39 @@ class ASTGeneratorTest {
 	}
 
 	@Test
+	void visitLoop_correctIdentifier(){
+		CharStream cs = CharStreams.fromString("block[]{loop(x=2..3){}}");
+
+		GMMParser parser = getParser(cs);
+		BlockDef blockDef = (BlockDef) astGenerator.visitBlockDef(parser.blockDef());
+		Loop loop = (Loop) blockDef.statements.get(0);
+
+		assertEquals("x", loop.identifier.identifier);
+	}
+
+	@Test
+	void visitLoop_correctStartExpression(){
+		CharStream cs = CharStreams.fromString("block[]{loop(x=2..3){}}");
+
+		GMMParser parser = getParser(cs);
+		BlockDef blockDef = (BlockDef) astGenerator.visitBlockDef(parser.blockDef());
+		Loop loop = (Loop) blockDef.statements.get(0);
+
+		assertEquals("Num = 2.0", loop.startExpression.toString());
+	}
+
+	@Test
+	void visitLoop_correctEndExpression(){
+		CharStream cs = CharStreams.fromString("block[]{loop(x=2..3){}}");
+
+		GMMParser parser = getParser(cs);
+		BlockDef blockDef = (BlockDef) astGenerator.visitBlockDef(parser.blockDef());
+		Loop loop = (Loop) blockDef.statements.get(0);
+
+		assertEquals("Num = 3.0", loop.endExpression.toString());
+	}
+
+	@Test
 	void visitFormalParameter_identifier01() {
 		CharStream cs = CharStreams.fromString("num fac(num n, vector v) { return fac(n - 1) * n}");
 
