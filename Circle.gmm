@@ -1,0 +1,17 @@
+block[]{
+  vector start = (0, 0, 0)
+
+  num x = 25
+
+  if (x > 0){
+     drawCircle(x, start)
+  }
+
+}
+
+void drawCircle(num radius, vector start){
+  jump (start)
+  leftCircle Y=radius*2 R=radius
+  vector vn = (0, 0, 0)
+  leftCircle (start) R=radius
+}
