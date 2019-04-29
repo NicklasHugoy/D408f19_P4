@@ -3,6 +3,7 @@ package dk.aau.cs.AST.TypeChecking;
 import dk.aau.cs.AST.ASTGenerator;
 import dk.aau.cs.AST.FunctionVisitor.FunctionVisitor;
 import dk.aau.cs.AST.Nodes.Node;
+import dk.aau.cs.ErrorReporting.AssignToWriteProtectedVariableError;
 import dk.aau.cs.ErrorReporting.InvalidTypeInLoopRange;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
@@ -403,5 +404,11 @@ class TypeCheckVisitorTest {
     public void testLoop_errorWhenUsingVectors02(){
         testCode("b[]{loop(i=(1,1,1)..5){}}");
         assertTrue(Logger.flush().get(0) instanceof InvalidTypeInLoopRange);
+    }
+
+    @Test
+    public void testLoop_errorWhenChangingIndex(){
+        testCode("b[]{loop(i=1..5){i=2}}");
+        assertTrue(Logger.flush().get(0) instanceof AssignToWriteProtectedVariableError);
     }
 }

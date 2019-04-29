@@ -20,4 +20,6 @@ public interface ISymbolTable {
 
     void assignWriteProtectedValue(String symbol, IValue value);
     void enterWriteProtectedSymbol(String symbol, GMMType type);
+
+    boolean isWriteProtected(String identifier);
 }

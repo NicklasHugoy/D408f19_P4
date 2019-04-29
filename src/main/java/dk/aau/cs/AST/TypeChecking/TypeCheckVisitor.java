@@ -112,6 +112,12 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
 
     @Override
     public GMMType visitAssign(Assign assign) {
+        if(symbolTable.isWriteProtected(assign.identifier.identifier)){
+            Logger.Log(new AssignToWriteProtectedVariableError(
+                    assign.identifier.identifier,
+                    assign));
+        }
+
         GMMType variableType = symbolTable.retrieveSymbol(assign.identifier.identifier);
         GMMType expressedType = assign.expression.accept(this);
 
@@ -416,7 +422,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
 
         symbolTable.openScope();
 
-        symbolTable.enterSymbol(loop.identifier.identifier, GMMType.Num);
+        symbolTable.enterWriteProtectedSymbol(loop.identifier.identifier, GMMType.Num);
 
         if(startExpressionType != GMMType.Num){
             Logger.Log(new InvalidTypeInLoopRange(

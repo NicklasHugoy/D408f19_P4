@@ -62,19 +62,13 @@ public class SymbolTable implements ISymbolTable {
 
 	@Override
 	public void assignValue(String symbol, IValue value) {
-		for(int i = scopes.size() - 1; i >= 0; i--){
-			SymbolTableEntry entry = scopes.get(i).find(symbol);
-
-			if(entry != null){
-				if(entry.isWriteProtected()){
-					throw new WriteProtectedVariableException("Can't assign to write protected variable " + symbol);
-				}
-
-				scopes.get(i).add(symbol, entry.getType(), value, false);
-				return;
+		SymbolTableEntry entry = findEntryInAllScopes(symbol);
+		if(entry != null){
+			if(entry.isWriteProtected()){
+				throw new WriteProtectedVariableException("Can't assign to write protected variable " + symbol);
 			}
-			if(scopes.get(i).isIsolatedScope())
-				return;
+
+			entry.setValue(value);
 		}
 	}
 
@@ -95,19 +89,35 @@ public class SymbolTable implements ISymbolTable {
 
 	@Override
 	public void assignWriteProtectedValue(String symbol, IValue value) {
+		SymbolTableEntry entry = findEntryInAllScopes(symbol);
+		if(entry != null){
+			entry.setValue(value);
+		}
+	}
+
+	private SymbolTableEntry findEntryInAllScopes(String identifier){
 		for(int i = scopes.size() - 1; i >= 0; i--){
-			SymbolTableEntry entry = scopes.get(i).find(symbol);
+			SymbolTableEntry entry = scopes.get(i).find(identifier);
 			if(entry != null){
-				scopes.get(i).add(symbol, entry.getType(), value, true);
-				return;
+				return entry;
 			}
 			if(scopes.get(i).isIsolatedScope())
-				return;
+				return null;
 		}
+		return null;
 	}
 
 	@Override
 	public void enterWriteProtectedSymbol(String symbol, GMMType type) {
 		scopes.getLast().add(symbol, type, null, true);
+	}
+
+	@Override
+	public boolean isWriteProtected(String identifier) {
+		SymbolTableEntry entry = findEntryInAllScopes(identifier);
+		if(entry != null){
+			return entry.isWriteProtected();
+		}
+		return false;
 	}
 }
