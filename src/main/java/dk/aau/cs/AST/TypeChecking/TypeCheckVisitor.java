@@ -112,6 +112,12 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
 
     @Override
     public GMMType visitAssign(Assign assign) {
+        if(symbolTable.isWriteProtected(assign.identifier.identifier)){
+            Logger.Log(new AssignToWriteProtectedVariableError(
+                    assign.identifier.identifier,
+                    assign));
+        }
+
         GMMType variableType = symbolTable.retrieveSymbol(assign.identifier.identifier);
         GMMType expressedType = assign.expression.accept(this);
 
@@ -405,6 +411,35 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
 
         symbolTable.leaveScope();
 
+
+        return null;
+    }
+
+    @Override
+    public GMMType visitLoop(Loop loop) {
+        GMMType startExpressionType = loop.startExpression.accept(this);
+        GMMType endExpressionType = loop.endExpression.accept(this);
+
+        symbolTable.openScope();
+
+        symbolTable.enterWriteProtectedSymbol(loop.identifier.identifier, GMMType.Num);
+
+        if(startExpressionType != GMMType.Num){
+            Logger.Log(new InvalidTypeInLoopRange(
+                    "Expected value of type num in loop start range, but got " + startExpressionType,
+                    loop));
+        }
+
+        if(endExpressionType != GMMType.Num){
+            Logger.Log(new InvalidTypeInLoopRange(
+                    "Expected value of type num in loop end range, but got " + endExpressionType,
+                    loop));
+        }
+
+        for(Statement statement : loop.statements)
+            statement.accept(this);
+
+        symbolTable.leaveScope();
 
         return null;
     }

@@ -78,7 +78,7 @@ public class ParserTest {
         CharStream cs = CharStreams.fromString("");
         GMMParser parser = getParser(cs);
 
-        assertEquals("Return", parser.getVocabulary().getSymbolicName(2));
+        assertEquals("Return", parser.getVocabulary().getSymbolicName(3));
     }
 
 
@@ -87,7 +87,7 @@ public class ParserTest {
         CharStream cs = CharStreams.fromString("");
         GMMParser parser = getParser(cs);
 
-        assertEquals("'-'", parser.getVocabulary().getLiteralName(5));
+        assertEquals("'-'", parser.getVocabulary().getLiteralName(6));
 
     }
 
@@ -96,7 +96,7 @@ public class ParserTest {
         CharStream cs = CharStreams.fromString("");
         GMMParser parser = getParser(cs);
 
-        assertEquals("'/'", parser.getVocabulary().getDisplayName(7));
+        assertEquals("'/'", parser.getVocabulary().getDisplayName(8));
     }
 
     @Test

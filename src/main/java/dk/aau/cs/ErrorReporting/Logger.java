@@ -30,7 +30,7 @@ public class Logger {
         PrintLogs(stream, WarningLevel.Comment);
     }
 
-    public static List<ErrorMessage> Flush(){
+    public static List<ErrorMessage> flush(){
         currentLevel = WarningLevel.Comment;
         List<ErrorMessage> oldMessages = messages;
         messages = new ArrayList<>();

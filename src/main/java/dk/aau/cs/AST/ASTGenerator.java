@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ASTGenerator implements GMMVisitor<Node> {
 
@@ -182,6 +183,21 @@ public class ASTGenerator implements GMMVisitor<Node> {
 
 
         return new WhileLoop(line, charNr, expression, statements);
+    }
+
+    @Override
+    public Node visitLoop(GMMParser.LoopContext ctx) {
+        int line = ctx.start.getLine();
+        int charNr = ctx.start.getCharPositionInLine();
+
+        ID identifier = GetIDNode(ctx.ID());
+        Expression startExpression = (Expression) ctx.expression(0).accept(this);
+        Expression endExpression = (Expression) ctx.expression(1).accept(this);
+        List<Statement> statements = ctx.scopedStmt().stream()
+                        .map(scopedStmtContext -> (Statement) scopedStmtContext.accept(this))
+                        .collect(Collectors.toList());
+
+        return new Loop(line, charNr, identifier, startExpression, endExpression, statements);
     }
 
     @Override

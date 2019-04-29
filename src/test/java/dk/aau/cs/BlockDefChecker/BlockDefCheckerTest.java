@@ -39,7 +39,7 @@ class BlockDefCheckerTest {
 
 	@BeforeEach
 	void beforeEach(){
-		Logger.Flush();
+		Logger.flush();
 	}
 
 	@Test
@@ -129,7 +129,7 @@ class BlockDefCheckerTest {
 
 		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
 
-		List<ErrorMessage> errorMessages = Logger.Flush();
+		List<ErrorMessage> errorMessages = Logger.flush();
 
 		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
 	}
@@ -144,7 +144,7 @@ class BlockDefCheckerTest {
 
 		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
 
-		List<ErrorMessage> errorMessages = Logger.Flush();
+		List<ErrorMessage> errorMessages = Logger.flush();
 
 		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
 	}
@@ -158,7 +158,7 @@ class BlockDefCheckerTest {
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
 		ExplicitGCode explicitGCode = blockDefChecker.enterBlock(blockDef1).get(0);
-		List<ErrorMessage> errorMessages = Logger.Flush();
+		List<ErrorMessage> errorMessages = Logger.flush();
 
 		assertTrue(errorMessages.isEmpty());
 		assertEquals("S123", explicitGCode.gcode);
@@ -173,7 +173,7 @@ class BlockDefCheckerTest {
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
 		blockDefChecker.enterBlock(blockDef1);
-		List<ErrorMessage> errorMessages = Logger.Flush();
+		List<ErrorMessage> errorMessages = Logger.flush();
 
 		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
 	}
@@ -187,7 +187,7 @@ class BlockDefCheckerTest {
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
 		blockDefChecker.enterBlock(blockDef1);
-		List<ErrorMessage> errorMessages = Logger.Flush();
+		List<ErrorMessage> errorMessages = Logger.flush();
 
 		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
 	}
@@ -278,7 +278,7 @@ class BlockDefCheckerTest {
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
 		blockDefChecker.enterFirstBlock(blockDef1);
-		List<ErrorMessage> errorMessages = Logger.Flush();
+		List<ErrorMessage> errorMessages = Logger.flush();
 
 		assertTrue(errorMessages.isEmpty());
 	}
@@ -295,7 +295,7 @@ class BlockDefCheckerTest {
 		BlockDefChecker blockDefChecker = new BlockDefChecker();
 
 		blockDefChecker.enterFirstBlock(blockDef1);
-		List<ErrorMessage> errorMessages = Logger.Flush();
+		List<ErrorMessage> errorMessages = Logger.flush();
 
 		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
 	}

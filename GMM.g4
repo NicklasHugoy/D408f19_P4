@@ -24,6 +24,7 @@ machineOption
 scopedStmt
     : blockDef # Block
     | While LParan expression RParan LCurl scopedStmt* RCurl # WhileLoop
+    | Loop LParan ID Equals expression Range expression RParan LCurl scopedStmt* RCurl # Loop
     | If LParan expression RParan LCurl scopedStmt* RCurl # IfStatement
     | functionCall # ScopedStmtFunctionCall
     | ID Equals expression # Assignment
@@ -92,6 +93,9 @@ factor
     | Minus factor # NegatedFactor
     ;
 
+Range
+    : '..';
+
 Sqrt
     : 'sqrt';
 
@@ -120,7 +124,7 @@ False: 'false';
 
 INT
     : Digit+
-    | Digit+ DotOperator Digit? Digit? Digit? Digit?;
+    | Digit+ DotOperator Digit Digit? Digit? Digit?;
 
 SemiColon
     : ';';
@@ -136,6 +140,9 @@ Colon
 
 While
     : 'while';
+
+Loop
+    : 'loop';
 
 If
     : 'if';

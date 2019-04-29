@@ -5,6 +5,7 @@ import dk.aau.cs.AST.GMMType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ScopeTable{
     List<SymbolTableEntry> symbols;
@@ -16,41 +17,23 @@ public class ScopeTable{
         isolatedScope = false;
     }
 
-    public ScopeTable(boolean isolatedScope) {
-        symbols = new ArrayList<>();
-        this.isolatedScope = isolatedScope;
+    public SymbolTableEntry find(String id){
+        Optional<SymbolTableEntry> optionalSymbol = symbols.stream()
+                .filter(entry -> entry.getId().equals(id))
+                .findFirst();
+        return optionalSymbol.orElse(null);
     }
 
-    public TypeValuePair Find(String id){
-        for(SymbolTableEntry symbol : symbols){
-            if(symbol.getId().equals(id))
-                return new TypeValuePair(symbol.getType(), symbol.getValue());
+	public void add(String id, GMMType type, IValue value, Boolean writeProtected){
+        SymbolTableEntry entry = find(id);
+        if(entry == null){
+            symbols.add(new SymbolTableEntry(id, type, value, writeProtected));
+        } else {
+            entry.setType(type);
+            entry.setValue(value);
+            entry.setWriteProtected(writeProtected);
         }
-        return null;
     }
-
-    public void Add(String id, GMMType type){
-        for(SymbolTableEntry entry : symbols){
-            if(entry.getId().equals(id)){
-                entry.setType(type);
-                return;
-            }
-        }
-
-        symbols.add(new SymbolTableEntry(id, type, null));
-    }
-
-	public void Add(String id, GMMType type, IValue value){
-        for(SymbolTableEntry entry : symbols){
-            if(entry.getId().equals(id)){
-                entry.setType(type);
-                entry.setValue(value);
-                return;
-            }
-        }
-
-		symbols.add(new SymbolTableEntry(id, type, value));
-	}
 
     public boolean isIsolatedScope() {
         return isolatedScope;

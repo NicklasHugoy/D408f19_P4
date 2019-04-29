@@ -42,4 +42,5 @@ public interface ASTVisitor<T> {
     default T visitSquareRoot(SquareRoot squareRoot) {return null;}
     default T visitVectorCommandParameter(VectorCommandParameter vectorCommandParameter) {return null;}
     default T visitJump(Jump jump) {return null;}
+    default T visitLoop (Loop loop) {return null;}
 }
