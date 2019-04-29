@@ -7,11 +7,20 @@ public class SymbolTableEntry{
     private String Id;
     private GMMType type;
     private IValue value;
+    private boolean writeProtected;
 
 	public SymbolTableEntry(String id, GMMType type, IValue value) {
 		Id = id;
 		this.type = type;
 		this.value = value;
+		writeProtected = false;
+	}
+
+	public SymbolTableEntry(String id, GMMType type, IValue value, boolean writeProtected) {
+		Id = id;
+		this.type = type;
+		this.value = value;
+		this.writeProtected = writeProtected;
 	}
 
 	public String getId() {
@@ -32,5 +41,13 @@ public class SymbolTableEntry{
 
 	public void setValue(IValue value) {
 		this.value = value;
+	}
+
+	public boolean isWriteProtected() {
+		return writeProtected;
+	}
+
+	public void setWriteProtected(boolean writeProtected) {
+		this.writeProtected = writeProtected;
 	}
 }

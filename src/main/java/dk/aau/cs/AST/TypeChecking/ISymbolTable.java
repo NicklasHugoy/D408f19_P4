@@ -17,4 +17,7 @@ public interface ISymbolTable {
     void openScope();
     void isolateScope();
     void leaveScope();
+
+    void assignWriteProtectedValue(String symbol, IValue value);
+    void enterWriteProtectedSymbol(String symbol, GMMType type);
 }

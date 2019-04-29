@@ -3,6 +3,8 @@ package dk.aau.cs.AST.TypeChecking;
 import dk.aau.cs.AST.ExpressionEvaluator.BoolValue;
 import dk.aau.cs.AST.ExpressionEvaluator.NumValue;
 import dk.aau.cs.AST.GMMType;
+import dk.aau.cs.ErrorReporting.Logger;
+import dk.aau.cs.Exceptions.WriteProtectedVariableException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,9 +34,9 @@ class SymbolTableTest {
         symbolTable.openScope();
         symbolTable.enterSymbol("x", GMMType.Num, new NumValue(50.0));
 
-        TypeValuePair pair = symbolTable.retrieveSymbolWithValue("x");
+        TypeValuePair typeValuePair = symbolTable.retrieveSymbolWithValue("x");
 
-        assertEquals( (double)pair.getValue().getValue(), 50.0);
+        assertEquals( (double)typeValuePair.getValue().getValue(), 50.0);
     }
 
     @Test
@@ -45,9 +47,9 @@ class SymbolTableTest {
         symbolTable.enterSymbol("x", GMMType.Num, new NumValue(50.0));
 
 
-        TypeValuePair pair = symbolTable.retrieveSymbolWithValue("x");
+        TypeValuePair typeValuePair = symbolTable.retrieveSymbolWithValue("x");
 
-        assertEquals( (double)pair.getValue().getValue(), 50.0);
+        assertEquals( (double)typeValuePair.getValue().getValue(), 50.0);
     }
 
     @Test
@@ -58,9 +60,9 @@ class SymbolTableTest {
         symbolTable.enterSymbol("x", GMMType.Num, new NumValue(50.0));
 
 
-        TypeValuePair pair = symbolTable.retrieveSymbolWithValue("x");
+        TypeValuePair typeValuePair = symbolTable.retrieveSymbolWithValue("x");
 
-        assertEquals( (double)pair.getValue().getValue(), 50.0);
+        assertEquals( (double)typeValuePair.getValue().getValue(), 50.0);
     }
 
     @Test
@@ -71,9 +73,9 @@ class SymbolTableTest {
         symbolTable.enterSymbol("x", GMMType.Num, new NumValue(50.0));
         symbolTable.leaveScope();
 
-        TypeValuePair pair = symbolTable.retrieveSymbolWithValue("x");
+        TypeValuePair typeValuePair = symbolTable.retrieveSymbolWithValue("x");
 
-        assertEquals( (double)pair.getValue().getValue(), 20.0);
+        assertEquals( (double)typeValuePair.getValue().getValue(), 20.0);
     }
     @Test
     public void testRetrieveOld01(){
@@ -82,9 +84,9 @@ class SymbolTableTest {
         symbolTable.openScope();
 
 
-        TypeValuePair pair = symbolTable.retrieveSymbolWithValue("x");
+        TypeValuePair typeValuePair = symbolTable.retrieveSymbolWithValue("x");
 
-        assertEquals( (double)pair.getValue().getValue(), 20.0);
+        assertEquals( (double)typeValuePair.getValue().getValue(), 20.0);
     }
 
     @Test
@@ -97,9 +99,9 @@ class SymbolTableTest {
         symbolTable.openScope();
         symbolTable.openScope();
 
-        TypeValuePair pair = symbolTable.retrieveSymbolWithValue("x");
+        TypeValuePair typeValuePair = symbolTable.retrieveSymbolWithValue("x");
 
-        assertEquals( (double)pair.getValue().getValue(), 20.0);
+        assertEquals( (double)typeValuePair.getValue().getValue(), 20.0);
     }
 
     @Test
@@ -114,27 +116,27 @@ class SymbolTableTest {
         symbolTable.openScope();
         symbolTable.openScope();
 
-        TypeValuePair pair = symbolTable.retrieveSymbolWithValue("x");
+        TypeValuePair typeValuePair = symbolTable.retrieveSymbolWithValue("x");
 
-        assertEquals( (double)pair.getValue().getValue(), 20.0);
+        assertEquals( (double)typeValuePair.getValue().getValue(), 20.0);
     }
 
     @Test
     public void testEmpty01(){
         symbolTable.openScope();
 
-        TypeValuePair pair = symbolTable.retrieveSymbolWithValue("x");
+        TypeValuePair typeValuePair = symbolTable.retrieveSymbolWithValue("x");
 
-        assertEquals(GMMType.Void, pair.getType());
+        assertEquals(GMMType.Void, typeValuePair.getType());
     }
 
     @Test
     public void testEmpty02(){
         symbolTable.openScope();
 
-        TypeValuePair pair = symbolTable.retrieveSymbolWithValue("x");
+        TypeValuePair typeValuePair = symbolTable.retrieveSymbolWithValue("x");
 
-        assertEquals(null, pair.getValue());
+        assertEquals(null, typeValuePair.getValue());
     }
 
     @Test
@@ -163,8 +165,8 @@ class SymbolTableTest {
         symbolTable.enterSymbol("x", GMMType.Num, new NumValue(20.0));
         symbolTable.enterSymbol("x", GMMType.Num, new NumValue(5.0));
 
-        TypeValuePair pair = symbolTable.retrieveSymbolWithValue("x");
-        assertEquals(5.0, (double) pair.getValue().getValue());
+        TypeValuePair typeValuePair = symbolTable.retrieveSymbolWithValue("x");
+        assertEquals(5.0, (double) typeValuePair.getValue().getValue());
     }
 
     @Test
@@ -173,8 +175,8 @@ class SymbolTableTest {
         symbolTable.enterSymbol("x", GMMType.Num, new NumValue(20.0));
         symbolTable.enterSymbol("x", GMMType.Bool, new BoolValue(false));
 
-        TypeValuePair pair = symbolTable.retrieveSymbolWithValue("x");
-        assertEquals(GMMType.Bool, pair.getType());
+        TypeValuePair typeValuePair = symbolTable.retrieveSymbolWithValue("x");
+        assertEquals(GMMType.Bool, typeValuePair.getType());
     }
 
 
@@ -185,9 +187,9 @@ class SymbolTableTest {
         symbolTable.openScope();
         symbolTable.isolateScope();
 
-        TypeValuePair pair = symbolTable.retrieveSymbolWithValue("x");
+        TypeValuePair typeValuePair = symbolTable.retrieveSymbolWithValue("x");
 
-        assertEquals(GMMType.Void, pair.getType());
+        assertEquals(GMMType.Void, typeValuePair.getType());
     }
 
     @Test
@@ -198,9 +200,9 @@ class SymbolTableTest {
         symbolTable.isolateScope();
         symbolTable.leaveScope();
 
-        TypeValuePair pair = symbolTable.retrieveSymbolWithValue("x");
+        TypeValuePair typeValuePair = symbolTable.retrieveSymbolWithValue("x");
 
-        assertEquals( (double)pair.getValue().getValue(), 20.0);
+        assertEquals( (double)typeValuePair.getValue().getValue(), 20.0);
     }
 
     @Test
@@ -211,8 +213,29 @@ class SymbolTableTest {
         symbolTable.isolateScope();
         symbolTable.enterSymbol("x", GMMType.Num, new NumValue(50.0));
 
-        TypeValuePair pair = symbolTable.retrieveSymbolWithValue("x");
+        TypeValuePair typeValuePair = symbolTable.retrieveSymbolWithValue("x");
 
-        assertEquals(50.0, (double) pair.getValue().getValue());
+        assertEquals(50.0, (double) typeValuePair.getValue().getValue());
+    }
+
+    @Test
+    public void exceptionWhenSettingWriteProtected(){
+        symbolTable.openScope();
+        symbolTable.enterWriteProtectedSymbol("x", GMMType.Num);
+
+        assertThrows(WriteProtectedVariableException.class,
+                () -> {symbolTable.assignValue("x", new NumValue(7));});
+    }
+
+    @Test
+    public void valueUnchangedWhenAssigningWriteProtectedVariable(){
+        symbolTable.openScope();
+        symbolTable.enterWriteProtectedSymbol("x", GMMType.Num);
+        symbolTable.assignWriteProtectedValue("x", new NumValue(42));
+
+        assertThrows(
+                WriteProtectedVariableException.class,
+                () -> {symbolTable.assignValue("x", new NumValue(7));});
+        assertEquals(42d, (double) symbolTable.retrieveSymbolWithValue("x").getValue().getValue());
     }
 }
