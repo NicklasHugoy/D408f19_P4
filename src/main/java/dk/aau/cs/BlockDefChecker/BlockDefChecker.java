@@ -8,7 +8,7 @@ import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -39,7 +39,7 @@ public class BlockDefChecker {
 
 	public List<ExplicitGCode> enterBlock(BlockDef blockDef) {
 		List<BlockParam> gCodeArrayList = identifyParameters(blockDef);
-		addGCodeToStack(gCodeArrayList);
+		blockStack.push(gCodeArrayList);
 		return blockParamsToExplicitGCode(gCodeArrayList);
 	}
 
@@ -73,41 +73,35 @@ public class BlockDefChecker {
 		return gCodeArrayList;
 	}
 
-	private void addGCodeToStack(List<BlockParam> gCodeList){
-		if(!blockStack.empty()){
-			blockStack.push(copyUnoverridenPreviousParams(gCodeList, blockStack.peek()));
-		}else{
-			blockStack.push(gCodeList);
-		}
-	}
+	private List<BlockParam> getOverridenPreviousParams(List<BlockParam> currentBlockParams) {
+		List<BlockParam> blockParamsToReturn = new ArrayList<>();
 
-	private List<BlockParam> copyUnoverridenPreviousParams(List<BlockParam> newBlockParams, List<BlockParam> previousBlockParams) {
-		List<BlockParam> blockParamsToReturn = new ArrayList<>(List.copyOf(newBlockParams));
+		List<BlockParam> previousBlockParams = blockStack.stream()
+				.flatMap(Collection::stream)
+				.collect(Collectors.toList());
 
-		for(BlockParam previousBlocParam : previousBlockParams){
-			if(newBlockParams.stream().noneMatch(
-					newBlockParam -> newBlockParam.getClass().equals(previousBlocParam.getClass()))){
-				blockParamsToReturn.add(previousBlocParam);
+		for(BlockParam currentBlockParam : currentBlockParams){
+			for(BlockParam previousBlockParam : previousBlockParams){
+				if(previousBlockParam.getClass().equals(currentBlockParam.getClass())){
+					blockParamsToReturn.add(previousBlockParam);
+					break;
+				}
 			}
 		}
-
 		return blockParamsToReturn;
 	}
 
 	public List<ExplicitGCode> exitBlock(){
+		List<BlockParam> blockParams = new ArrayList<>();
 		if(!blockStack.empty()){
-			blockStack.pop();
+			blockParams = blockStack.pop();
 		}
 
-		return getTopOfStackAsExplicitGCode();
-	}
-
-	private List<ExplicitGCode> getTopOfStackAsExplicitGCode() {
-		List<ExplicitGCode> gCodesToReturn = new ArrayList<>();
-		if(!blockStack.empty()){
-			gCodesToReturn = blockParamsToExplicitGCode(blockStack.peek());
+		if(!blockStack.empty()) {
+			return blockParamsToExplicitGCode(getOverridenPreviousParams(blockParams));
+		} else {
+			return new ArrayList<>();
 		}
-		return gCodesToReturn;
 	}
 
 	private List<ExplicitGCode> blockParamsToExplicitGCode(List<BlockParam> blockParams){

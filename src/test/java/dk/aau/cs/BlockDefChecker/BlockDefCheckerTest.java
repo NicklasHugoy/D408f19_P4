@@ -262,7 +262,7 @@ class BlockDefCheckerTest {
 		blockDefChecker.enterBlock(blockDef3);
 		List<ExplicitGCode> gCode = blockDefChecker.exitBlock();
 
-		assertEquals("T1" , gCode.get(1).gcode);
+		assertEquals("T1" , gCode.get(0).gcode);
 	}
 
 	@Test

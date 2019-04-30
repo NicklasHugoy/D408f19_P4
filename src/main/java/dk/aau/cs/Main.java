@@ -79,6 +79,8 @@ public class Main {
 
         CodeGeneratorVisitor codeGenerator = new CodeGeneratorVisitor(symbolTable, functionTable, writer);
         ast.accept(codeGenerator);
+
+        PrintLog();
     }
 
     public static void PrintLog(){
