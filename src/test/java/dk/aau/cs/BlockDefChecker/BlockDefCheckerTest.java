@@ -299,4 +299,65 @@ class BlockDefCheckerTest {
 
 		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
 	}
+
+	@Test
+	void onlyReturnsImportantBlockParameters(){
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "1"));
+			add(new MachineOption(new ID("unit"), "mm"));
+			add(new MachineOption(new ID("positionMode"), "absolute"));
+			add(new MachineOption(new ID("speed"), "200"));
+			add(new MachineOption(new ID("spinrate"), "30"));
+		}};
+		List<MachineOption> options2 = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "2"));
+			add(new MachineOption(new ID("unit"), "mm"));
+		}};
+		List<MachineOption> options3 = new ArrayList<>(){{
+			add(new MachineOption(new ID("positionMode"), "relative"));
+		}};
+		List<MachineOption> options4 = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "2"));
+			add(new MachineOption(new ID("speed"), "500"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		BlockDef blockDef2 = new BlockDef(options2, new ArrayList<>());
+		BlockDef blockDef3 = new BlockDef(options3, new ArrayList<>());
+		BlockDef blockDef4 = new BlockDef(options4, new ArrayList<>());
+		BlockDefChecker blockDefChecker = new BlockDefChecker();
+
+		List<ExplicitGCode> block1 = blockDefChecker.enterBlock(blockDef1);
+		assertEquals(5, block1.size());
+		assertEquals("T1", block1.get(0).gcode);
+		assertEquals("G21", block1.get(1).gcode);
+		assertEquals("G90", block1.get(2).gcode);
+		assertEquals("F200", block1.get(3).gcode);
+		assertEquals("S30", block1.get(4).gcode);
+
+		List<ExplicitGCode> block2 = blockDefChecker.enterBlock(blockDef2);
+		assertEquals(1, block2.size());
+		assertEquals("T2", block2.get(0).gcode);
+
+		List<ExplicitGCode> block3 = blockDefChecker.enterBlock(blockDef3);
+		assertEquals(1, block3.size());
+		assertEquals("G91", block3.get(0).gcode);
+
+		List<ExplicitGCode> exitBlock3 = blockDefChecker.exitBlock();
+		assertEquals(1, exitBlock3.size());
+		assertEquals("G90", exitBlock3.get(0).gcode);
+
+		List<ExplicitGCode> exitBlock2 = blockDefChecker.exitBlock();
+		assertEquals(1, exitBlock2.size());
+		assertEquals("T1", exitBlock2.get(0).gcode);
+
+		List<ExplicitGCode> block4 = blockDefChecker.enterBlock(blockDef4);
+		assertEquals(2, block4.size());
+		assertEquals("T2", block4.get(0).gcode);
+		assertEquals("F500", block4.get(1).gcode);
+
+		List<ExplicitGCode> exitBlock4 = blockDefChecker.exitBlock();
+		assertEquals(2, exitBlock4.size());
+		assertEquals("T1", exitBlock4.get(0).gcode);
+		assertEquals("F200", exitBlock4.get(1).gcode);
+	}
 }

@@ -38,9 +38,36 @@ public class BlockDefChecker {
 	}
 
 	public List<ExplicitGCode> enterBlock(BlockDef blockDef) {
-		List<BlockParam> gCodeArrayList = identifyParameters(blockDef);
-		blockStack.push(gCodeArrayList);
-		return blockParamsToExplicitGCode(gCodeArrayList);
+		List<BlockParam> gCodeToReturn = identifyParameters(blockDef);
+		List<BlockParam> gCodeToStack;
+
+		if(!blockStack.empty()){
+			gCodeToStack = new ArrayList<>(getUnoverridenPreviousParams(gCodeToReturn, blockStack.peek()));
+		} else {
+			gCodeToStack = List.copyOf(gCodeToReturn);
+		}
+		blockStack.push(gCodeToStack);
+
+		if(!blockStack.empty()) {
+			gCodeToReturn = getDifferenceBetweenLists(gCodeToReturn, blockStack.peek());
+		}
+
+		return blockParamsToExplicitGCode(gCodeToReturn);
+	}
+
+	private List<BlockParam> getDifferenceBetweenLists(List<BlockParam> list1,
+														List<BlockParam> list2) {
+		List<BlockParam> blockParamsToReturn = new ArrayList<>();
+
+		for(BlockParam previousBlockParam : list2 ){
+			for(BlockParam currentBlockParam : list1){
+				if(previousBlockParam.getClass().equals(currentBlockParam.getClass()) && !previousBlockParam.equals(currentBlockParam)){
+					blockParamsToReturn.add(currentBlockParam);
+					break;
+				}
+			}
+		}
+		return blockParamsToReturn;
 	}
 
 	private List<BlockParam> identifyParameters(BlockDef blockDef) {
@@ -73,21 +100,17 @@ public class BlockDefChecker {
 		return gCodeArrayList;
 	}
 
-	private List<BlockParam> getOverridenPreviousParams(List<BlockParam> currentBlockParams) {
-		List<BlockParam> blockParamsToReturn = new ArrayList<>();
+	private List<BlockParam> getUnoverridenPreviousParams(List<BlockParam> newBlockParams,
+														List<BlockParam> previousBlockParams) {
+		List<BlockParam> blockParamsToReturn = new ArrayList<>(List.copyOf(newBlockParams));
 
-		List<BlockParam> previousBlockParams = blockStack.stream()
-				.flatMap(Collection::stream)
-				.collect(Collectors.toList());
-
-		for(BlockParam currentBlockParam : currentBlockParams){
-			for(BlockParam previousBlockParam : previousBlockParams){
-				if(previousBlockParam.getClass().equals(currentBlockParam.getClass())){
-					blockParamsToReturn.add(previousBlockParam);
-					break;
-				}
+		for(BlockParam previousBlocParam : previousBlockParams){
+			if(newBlockParams.stream().noneMatch(
+					newBlockParam -> newBlockParam.getClass().equals(previousBlocParam.getClass()))){
+				blockParamsToReturn.add(previousBlocParam);
 			}
 		}
+
 		return blockParamsToReturn;
 	}
 
@@ -98,7 +121,7 @@ public class BlockDefChecker {
 		}
 
 		if(!blockStack.empty()) {
-			return blockParamsToExplicitGCode(getOverridenPreviousParams(blockParams));
+			return blockParamsToExplicitGCode(getDifferenceBetweenLists(blockStack.peek(), blockParams));
 		} else {
 			return new ArrayList<>();
 		}
