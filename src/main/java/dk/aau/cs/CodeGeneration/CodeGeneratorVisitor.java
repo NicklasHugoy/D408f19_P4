@@ -9,8 +9,7 @@ import dk.aau.cs.AST.TypeChecking.IFunctionTable;
 import dk.aau.cs.AST.TypeChecking.ISymbolTable;
 import dk.aau.cs.AST.TypeChecking.SymbolTableEntry;
 import dk.aau.cs.AST.TypeChecking.TypeValuePair;
-import dk.aau.cs.BlockDefChecker.BlockDefChecker;
-import dk.aau.cs.Syntax.GMMVisitor;
+import dk.aau.cs.BlockDefChecker.MachineOptionsGenerator;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -24,7 +23,7 @@ public class CodeGeneratorVisitor implements ASTVisitor {
     private Writer writer;
 
     private ExpressionEvaluatorVisitor evaluator;
-    private BlockDefChecker blockChecker;
+    private MachineOptionsGenerator blockChecker;
 
     public boolean annotateWithLineNumbers = false;
 
@@ -33,7 +32,7 @@ public class CodeGeneratorVisitor implements ASTVisitor {
         this.functionTable = functionTable;
         this.writer = writer;
         evaluator = new ExpressionEvaluatorVisitor(symbolTable, this);
-        blockChecker = new BlockDefChecker();
+        blockChecker = new MachineOptionsGenerator();
     }
 
     @Override

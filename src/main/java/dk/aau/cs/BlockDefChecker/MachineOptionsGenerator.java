@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
-public class BlockDefChecker {
+public class MachineOptionsGenerator {
 
 	private Stack<List<BlockParam>> blockStack;
 
-	public BlockDefChecker() {
+	public MachineOptionsGenerator() {
 		blockStack = new Stack<>();
 	}
 
@@ -46,11 +46,12 @@ public class BlockDefChecker {
 		} else {
 			gCodeToStack = List.copyOf(gCodeToReturn);
 		}
-		blockStack.push(gCodeToStack);
 
 		if(!blockStack.empty()) {
 			gCodeToReturn = getDifferenceBetweenLists(gCodeToReturn, blockStack.peek());
 		}
+
+		blockStack.push(gCodeToStack);
 
 		return blockParamsToExplicitGCode(gCodeToReturn);
 	}
