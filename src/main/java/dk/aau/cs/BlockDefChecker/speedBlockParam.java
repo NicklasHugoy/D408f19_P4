@@ -6,14 +6,13 @@ import dk.aau.cs.ErrorReporting.InvalidBlockParameter;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 
-public class speedBlockParam implements BlockParam {
-	private ExplicitGCode gCode;
+public class speedBlockParam extends BlockParam {
 
-	public speedBlockParam(String option, BlockDef blockDef) {
-		gCode = generateGCode(option, blockDef);
+	speedBlockParam(String option, BlockDef blockDef) {
+		super(option, blockDef);
 	}
 
-	private ExplicitGCode generateGCode(String option, BlockDef blockDef) {
+	protected ExplicitGCode generateGCode(String option, BlockDef blockDef) {
 
 		if(option.matches("\\d+")){
 			return new ExplicitGCode(blockDef.lineNumber, blockDef.charNumber, "F" + option);
@@ -24,10 +23,5 @@ public class speedBlockParam implements BlockParam {
 					WarningLevel.Error));
 			return null;
 		}
-	}
-
-	@Override
-	public ExplicitGCode getGcode() {
-		return gCode;
 	}
 }

@@ -6,14 +6,13 @@ import dk.aau.cs.ErrorReporting.InvalidBlockParameter;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 
-public class spinrateBlockParam implements BlockParam {
-	private ExplicitGCode gCode;
+public class spinrateBlockParam extends BlockParam {
 
-	public spinrateBlockParam(String option, BlockDef blockDef) {
-		gCode = generateGCode(option, blockDef);
+	spinrateBlockParam(String option, BlockDef blockDef) {
+		super(option, blockDef);
 	}
 
-	private ExplicitGCode generateGCode(String option, BlockDef blockDef) {
+	protected ExplicitGCode generateGCode(String option, BlockDef blockDef) {
 		if(option.matches("\\d+")){
 			return new ExplicitGCode(blockDef.lineNumber, blockDef.charNumber, "S" + option);
 		}else {
@@ -23,10 +22,5 @@ public class spinrateBlockParam implements BlockParam {
 					WarningLevel.Error));
 			return null;
 		}
-	}
-
-	@Override
-	public ExplicitGCode getGcode() {
-		return gCode;
 	}
 }

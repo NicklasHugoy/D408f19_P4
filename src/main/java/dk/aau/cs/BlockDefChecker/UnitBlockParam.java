@@ -6,14 +6,13 @@ import dk.aau.cs.ErrorReporting.InvalidBlockParameter;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 
-public class UnitBlockParam implements BlockParam{
-	private ExplicitGCode gCode;
+public class UnitBlockParam extends BlockParam{
 
-	public UnitBlockParam(String option, BlockDef blockDef) {
-		gCode = generateGCode(option, blockDef);
+	UnitBlockParam(String option, BlockDef blockDef) {
+		super(option, blockDef);
 	}
 
-	private ExplicitGCode generateGCode(String option, BlockDef blockDef) {
+	protected ExplicitGCode generateGCode(String option, BlockDef blockDef) {
 		switch (option) {
 			case "mm":
 				return new ExplicitGCode(blockDef.lineNumber, blockDef.charNumber, "G21");
@@ -26,10 +25,5 @@ public class UnitBlockParam implements BlockParam{
 						WarningLevel.Error));
 				return null;
 		}
-	}
-
-	@Override
-	public ExplicitGCode getGcode() {
-		return gCode;
 	}
 }

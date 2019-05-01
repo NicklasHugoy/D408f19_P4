@@ -6,14 +6,13 @@ import dk.aau.cs.ErrorReporting.InvalidBlockParameter;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 
-public class PositionModeBlockParam implements BlockParam {
-	private ExplicitGCode gCode;
+public class PositionModeBlockParam extends BlockParam {
 
-	public PositionModeBlockParam(String option, BlockDef blockDef) {
-		gCode = generateGCode(option, blockDef);
+	PositionModeBlockParam(String option, BlockDef blockDef) {
+		super(option, blockDef);
 	}
 
-	private ExplicitGCode generateGCode(String option, BlockDef blockDef) {
+	protected ExplicitGCode generateGCode(String option, BlockDef blockDef) {
 		switch (option){
 			case "absolute":
 				return new ExplicitGCode(blockDef.lineNumber, blockDef.charNumber, "G90");
@@ -26,11 +25,6 @@ public class PositionModeBlockParam implements BlockParam {
 						WarningLevel.Error));
 				return null;
 		}
-	}
-
-	@Override
-	public ExplicitGCode getGcode() {
-		return gCode;
 	}
 }
 
