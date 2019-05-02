@@ -23,10 +23,10 @@ public class MachineOptionsGenerator {
 
 	public void enterFirstBlock(BlockDef blockDef){
 		List<String> optionIdentifiers = blockDef.options.stream()
-				.map(machineOption -> machineOption.identifier.identifier).sorted(String::compareTo)
+				.map(machineOption -> machineOption.identifier.identifier.toLowerCase()).sorted(String::compareTo)
 				.collect(Collectors.toList());
 
-		List<String> expectedOptions = new ArrayList<>(List.of("tool", "unit", "positionMode", "speed", "spinrate"));
+		List<String> expectedOptions = new ArrayList<>(List.of("tool", "unit", "positionmode", "speed", "spinrate"));
 		expectedOptions.sort(String::compareTo);
 
 		if(!expectedOptions.equals(optionIdentifiers)){
@@ -75,21 +75,21 @@ public class MachineOptionsGenerator {
 		List<BlockParam> gCodeArrayList = new ArrayList<>();
 
 		for (MachineOption option : blockDef.options){
-			switch (option.identifier.identifier){
+			switch (option.identifier.identifier.toLowerCase()){
 				case "tool":
-					gCodeArrayList.add(new ToolBlockParam(option.option, blockDef));
+					gCodeArrayList.add(new ToolBlockParam(option.option.toLowerCase(), blockDef));
 					break;
 				case "unit":
-					gCodeArrayList.add(new UnitBlockParam(option.option, blockDef));
+					gCodeArrayList.add(new UnitBlockParam(option.option.toLowerCase(), blockDef));
 					break;
-				case "positionMode":
-					gCodeArrayList.add(new PositionModeBlockParam(option.option, blockDef));
+				case "positionmode":
+					gCodeArrayList.add(new PositionModeBlockParam(option.option.toLowerCase(), blockDef));
 					break;
 				case "speed":
-					gCodeArrayList.add(new speedBlockParam(option.option, blockDef));
+					gCodeArrayList.add(new speedBlockParam(option.option.toLowerCase(), blockDef));
 					break;
 				case "spinrate":
-					gCodeArrayList.add(new spinrateBlockParam(option.option, blockDef));
+					gCodeArrayList.add(new spinrateBlockParam(option.option.toLowerCase(), blockDef));
 					break;
 				default:
 					Logger.Log(new InvalidBlockParameter(

@@ -360,4 +360,80 @@ class MachineOptionsGeneratorTest {
 		assertEquals("T1", exitBlock4.get(0).gcode);
 		assertEquals("F200", exitBlock4.get(1).gcode);
 	}
+
+	@Test
+	void testCaseSensitivityForMachineOptionName_DownCase(){
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "1"));
+			add(new MachineOption(new ID("unit"), "mm"));
+			add(new MachineOption(new ID("positionmode"), "relative"));
+			add(new MachineOption(new ID("speed"), "200"));
+			add(new MachineOption(new ID("spinrate"), "300"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		MachineOptionsGenerator machineOptionsGenerator = new MachineOptionsGenerator();
+
+		machineOptionsGenerator.enterFirstBlock(blockDef1);
+		machineOptionsGenerator.enterBlock(blockDef1);
+		List<ErrorMessage> errorMessages = Logger.flush();
+
+		assertTrue(errorMessages.isEmpty());
+	}
+
+	@Test
+	void testCaseSensitivityForMachineOptionName_UpCase(){
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("TOOL"), "1"));
+			add(new MachineOption(new ID("UNIT"), "mm"));
+			add(new MachineOption(new ID("POSITIONMODE"), "relative"));
+			add(new MachineOption(new ID("SPEED"), "200"));
+			add(new MachineOption(new ID("SPINRATE"), "300"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		MachineOptionsGenerator machineOptionsGenerator = new MachineOptionsGenerator();
+
+		machineOptionsGenerator.enterFirstBlock(blockDef1);
+		machineOptionsGenerator.enterBlock(blockDef1);
+		List<ErrorMessage> errorMessages = Logger.flush();
+
+		assertTrue(errorMessages.isEmpty());
+	}
+
+	@Test
+	void testCaseSensitivityForMachineOptionParameters_DownCase(){
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "1"));
+			add(new MachineOption(new ID("unit"), "mm"));
+			add(new MachineOption(new ID("positionMode"), "relative"));
+			add(new MachineOption(new ID("speed"), "200"));
+			add(new MachineOption(new ID("spinrate"), "300"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		MachineOptionsGenerator machineOptionsGenerator = new MachineOptionsGenerator();
+
+		machineOptionsGenerator.enterFirstBlock(blockDef1);
+		machineOptionsGenerator.enterBlock(blockDef1);
+		List<ErrorMessage> errorMessages = Logger.flush();
+
+		assertTrue(errorMessages.isEmpty());
+	}
+
+	@Test
+	void testCaseSensitivityForMachineOptionParameters_UpCase(){
+		List<MachineOption> options1 = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "1"));
+			add(new MachineOption(new ID("unit"), "MM"));
+			add(new MachineOption(new ID("positionMode"), "RELATIVE"));
+			add(new MachineOption(new ID("speed"), "200"));
+			add(new MachineOption(new ID("spinrate"), "300"));
+		}};
+		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
+		MachineOptionsGenerator machineOptionsGenerator = new MachineOptionsGenerator();
+
+		machineOptionsGenerator.enterFirstBlock(blockDef1);
+		machineOptionsGenerator.enterBlock(blockDef1);
+		List<ErrorMessage> errorMessages = Logger.flush();
+
+		assertTrue(errorMessages.isEmpty());
+	}
 }
