@@ -9,13 +9,12 @@ public interface ASTVisitor<T> {
     default T visitTypeNode(TypeNode typeNode){ return null; }
     default T visitID(ID id){ return null; }
     default T visitMachineOption(MachineOption machineOption){ return null; }
-    default T visitRelativeParameter(RelativeParameter relativeParameter){ return null; }
+    default T visitRelativeParameter(NumCommandParameter numCommandParameter){ return null; }
     default T visitDeclaration(Declaration declaration){ return null; }
     default T visitAssign(Assign assign){ return null; }
     default T visitFunctionCall(FunctionCall functionCall){ return null; }
     default T visitIfNode(IfNode ifNode){ return null; }
     default T visitLeftCircle(LeftCircle leftCircle){ return null; }
-    default T visitAbsoluteParameter(AbsoluteParameter absoluteParameter){ return null; }
     default T visitEquality(Equality equality){ return null; }
     default T visitInEquality(InEquality inEquality){ return null; }
     default T visitAnd(And and){ return null; }

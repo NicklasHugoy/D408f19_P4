@@ -54,11 +54,11 @@ public class CodeGeneratorVisitor implements ASTVisitor {
     }
 
     @Override
-    public Object visitRelativeParameter(RelativeParameter relativeParameter) {
-        String id = relativeParameter.identifier.identifier;
-        IValue value = relativeParameter.expression.accept(evaluator);
+    public Object visitRelativeParameter(NumCommandParameter numCommandParameter) {
+        String id = numCommandParameter.identifier.identifier;
+        IValue value = numCommandParameter.expression.accept(evaluator);
 
-        safeWrite(" "+id + value.toString(),relativeParameter);
+        safeWrite(" "+id + value.toString(), numCommandParameter);
 
         return null;
     }
@@ -143,15 +143,6 @@ public class CodeGeneratorVisitor implements ASTVisitor {
         }
         safeWrite("\n",leftCircle);
 
-        return null;
-    }
-
-    @Override
-    public Object visitAbsoluteParameter(AbsoluteParameter absoluteParameter) {
-        String id = absoluteParameter.identifier.identifier;
-        IValue value = absoluteParameter.expression.accept(evaluator);
-
-        safeWrite(" "+id + value.toString(), absoluteParameter);
         return null;
     }
 

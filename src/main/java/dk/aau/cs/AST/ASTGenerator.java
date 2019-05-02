@@ -330,7 +330,7 @@ public class ASTGenerator implements GMMVisitor<Node> {
         ID idNode = GetIDNode(ctx.CommandParameter());
         Expression expression = (Expression) ctx.expression().accept(this);
 
-        return new RelativeParameter(line, charNr, idNode, expression);
+        return new NumCommandParameter(line, charNr, idNode, expression);
     }
 
     @Override

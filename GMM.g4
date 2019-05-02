@@ -167,10 +167,6 @@ Type
     | 'bool '
     | 'void ';
 
-
-AbsoluteParameter
-    : '$';
-
 CommandParameter
     : 'X' | 'Y' | 'Z' | 'I' | 'J'| 'R';
 

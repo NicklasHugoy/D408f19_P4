@@ -4,7 +4,6 @@ import dk.aau.cs.AST.*;
 import dk.aau.cs.AST.FunctionVisitor.FunctionEntry;
 import dk.aau.cs.AST.Nodes.*;
 import dk.aau.cs.ErrorReporting.*;
-import dk.aau.cs.Syntax.GMMParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,11 +82,11 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
     }
 
     @Override
-    public GMMType visitRelativeParameter(RelativeParameter relativeParameter) {
-        GMMType exprType = relativeParameter.expression.accept(this);
+    public GMMType visitRelativeParameter(NumCommandParameter numCommandParameter) {
+        GMMType exprType = numCommandParameter.expression.accept(this);
 
         if(exprType != GMMType.Num){
-            Logger.Log(new InvalidExpressionType("Relative parameters only accepts type Num but got " + exprType, relativeParameter));
+            Logger.Log(new InvalidExpressionType("Relative parameters only accepts type Num but got " + exprType, numCommandParameter));
         }
         return null;
     }
@@ -173,16 +172,6 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
 
         checkForMultiple(leftCircle.parameters, leftCircle);
 
-        return null;
-    }
-
-    @Override
-    public GMMType visitAbsoluteParameter(AbsoluteParameter absoluteParameter) {
-        GMMType exprType = absoluteParameter.expression.accept(this);
-
-        if(exprType != GMMType.Num){
-            Logger.Log(new InvalidExpressionType("Absolute parameters only accepts type Num but got " + exprType, absoluteParameter));
-        }
         return null;
     }
 
@@ -372,7 +361,7 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
                 activeSymbols.add("Y");
                 activeSymbols.add("Z");
             }else{
-                RelativeParameter param = (RelativeParameter) parameter;
+                NumCommandParameter param = (NumCommandParameter) parameter;
                 String symbol = param.identifier.identifier;
                 if(activeSymbols.contains(symbol))
                     Logger.Log(new MultipleCommandParameterError("multiple affecting "+symbol, node));
