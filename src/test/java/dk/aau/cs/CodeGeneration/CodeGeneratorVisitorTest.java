@@ -68,32 +68,6 @@ class CodeGeneratorVisitorTest {
     }
 
     @Test
-    public void testWhileCommand01(){
-        String output = generateCode("b[]{" +
-                "num x = 3 " +
-                "while (x > 0) {" +
-                "move X=10-x " +
-                "num x = x - 1" +
-                "}" +
-                "}");
-
-        assertEquals("G1 X7.0000\nG1 X8.0000\nG1 X9.0000\n", output);
-    }
-
-    @Test
-    public void testWhileCommand02(){
-        String output = generateCode("b[]{" +
-                "num x = 3 " +
-                "while (x < 0) {" +
-                "move X=10-x " +
-                "num x = x - 1" +
-                "}" +
-                "}");
-
-        assertEquals("", output);
-    }
-
-    @Test
     public void testLoop_withNumbers(){
         String output = generateCode("b[]{" +
                 "loop (i=1..3) {" +

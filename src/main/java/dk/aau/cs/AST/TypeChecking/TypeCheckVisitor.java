@@ -397,25 +397,6 @@ public class TypeCheckVisitor implements ASTVisitor<GMMType> {
     }
 
     @Override
-    public GMMType visitWhileLoop(WhileLoop whileLoop) {
-        GMMType predicateType = whileLoop.expression.accept(this);
-
-        symbolTable.openScope();
-
-        if(predicateType != GMMType.Bool){
-            Logger.Log(new InvalidPredicateType("While loop expected type Bool but got " + predicateType, whileLoop));
-        }
-
-        for (Statement statement : whileLoop.statements)
-            statement.accept(this);
-
-        symbolTable.leaveScope();
-
-
-        return null;
-    }
-
-    @Override
     public GMMType visitLoop(Loop loop) {
         GMMType startExpressionType = loop.startExpression.accept(this);
         GMMType endExpressionType = loop.endExpression.accept(this);

@@ -335,15 +335,6 @@ class TypeCheckVisitorTest {
     }
 
     @Test
-    public void testWhileStatement(){
-        testCode("void block(){" +
-                "while(3) {} " +
-                "}");
-
-        assertEquals(WarningLevel.Error, Logger.GetWarningLevel());
-    }
-
-    @Test
     public void testVectorComponents(){
         testCode("bool block(){" +
                 "vector v = (4 ,3 ,2) " +

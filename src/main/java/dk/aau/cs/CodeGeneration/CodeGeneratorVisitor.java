@@ -213,23 +213,6 @@ public class CodeGeneratorVisitor implements ASTVisitor {
     }
 
     @Override
-    public Object visitWhileLoop(WhileLoop whileLoop) {
-        BoolValue value = (BoolValue) whileLoop.expression.accept(evaluator);
-        while(value.getValue()){
-            for(Statement statement : whileLoop.statements){
-                Object returnValue = statement.accept(this);
-                if(returnValue != null){
-                    return returnValue;
-                }
-            }
-
-            value = (BoolValue) whileLoop.expression.accept(evaluator);
-        }
-
-        return null;
-    }
-
-    @Override
     public Object visitLoop(Loop loop) {
         double startValue = (double) loop.startExpression.accept(evaluator).getValue();
         double endValue = (double) loop.endExpression.accept(evaluator).getValue();

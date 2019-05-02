@@ -88,7 +88,7 @@ public class LexerTest {
         CharStream cs = CharStreams.fromString("");
         GMMLexer lexer = getLexer(cs);
 
-        assertEquals("'jump '", lexer.getVocabulary().getDisplayName(31));
+        assertEquals("'jump '", lexer.getVocabulary().getDisplayName(30));
     }
 
     @Test

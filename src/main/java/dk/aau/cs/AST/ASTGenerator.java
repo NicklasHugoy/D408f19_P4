@@ -171,21 +171,6 @@ public class ASTGenerator implements GMMVisitor<Node> {
     }
 
     @Override
-    public Node visitWhileLoop(GMMParser.WhileLoopContext ctx) {
-        int line = ctx.start.getLine();
-        int charNr = ctx.start.getCharPositionInLine();
-
-        Expression expression = (Expression) ctx.expression().accept(this);
-        List<Statement> statements = new ArrayList<>();
-
-        for(GMMParser.ScopedStmtContext stmtContext : ctx.scopedStmt())
-            statements.add((Statement) stmtContext.accept(this));
-
-
-        return new WhileLoop(line, charNr, expression, statements);
-    }
-
-    @Override
     public Node visitLoop(GMMParser.LoopContext ctx) {
         int line = ctx.start.getLine();
         int charNr = ctx.start.getCharPositionInLine();

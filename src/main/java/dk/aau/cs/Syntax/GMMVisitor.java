@@ -59,13 +59,6 @@ public interface GMMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBlock(GMMParser.BlockContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code WhileLoop}
-	 * labeled alternative in {@link GMMParser#scopedStmt}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitWhileLoop(GMMParser.WhileLoopContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code Loop}
 	 * labeled alternative in {@link GMMParser#scopedStmt}.
 	 * @param ctx the parse tree

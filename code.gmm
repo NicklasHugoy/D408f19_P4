@@ -1,7 +1,7 @@
-block[unit:mm]{
-    move X=f().x
-}
-
-vector f(){
-    return (20, 30 ,50)
+Block1[tool:1,unit:mm,positionMode:absolute,speed:200,spinrate:30]{
+    Block2[tool:2,unit:mm]{
+        Block3[positionMode:relative]{
+        }
+    }
+    Block4[tool:2,speed:500]{}
 }
