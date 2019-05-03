@@ -1,6 +1,7 @@
 package dk.aau.cs;
 
 import dk.aau.cs.AST.ASTGenerator;
+import dk.aau.cs.AST.CycleDetection.CycleDetector;
 import dk.aau.cs.AST.FunctionVisitor.FunctionVisitor;
 import dk.aau.cs.AST.Nodes.Node;
 import dk.aau.cs.AST.TreePrinter;
@@ -60,6 +61,10 @@ public class Main {
         //Cultivate the function table
         FunctionVisitor functionVisitor = new FunctionVisitor(functionTable);
         ast.accept(functionVisitor);
+
+        //Look for recursive function calls
+        CycleDetector detector = new CycleDetector(functionTable);
+        detector.findCycle();
 
         if(Logger.checkForError()){
             PrintLog();

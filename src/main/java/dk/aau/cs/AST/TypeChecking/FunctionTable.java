@@ -2,9 +2,8 @@ package dk.aau.cs.AST.TypeChecking;
 
 import dk.aau.cs.AST.FunctionVisitor.FunctionEntry;
 import dk.aau.cs.ErrorReporting.ErrorMessage;
-import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
-
+import dk.aau.cs.ErrorReporting.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,5 +29,10 @@ public class FunctionTable implements IFunctionTable {
     @Override
     public void enterFunction(FunctionEntry entry) {
         functions.add(entry);
+    }
+
+    @Override
+    public List<FunctionEntry> retrieveFunctions() {
+        return new ArrayList<>(functions);
     }
 }
