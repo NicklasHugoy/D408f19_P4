@@ -436,4 +436,95 @@ class MachineOptionsGeneratorTest {
 
 		assertTrue(errorMessages.isEmpty());
 	}
+
+	@Test
+	void testInvalidMachineOption(){
+		List<MachineOption> options = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "2"));
+			add(new MachineOption(new ID("foo"), "bar"));
+		}};
+		BlockDef blockDef = new BlockDef(options, new ArrayList<>());
+		MachineOptionsGenerator machineOptionsGenerator = new MachineOptionsGenerator();
+
+		machineOptionsGenerator.enterBlock(blockDef);
+		List<ErrorMessage> errorMessages = Logger.flush();
+
+		assertEquals(1, errorMessages.size());
+		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
+	}
+
+	@Test
+	void testInvalidPositionModeParameter01(){
+		List<MachineOption> options = new ArrayList<>(){{
+			add(new MachineOption(new ID("positionmode"), "1"));
+		}};
+		BlockDef blockDef = new BlockDef(options, new ArrayList<>());
+		MachineOptionsGenerator machineOptionsGenerator = new MachineOptionsGenerator();
+
+		machineOptionsGenerator.enterBlock(blockDef);
+		List<ErrorMessage> errorMessages = Logger.flush();
+
+		assertEquals(1, errorMessages.size());
+		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
+	}
+
+	@Test
+	void testInvalidPositionModeParameter02(){
+		List<MachineOption> options = new ArrayList<>(){{
+			add(new MachineOption(new ID("positionmode"), "position"));
+		}};
+		BlockDef blockDef = new BlockDef(options, new ArrayList<>());
+		MachineOptionsGenerator machineOptionsGenerator = new MachineOptionsGenerator();
+
+		machineOptionsGenerator.enterBlock(blockDef);
+		List<ErrorMessage> errorMessages = Logger.flush();
+
+		assertEquals(1, errorMessages.size());
+		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
+	}
+
+	@Test
+	void testInvalidToolParameter_NaN01(){
+		List<MachineOption> options = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "tool2"));
+		}};
+		BlockDef blockDef = new BlockDef(options, new ArrayList<>());
+		MachineOptionsGenerator machineOptionsGenerator = new MachineOptionsGenerator();
+
+		machineOptionsGenerator.enterBlock(blockDef);
+		List<ErrorMessage> errorMessages = Logger.flush();
+
+		assertEquals(1, errorMessages.size());
+		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
+	}
+
+	@Test
+	void testInvalidToolParameter_NaN02(){
+		List<MachineOption> options = new ArrayList<>(){{
+			add(new MachineOption(new ID("tool"), "2tool"));
+		}};
+		BlockDef blockDef = new BlockDef(options, new ArrayList<>());
+		MachineOptionsGenerator machineOptionsGenerator = new MachineOptionsGenerator();
+
+		machineOptionsGenerator.enterBlock(blockDef);
+		List<ErrorMessage> errorMessages = Logger.flush();
+
+		assertEquals(1, errorMessages.size());
+		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
+	}
+
+	@Test
+	void testInvalidUnitParameter(){
+		List<MachineOption> options = new ArrayList<>(){{
+			add(new MachineOption(new ID("unit"), "kilometers"));
+		}};
+		BlockDef blockDef = new BlockDef(options, new ArrayList<>());
+		MachineOptionsGenerator machineOptionsGenerator = new MachineOptionsGenerator();
+
+		machineOptionsGenerator.enterBlock(blockDef);
+		List<ErrorMessage> errorMessages = Logger.flush();
+
+		assertEquals(1, errorMessages.size());
+		assertTrue(errorMessages.get(0) instanceof InvalidBlockParameter);
+	}
 }
