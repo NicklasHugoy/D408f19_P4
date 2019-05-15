@@ -26,6 +26,9 @@ public class NumValue implements IValue<Double> {
 	public <T> IValue<T> divide(IValue<T> other) {
 		if(other instanceof NumValue){
 			NumValue otherValue = (NumValue) other;
+			if(otherValue.value == 0){
+				throw new ArithmeticException("Can't divide by zero");
+			}
 			return (IValue<T>) new NumValue(value / otherValue.getValue());
 		}
 		else{

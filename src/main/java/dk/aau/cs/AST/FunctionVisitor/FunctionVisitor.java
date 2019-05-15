@@ -10,9 +10,7 @@ import dk.aau.cs.AST.TypeChecking.IFunctionTable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionVisitor implements ASTVisitor<List<FunctionEntry>> {
-
-	private ArrayList<FunctionEntry> functionEntries = new ArrayList<>();
+public class FunctionVisitor implements ASTVisitor {
 
 	private IFunctionTable functionTable;
 
@@ -21,18 +19,18 @@ public class FunctionVisitor implements ASTVisitor<List<FunctionEntry>> {
 	}
 
 	@Override
-	public ArrayList<FunctionEntry> visitProgram(Program program) {
+	public Object visitProgram(Program program) {
 
 		for (BaseNode baseNode : program.children) {
 			if (baseNode instanceof FunctionDef) {
 				baseNode.accept(this);
 			}
 		}
-		return functionEntries;
+		return null;
 	}
 
 	@Override
-	public List<FunctionEntry> visitFunctionDef(FunctionDef functionDef) {
+	public Object visitFunctionDef(FunctionDef functionDef) {
 		ArrayList<GMMType> parameters = new ArrayList<>();
 		ArrayList<String> names = new ArrayList<>();
 		functionDef.parameters.forEach(parameter -> {parameters.add(parameter.type.type); names.add(parameter.identifier.identifier);});
@@ -40,7 +38,6 @@ public class FunctionVisitor implements ASTVisitor<List<FunctionEntry>> {
 		FunctionEntry function = new FunctionEntry(functionDef.idNode.identifier, functionDef.returnType.type, parameters, functionDef.statements, names);
 
 		functionTable.enterFunction(function);
-		functionEntries.add(function);
 		return null;
 	}
 }

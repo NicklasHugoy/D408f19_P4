@@ -1,7 +1,7 @@
 grammar GMM;
 
 prog
-    : (functionDef | blockDef)*;
+    : (functionDef)*  blockDef;
 
 functionDef
     : Type ID LParan formalParameters? RParan LCurl scopedStmt* RCurl;

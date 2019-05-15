@@ -659,4 +659,52 @@ class ExpressionEvaluatorVisitorTest {
 
 		assertEquals(7.0, plus.accept(expressionEvaluatorVisitor).getValue());
 	}
+
+	@Test
+	void DivideByZeroTest(){
+		CharStream cs = CharStreams.fromString("block[]{ num x = 2/0 }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Divide divide = (Divide) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
+
+		assertThrows(ArithmeticException.class,
+				() -> divide.accept(expressionEvaluatorVisitor));
+	}
+
+	@Test
+	void DivideByZeroTest_withVariable(){
+		CharStream cs = CharStreams.fromString("block[]{ num f = x/y }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Divide divide = (Divide) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		symbolTable.enterSymbol("x", GMMType.Num, new NumValue(-5));
+		symbolTable.enterSymbol("y", GMMType.Num, new NumValue(0));
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
+
+		assertThrows(ArithmeticException.class,
+				() -> divide.accept(expressionEvaluatorVisitor));
+	}
+
+	@Test
+	void DivideByZeroTest_zeroInNumerator(){
+		CharStream cs = CharStreams.fromString("block[]{ num f = x/y }");
+		runCode(cs);
+		BlockDef blockDef = (BlockDef) ast.getChildren()[0];
+		Divide divide = (Divide) blockDef.statements.get(0).getChildren()[2];
+		SymbolTable symbolTable = new SymbolTable();
+
+		symbolTable.openScope();
+		symbolTable.enterSymbol("x", GMMType.Num, new NumValue(0));
+		symbolTable.enterSymbol("y", GMMType.Num, new NumValue(5));
+		ExpressionEvaluatorVisitor expressionEvaluatorVisitor = new ExpressionEvaluatorVisitor(symbolTable);
+
+		assertEquals(0.0d, divide.accept(expressionEvaluatorVisitor).getValue());
+	}
 }
