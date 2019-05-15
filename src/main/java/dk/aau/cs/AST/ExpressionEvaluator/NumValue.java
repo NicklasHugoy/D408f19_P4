@@ -3,6 +3,8 @@ package dk.aau.cs.AST.ExpressionEvaluator;
 import dk.aau.cs.Exceptions.ImaginaryNumberException;
 import dk.aau.cs.Exceptions.OperationNotSupportedException;
 
+import java.text.DecimalFormat;
+
 public class NumValue implements IValue<Double> {
 	private double value;
 
@@ -95,6 +97,8 @@ public class NumValue implements IValue<Double> {
 
 	@Override
 	public String toString() {
-		return String.format("%.4f", value).replace(',', '.');
+		DecimalFormat df = new DecimalFormat("0.####");
+		//return String.format("%.4f", value).replace(',', '.');
+		return df.format(value).replace(',', '.');
 	}
 }
