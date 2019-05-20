@@ -23,7 +23,7 @@ class ExplicitGCodeTest {
 
         ExplicitGCode gCodeNode = new ExplicitGCode(0,0, "@ G1 X{myNum} @");
 
-        assertEquals("@ G1 X500.0000 @", gCodeNode.fillReferences(table));
+        assertEquals("@ G1 X500 @", gCodeNode.fillReferences(table));
     }
 
 
@@ -53,7 +53,7 @@ class ExplicitGCodeTest {
 
         ExplicitGCode gCodeNode = new ExplicitGCode(0,0, "@ G1 X{neirv475_5dW} Y{gew___wfwgrw} @");
 
-        assertEquals("@ G1 X10485492.4842 Y-5.0000 @", gCodeNode.fillReferences(table));
+        assertEquals("@ G1 X10485492.4842 Y-5 @", gCodeNode.fillReferences(table));
     }
 
     @Test

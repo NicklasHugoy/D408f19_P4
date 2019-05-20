@@ -123,16 +123,22 @@ public class CodeGeneratorVisitor implements ASTVisitor {
     public Object visitIfNode(IfNode ifNode) {
         BoolValue value = (BoolValue) ifNode.predicate.accept(evaluator);
 
+        Object returnValue = null;
         if(value.getValue()){
+
+            symbolTable.openScope();
+
             for(Statement statement : ifNode.statements){
-                Object returnValue = statement.accept(this);
+                returnValue = statement.accept(this);
                 if(returnValue != null){
-                    return returnValue;
+                    break;
                 }
             }
+
+            symbolTable.leaveScope();
         }
 
-        return null;
+        return returnValue;
     }
 
     @Override
@@ -208,7 +214,6 @@ public class CodeGeneratorVisitor implements ASTVisitor {
         double startValue = (double) loop.startExpression.accept(evaluator).getValue();
         double endValue = (double) loop.endExpression.accept(evaluator).getValue();
 
-        symbolTable.enterSymbol(loop.identifier.identifier, GMMType.Num);
 
         while(startValue != endValue){
             Object returnValue = executeLoopBody(loop, startValue);
@@ -227,14 +232,23 @@ public class CodeGeneratorVisitor implements ASTVisitor {
     }
 
     private Object executeLoopBody(Loop loop, double startValue) {
+        Object returnValue = null;
+
+
+        symbolTable.openScope();
+
+        symbolTable.enterSymbol(loop.identifier.identifier, GMMType.Num);
         symbolTable.assignValue(loop.identifier.identifier, new NumValue(startValue));
+
         for (Statement statement : loop.statements) {
-            Object returnValue = statement.accept(this);
+             returnValue = statement.accept(this);
             if (returnValue != null) {
-                return returnValue;
+                break;
             }
         }
-        return null;
+
+        symbolTable.leaveScope();
+        return returnValue;
     }
 
     @Override
@@ -275,7 +289,7 @@ public class CodeGeneratorVisitor implements ASTVisitor {
     @Override
     public Object visitVectorCommandParameter(VectorCommandParameter vectorCommandParameter) {
         Vector vec = ((VectorValue)vectorCommandParameter.vectorExpression.accept(evaluator)).getValue();
-        safeWrite(String.format(" X%.4f Y%.4f Z%.4f", vec.getX(), vec.getY(), vec.getZ()).replace(',', '.'), vectorCommandParameter);
+        safeWrite(vec.toGCode(), vectorCommandParameter);
         return null;
     }
 

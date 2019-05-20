@@ -50,21 +50,21 @@ class CodeGeneratorVisitorTest {
     public void testMoveCommand01(){
         String output = generateCode("b[]{move X=50 Y=20}");
 
-        assertEquals("G1 X50.0000 Y20.0000\n", output);
+        assertEquals("G1 X50 Y20\n", output);
     }
 
     @Test
     public void testMoveCommand02(){
         String output = generateCode("b[]{move X=50 Y=20 move Z=100}");
 
-        assertEquals("G1 X50.0000 Y20.0000\nG1 Z100.0000\n", output);
+        assertEquals("G1 X50 Y20\nG1 Z100\n", output);
     }
 
     @Test
     public void testMoveCommand03(){
         String output = generateCode("b[]{num x = 999.2\nmove X=x Y=20 move Z=100}");
 
-        assertEquals("G1 X999.2000 Y20.0000\nG1 Z100.0000\n", output);
+        assertEquals("G1 X999.2 Y20\nG1 Z100\n", output);
     }
 
     @Test
@@ -75,7 +75,7 @@ class CodeGeneratorVisitorTest {
                 "}" +
                 "}");
 
-        assertEquals("G1 X1.0000\nG1 X2.0000\nG1 X3.0000\n", output);
+        assertEquals("G1 X1\nG1 X2\nG1 X3\n", output);
     }
 
     @Test
@@ -86,7 +86,7 @@ class CodeGeneratorVisitorTest {
                 "}" +
                 "}");
 
-        assertEquals("G1 X0.0000\nG1 X1.0000\nG1 X2.0000\nG1 X3.0000\nG1 X4.0000\n", output);
+        assertEquals("G1 X0\nG1 X1\nG1 X2\nG1 X3\nG1 X4\n", output);
     }
 
     @Test
@@ -99,7 +99,7 @@ class CodeGeneratorVisitorTest {
                 "}" +
                 "}");
 
-        assertEquals("G1 X1.0000\nG1 X2.0000\nG1 X3.0000\n", output);
+        assertEquals("G1 X1\nG1 X2\nG1 X3\n", output);
     }
 
     @Test
@@ -110,7 +110,7 @@ class CodeGeneratorVisitorTest {
                 "}" +
                 "}");
 
-        assertEquals("G1 X3.0000\nG1 X2.0000\nG1 X1.0000\n", output);
+        assertEquals("G1 X3\nG1 X2\nG1 X1\n", output);
     }
 
     @Test
@@ -121,7 +121,7 @@ class CodeGeneratorVisitorTest {
                 "}" +
                 "}");
 
-        assertEquals("G1 X-4.0000\nG1 X-3.0000\nG1 X-2.0000\n", output);
+        assertEquals("G1 X-4\nG1 X-3\nG1 X-2\n", output);
     }
 
     @Test
@@ -132,14 +132,14 @@ class CodeGeneratorVisitorTest {
                 "}" +
                 "}");
 
-        assertEquals("G1 X1.0000\nG1 X0.0000\nG1 X-1.0000\nG1 X-2.0000\n", output);
+        assertEquals("G1 X1\nG1 X0\nG1 X-1\nG1 X-2\n", output);
     }
 
     @Test
     public void testIfCommand01(){
         String output = generateCode("b[]{if(50 == 50.0000){move X=50.1}}");
 
-        assertEquals("G1 X50.1000\n", output);
+        assertEquals("G1 X50.1\n", output);
     }
 
     @Test
@@ -167,7 +167,7 @@ class CodeGeneratorVisitorTest {
     public void testGCodeCommand03(){
         String output = generateCode("b[]{num myVar = 27 @ G1 Y{myVar} @}");
 
-        assertEquals("G1 Y27.0000\n", output);
+        assertEquals("G1 Y27\n", output);
     }
 
     @Test
@@ -179,7 +179,7 @@ class CodeGeneratorVisitorTest {
                 "moveRec(20) " +
                 "}");
 
-        assertEquals("G1 X20.0000\n", output);
+        assertEquals("G1 X20\n", output);
     }
 
     @Test
@@ -191,7 +191,7 @@ class CodeGeneratorVisitorTest {
                 "move X=moveRec(20) " +
                 "}");
 
-        assertEquals("G1 X70.0000\n", output);
+        assertEquals("G1 X70\n", output);
     }
 
     @Test
@@ -201,7 +201,7 @@ class CodeGeneratorVisitorTest {
                 "move (5, 2, 3) " +
                 "}");
 
-        assertEquals("G1 X5.0000 Y2.0000 Z3.0000\n", output);
+        assertEquals("G1 X5 Y2 Z3\n", output);
     }
 
     @Test
@@ -211,7 +211,7 @@ class CodeGeneratorVisitorTest {
                         "leftCircle (5, 2, 3) R=50 " +
                         "}");
 
-        assertEquals("G3 X5.0000 Y2.0000 Z3.0000 R50.0000\n", output);
+        assertEquals("G3 X5 Y2 Z3 R50\n", output);
     }
 
 
@@ -222,7 +222,7 @@ class CodeGeneratorVisitorTest {
                         "leftCircle (5, 2, 3) R=sqrt(50) " +
                         "}");
 
-        assertEquals("G3 X5.0000 Y2.0000 Z3.0000 R7.0711\n", output);
+        assertEquals("G3 X5 Y2 Z3 R7.0711\n", output);
     }
 
     @Test
@@ -232,7 +232,7 @@ class CodeGeneratorVisitorTest {
                         "leftCircle (5, 2, 3) R=sqrt(0) " +
                         "}");
 
-        assertEquals("G3 X5.0000 Y2.0000 Z3.0000 R0.0000\n", output);
+        assertEquals("G3 X5 Y2 Z3 R0\n", output);
     }
 
     @Test

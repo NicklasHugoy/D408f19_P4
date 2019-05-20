@@ -1,5 +1,6 @@
 package dk.aau.cs.AST.ExpressionEvaluator;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 public class Vector {
@@ -48,5 +49,11 @@ public class Vector {
 
 	public void setZ(double z) {
 		this.z = z;
+	}
+
+	public String toGCode(){
+		DecimalFormat df = new DecimalFormat("0.####");
+		//return String.format("%.4f", value).replace(',', '.');
+		return (" X"+df.format(x)+" Y"+df.format(y)+" Z"+df.format(z)).replace(',', '.');
 	}
 }

@@ -45,7 +45,7 @@ public class ExplicitGCode extends PositionedNode implements Statement {
             if(number == null)
                 continue;
 
-            matcher.appendReplacement(sb, String.format("%.4f", number.getValue()).replace(',', '.'));
+            matcher.appendReplacement(sb, number.toString());
         }
         matcher.appendTail(sb);
 
