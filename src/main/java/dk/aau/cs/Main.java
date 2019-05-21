@@ -45,11 +45,13 @@ public class Main {
         ASTGenerator astGenerator = new ASTGenerator();
         Node ast = parser.prog().accept(astGenerator);
 
+
+
         //Print AST
         TreePrinter printer = new TreePrinter(ast);
         printer.Print();
 
-        if(Logger.checkForError()){
+        if(Logger.GetWarningLevel() != WarningLevel.Comment){
             PrintLog();
             return;
         }
@@ -66,7 +68,7 @@ public class Main {
         CycleDetector detector = new CycleDetector(functionTable);
         detector.findCycle();
 
-        if(Logger.checkForError()){
+        if(Logger.GetWarningLevel() != WarningLevel.Comment){
             PrintLog();
             return;
         }
@@ -75,7 +77,7 @@ public class Main {
         TypeCheckVisitor typeCheckVisitor = new TypeCheckVisitor(symbolTable, functionTable);
         ast.accept(typeCheckVisitor);
 
-        if(Logger.checkForError()){
+        if(Logger.GetWarningLevel() != WarningLevel.Comment){
             PrintLog();
             return;
         }
@@ -89,7 +91,6 @@ public class Main {
     }
 
     public static void PrintLog(){
-        System.out.println("Compilation failed; printing log");
         Logger.PrintLogs(System.out);
     }
 }
