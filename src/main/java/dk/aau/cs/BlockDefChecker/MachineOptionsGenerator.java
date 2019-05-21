@@ -8,7 +8,6 @@ import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -26,7 +25,7 @@ public class MachineOptionsGenerator {
 				.map(machineOption -> machineOption.identifier.identifier.toLowerCase()).sorted(String::compareTo)
 				.collect(Collectors.toList());
 
-		List<String> expectedOptions = new ArrayList<>(List.of("tool", "unit", "positionmode", "speed", "spinrate"));
+		List<String> expectedOptions = new ArrayList<>(List.of("tool", "unit", "positionmode", "feedrate", "spinrate"));
 		expectedOptions.sort(String::compareTo);
 
 		if(!expectedOptions.equals(optionIdentifiers)){
@@ -85,8 +84,8 @@ public class MachineOptionsGenerator {
 				case "positionmode":
 					gCodeArrayList.add(new PositionModeBlockParam(option.option.toLowerCase(), blockDef));
 					break;
-				case "speed":
-					gCodeArrayList.add(new speedBlockParam(option.option.toLowerCase(), blockDef));
+				case "feedrate":
+					gCodeArrayList.add(new FeedrateBlockParam(option.option.toLowerCase(), blockDef));
 					break;
 				case "spinrate":
 					gCodeArrayList.add(new spinrateBlockParam(option.option.toLowerCase(), blockDef));

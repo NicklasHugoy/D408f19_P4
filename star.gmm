@@ -1,4 +1,4 @@
-block[speed:60]{
+block[tool:1,unit:mm,positionMode:absolute,feedrate:200,spinrate:30]{
    jump X=90 Y=120
    move X=105 Y=160
    move X=120 Y=120

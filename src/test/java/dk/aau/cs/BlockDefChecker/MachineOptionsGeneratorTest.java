@@ -109,7 +109,7 @@ class MachineOptionsGeneratorTest {
 	@Test
 	void feedRate_number() {
 		List<MachineOption> options1 = new ArrayList<>(){{
-			add(new MachineOption(new ID("speed"), "22"));
+			add(new MachineOption(new ID("feedrate"), "22"));
 		}};
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		MachineOptionsGenerator machineOptionsGenerator = new MachineOptionsGenerator();
@@ -122,7 +122,7 @@ class MachineOptionsGeneratorTest {
 	@Test
 	void feedRate_NaN() {
 		List<MachineOption> options1 = new ArrayList<>(){{
-			add(new MachineOption(new ID("speed"), "abc"));
+			add(new MachineOption(new ID("feedrate"), "abc"));
 		}};
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		MachineOptionsGenerator machineOptionsGenerator = new MachineOptionsGenerator();
@@ -137,7 +137,7 @@ class MachineOptionsGeneratorTest {
 	@Test
 	void feedRate_mixed() {
 		List<MachineOption> options1 = new ArrayList<>(){{
-			add(new MachineOption(new ID("speed"), "22d"));
+			add(new MachineOption(new ID("feedrate"), "22d"));
 		}};
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		MachineOptionsGenerator machineOptionsGenerator = new MachineOptionsGenerator();
@@ -271,7 +271,7 @@ class MachineOptionsGeneratorTest {
 			add(new MachineOption(new ID("tool"), "1"));
 			add(new MachineOption(new ID("unit"), "mm"));
 			add(new MachineOption(new ID("positionMode"), "relative"));
-			add(new MachineOption(new ID("speed"), "200"));
+			add(new MachineOption(new ID("feedrate"), "200"));
 			add(new MachineOption(new ID("spinrate"), "300"));
 		}};
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
@@ -306,7 +306,7 @@ class MachineOptionsGeneratorTest {
 			add(new MachineOption(new ID("tool"), "1"));
 			add(new MachineOption(new ID("unit"), "mm"));
 			add(new MachineOption(new ID("positionMode"), "absolute"));
-			add(new MachineOption(new ID("speed"), "200"));
+			add(new MachineOption(new ID("feedrate"), "200"));
 			add(new MachineOption(new ID("spinrate"), "30"));
 		}};
 		List<MachineOption> options2 = new ArrayList<>(){{
@@ -318,7 +318,7 @@ class MachineOptionsGeneratorTest {
 		}};
 		List<MachineOption> options4 = new ArrayList<>(){{
 			add(new MachineOption(new ID("tool"), "2"));
-			add(new MachineOption(new ID("speed"), "500"));
+			add(new MachineOption(new ID("feedrate"), "500"));
 		}};
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
 		BlockDef blockDef2 = new BlockDef(options2, new ArrayList<>());
@@ -367,7 +367,7 @@ class MachineOptionsGeneratorTest {
 			add(new MachineOption(new ID("tool"), "1"));
 			add(new MachineOption(new ID("unit"), "mm"));
 			add(new MachineOption(new ID("positionmode"), "relative"));
-			add(new MachineOption(new ID("speed"), "200"));
+			add(new MachineOption(new ID("feedrate"), "200"));
 			add(new MachineOption(new ID("spinrate"), "300"));
 		}};
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
@@ -386,7 +386,7 @@ class MachineOptionsGeneratorTest {
 			add(new MachineOption(new ID("TOOL"), "1"));
 			add(new MachineOption(new ID("UNIT"), "mm"));
 			add(new MachineOption(new ID("POSITIONMODE"), "relative"));
-			add(new MachineOption(new ID("SPEED"), "200"));
+			add(new MachineOption(new ID("FEEDRATE"), "200"));
 			add(new MachineOption(new ID("SPINRATE"), "300"));
 		}};
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
@@ -405,7 +405,7 @@ class MachineOptionsGeneratorTest {
 			add(new MachineOption(new ID("tool"), "1"));
 			add(new MachineOption(new ID("unit"), "mm"));
 			add(new MachineOption(new ID("positionMode"), "relative"));
-			add(new MachineOption(new ID("speed"), "200"));
+			add(new MachineOption(new ID("feedrate"), "200"));
 			add(new MachineOption(new ID("spinrate"), "300"));
 		}};
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());
@@ -424,7 +424,7 @@ class MachineOptionsGeneratorTest {
 			add(new MachineOption(new ID("tool"), "1"));
 			add(new MachineOption(new ID("unit"), "MM"));
 			add(new MachineOption(new ID("positionMode"), "RELATIVE"));
-			add(new MachineOption(new ID("speed"), "200"));
+			add(new MachineOption(new ID("feedrate"), "200"));
 			add(new MachineOption(new ID("spinrate"), "300"));
 		}};
 		BlockDef blockDef1 = new BlockDef(options1, new ArrayList<>());

@@ -1,7 +1,7 @@
-Block1[tool:1,unit:mm,positionMode:absolute,speed:200,spinrate:30]{
+Block1[tool:1,unit:mm,positionMode:absolute,feedrate:200,spinrate:30]{
     Block2[tool:2,unit:mm]{
         Block3[positionMode:relative]{
         }
     }
-    Block4[tool:2,speed:500]{}
+    Block4[tool:2,feedrate:500]{}
 }
