@@ -1,10 +1,8 @@
 package dk.aau.cs.AST.CycleDetection;
 
 import dk.aau.cs.AST.TypeChecking.IFunctionTable;
-import dk.aau.cs.ErrorReporting.ErrorMessage;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.RecursiveFunctionCallError;
-import dk.aau.cs.ErrorReporting.WarningLevel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +35,7 @@ public class CycleDetector {
             if(isVisited[i])
                 continue;
 
-            resetVisted();
+            resetVisited();
             searchNode(i);
         }
 
@@ -51,7 +49,7 @@ public class CycleDetector {
         }
     }
 
-    private void resetVisted() {
+    private void resetVisited() {
         for(int i = 0; i<isVisited.length;i++){
             isVisited[i] = false;
         }

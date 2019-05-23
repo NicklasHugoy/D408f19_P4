@@ -6,9 +6,9 @@ import dk.aau.cs.ErrorReporting.InvalidBlockParameter;
 import dk.aau.cs.ErrorReporting.Logger;
 import dk.aau.cs.ErrorReporting.WarningLevel;
 
-public class speedBlockParam extends BlockParam {
+public class FeedrateBlockParam extends BlockParam {
 
-	speedBlockParam(String option, BlockDef blockDef) {
+	FeedrateBlockParam(String option, BlockDef blockDef) {
 		super(option, blockDef);
 	}
 
@@ -18,7 +18,7 @@ public class speedBlockParam extends BlockParam {
 			return new ExplicitGCode(blockDef.lineNumber, blockDef.charNumber, "F" + option);
 		}else {
 			Logger.Log(new InvalidBlockParameter(
-					"Block parameter 'speed' expected a number but got '" + option + "'",
+					"Block parameter 'feedrate' expected a number but got '" + option + "'",
 					blockDef,
 					WarningLevel.Error));
 			return null;
