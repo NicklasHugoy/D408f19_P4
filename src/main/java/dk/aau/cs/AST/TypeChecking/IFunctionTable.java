@@ -8,4 +8,5 @@ public interface IFunctionTable {
     FunctionEntry retrieveFunction(String identifier);
     void enterFunction(FunctionEntry entry);
     List<FunctionEntry> retrieveFunctions();
+    boolean functionExists(String identifier);
 }

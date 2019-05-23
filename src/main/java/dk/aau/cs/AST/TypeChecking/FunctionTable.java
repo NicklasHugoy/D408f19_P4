@@ -35,4 +35,14 @@ public class FunctionTable implements IFunctionTable {
     public List<FunctionEntry> retrieveFunctions() {
         return new ArrayList<>(functions);
     }
+
+    @Override
+    public boolean functionExists(String identifier) {
+        for(FunctionEntry entry : functions){
+            if(entry.getId().equals(identifier))
+                return true;
+        }
+
+        return false;
+    }
 }
